@@ -19,3 +19,30 @@ You can install the development version of rxode2ll from
 # install.packages("devtools")
 devtools::install_github("nlmixr2/rxode2ll")
 ```
+
+## Examples
+
+Each of the C++ interface to the `stan` log-likelihood equations can be
+used in a stand-alone manner. For example:
+
+``` r
+llikNorm(seq(-2,2,length.out=10), full=TRUE)
+```
+
+The following log-likelihood distributions are supported:
+
+  - `llikNorm()`
+  - `llikPois()`
+  - `llikBinom()`
+  - `llikNbinom()`
+  - `llikNbinomMu()`
+  - `llikBeta()`
+  - `llikT()`
+  - `llikChisq()`
+  - `llikExp()`
+  - `llikF()`
+  - `llikGeom()`
+  - `llikUnif()`
+  - `llikWeibull()`
+  - `llikGamma()`
+  - `llikCauchy()`

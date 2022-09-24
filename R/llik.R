@@ -17,6 +17,7 @@
 #'   the observation time-point
 #' @author Matthew L. Fidler
 #' @export
+#' @importFrom Rcpp sourceCpp
 #' @examples
 #'
 #' llikNorm(0)
