@@ -5,6 +5,9 @@
 
 <!-- badges: start -->
 
+[![Codecov test
+coverage](https://codecov.io/gh/nlmixr2/rxode2ll/branch/main/graph/badge.svg)](https://app.codecov.io/gh/nlmixr2/rxode2ll?branch=main)
+[![R-CMD-check](https://github.com/nlmixr2/rxode2ll/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/rxode2ll/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of rxode2ll is to create log-likelihood functions for use in
