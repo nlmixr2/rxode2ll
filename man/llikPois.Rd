@@ -24,7 +24,7 @@ log-likelihood for the Poisson distribution
 }
 \details{
 In an \code{rxode2()} model, you can use \code{llikPois()} but you have to
-use all arguments.  You can also get the derivitaves with
+use all arguments.  You can also get the derivatives with
 \code{llikPoisDlambda()}
 }
 \examples{

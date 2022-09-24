@@ -11,7 +11,7 @@ llikNorm(x, mean = 0, sd = 1, full = FALSE)
 
 \item{mean}{Mean for the likelihood}
 
-\item{sd}{Standard devitation for the likelihood}
+\item{sd}{Standard deviation for the likelihood}
 
 \item{full}{Add the data frame showing x, mean, sd as well as the
 fx and derivatives}
@@ -26,7 +26,7 @@ Log likelihood for normal distribution
 }
 \details{
 In an \code{rxode2()} model, you can use \code{llikNorm()} but you have to
-use all arguments.  You can also get the derivitaves with
+use all arguments.  You can also get the derivatives with
 \code{llikNormDmean()} and \code{llikNormDsd()}
 }
 \examples{

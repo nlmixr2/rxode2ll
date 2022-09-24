@@ -14,7 +14,7 @@ llikT(x, df, mean = 0, sd = 1, full = FALSE)
 
 \item{mean}{Mean for the likelihood}
 
-\item{sd}{Standard devitation for the likelihood}
+\item{sd}{Standard deviation for the likelihood}
 
 \item{full}{Add the data frame showing x, mean, sd as well as the
 fx and derivatives}

@@ -2,14 +2,14 @@
 #'
 #' @param x Observation
 #' @param mean Mean for the likelihood
-#' @param sd Standard devitation for the likelihood
+#' @param sd Standard deviation for the likelihood
 #' @param full Add the data frame showing x, mean, sd as well as the
 #'   fx and derivatives
 #'
 #' @details
 #'
 #' In an `rxode2()` model, you can use `llikNorm()` but you have to
-#' use all arguments.  You can also get the derivitaves with
+#' use all arguments.  You can also get the derivatives with
 #' `llikNormDmean()` and `llikNormDsd()`
 #'
 #' @return data frame with `fx` for the pdf value of with `dMean` and
@@ -62,7 +62,7 @@ llikNorm <- function(x, mean = 0, sd = 1, full=FALSE) {
 #' @details
 #'
 #' In an `rxode2()` model, you can use `llikPois()` but you have to
-#' use all arguments.  You can also get the derivitaves with
+#' use all arguments.  You can also get the derivatives with
 #' `llikPoisDlambda()`
 #'
 #' @return data frame with `fx` for the pdf value of with
