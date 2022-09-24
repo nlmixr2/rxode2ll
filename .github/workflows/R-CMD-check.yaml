@@ -91,6 +91,7 @@ jobs:
         run: |
           install.packages('remotes')
           install.packages('sessioninfo')
+          install.packages('rcmdcheck')
         shell: Rscript {0}
 
       - name: Install dependencies
