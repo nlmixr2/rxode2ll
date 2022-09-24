@@ -33,22 +33,19 @@ use the x and rate arguments.  You can also get the derivative of \code{alpha} o
 
 llikUnif(1, -2, 2)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# A rxode2 model can use this too:
 
-et  <- et(seq(1,1, length.out=4))
-et$alpha <- -2
-et$beta <- 2
+# et  <- et(seq(1,1, length.out=4))
+# et$alpha <- -2
+# et$beta <- 2
  
-model <- rxode2({
-  fx <- llikUnif(time, alpha, beta)
-  dAlpha<- llikUnifDalpha(time, alpha, beta)
-  dBeta <- llikUnifDbeta(time, alpha, beta)
-})
+# model <- rxode2({
+#   fx <- llikUnif(time, alpha, beta)
+#   dAlpha<- llikUnifDalpha(time, alpha, beta)
+#   dBeta <- llikUnifDbeta(time, alpha, beta)
+# })
 
-
-rxSolve(model, et)
-
-}
+#rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

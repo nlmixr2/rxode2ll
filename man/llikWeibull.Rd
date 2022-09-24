@@ -31,22 +31,19 @@ use the x and rate arguments.  You can also get the derivative of \code{shape} o
 
 llikWeibull(1, 1, 10)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# rxode2 can use this too:
 
-et  <- et(seq(0.001, 1, length.out=10))
-et$shape <- 1
-et$scale <- 10
+# et  <- et(seq(0.001, 1, length.out=10))
+# et$shape <- 1
+# et$scale <- 10
  
-model <- rxode2({
-  fx <- llikWeibull(time, shape, scale)
-  dShape<- llikWeibullDshape(time, shape, scale)
-  dScale <- llikWeibullDscale(time, shape, scale)
-})
+# model <- rxode2({
+#   fx <- llikWeibull(time, shape, scale)
+#   dShape<- llikWeibullDshape(time, shape, scale)
+#   dScale <- llikWeibullDscale(time, shape, scale)
+# })
 
-
-rxSolve(model, et)
-
-}
+# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

@@ -29,23 +29,21 @@ use the x and df arguments.  You can also get the derivative of \code{df} with
 }
 \examples{
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
-
 llikChisq(1, df = 1:3, full=TRUE)
 
 llikChisq(1, df = 6:9)
 
-et <- et(1:3)
-et$x <- 1
+# In rxode2 you can use:
 
-model <- rxode2({
-   fx <- llikChisq(x, time)
-   dDf <- llikChisqDdf(x, time)
-})
+# et <- et(1:3)
+# et$x <- 1
 
-rxSolve(model, et)
+# model <- rxode2({
+#    fx <- llikChisq(x, time)
+#    dDf <- llikChisqDdf(x, time)
+# })
 
-}
+# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

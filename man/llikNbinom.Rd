@@ -35,20 +35,19 @@ llikNbinom(46:54, 100, 0.5)
 
 llikNbinom(46:54, 100, 0.5, TRUE)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# In rxode2 you can use:
 
-et <- et(46:54)
-et$size <- 100
-et$prob <-0.5
+# et <- et(46:54)
+# et$size <- 100
+# et$prob <-0.5
 
-model <- rxode2({
-  fx <- llikNbinom(time, size, prob)
-  dProb <- llikNbinomDprob(time, size, prob)
-})
+# model <- rxode2({
+#   fx <- llikNbinom(time, size, prob)
+#   dProb <- llikNbinomDprob(time, size, prob)
+# })
 
-rxSolve(model, et)
+#rxSolve(model, et)
 
-}
 }
 \author{
 Matthew L. Fidler

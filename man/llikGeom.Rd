@@ -31,20 +31,17 @@ use the x and rate arguments.  You can also get the derivative of \code{prob} wi
 
 llikGeom(1:10, 0.2)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# If you wish to use in rxode2 you can use:
 
-et  <- et(1:10)
-et$prob <- 0.2
+# et  <- et(1:10)
+# et$prob <- 0.2
  
-model <- rxode2({
-  fx <- llikGeom(time, prob)
-  dProb <- llikGeomDprob(time, prob)
-})
+# model <- rxode2({
+#   fx <- llikGeom(time, prob)
+#   dProb <- llikGeomDprob(time, prob)
+# })
 
-
-rxSolve(model, et)
-
-}
+# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

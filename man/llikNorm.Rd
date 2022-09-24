@@ -35,22 +35,23 @@ llikNorm(0)
 
 llikNorm(seq(-2,2,length.out=10), full=TRUE)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# This is how rxode2 uses rxode2ll:
 
-et <- et(-3, 3, length.out=10)
-et$mu <- 0
-et$sigma <- 1
+# With rxode2 you can use:
+# 
+# et <- et(-3, 3, length.out=10)
+# et$mu <- 0
+# et$sigma <- 1
 
-model <- rxode2({
-  fx <- llikNorm(time, mu, sigma)
-  dMean <- llikNormDmean(time, mu, sigma)
-  dSd <- llikNormDsd(time, mu, sigma)
-})
+# model <- rxode2({
+#   fx <- llikNorm(time, mu, sigma)
+#   dMean <- llikNormDmean(time, mu, sigma)
+#   dSd <- llikNormDsd(time, mu, sigma)
+# })
 
-ret <- rxSolve(model, et)
-ret
+# ret <- rxSolve(model, et)
+# ret
 
-}
 }
 \author{
 Matthew L. Fidler

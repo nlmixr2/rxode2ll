@@ -23,23 +23,24 @@
 #' llikNorm(0)
 #'
 #' llikNorm(seq(-2,2,length.out=10), full=TRUE)
+#' 
+#' # This is how rxode2 uses rxode2ll:
+#' 
+#' # With rxode2 you can use:
+#' # 
+#' # et <- et(-3, 3, length.out=10)
+#' # et$mu <- 0
+#' # et$sigma <- 1
+#' 
+#' # model <- rxode2({
+#' #   fx <- llikNorm(time, mu, sigma)
+#' #   dMean <- llikNormDmean(time, mu, sigma)
+#' #   dSd <- llikNormDsd(time, mu, sigma)
+#' # })
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # ret <- rxSolve(model, et)
+#' # ret
 #' 
-#' et <- et(-3, 3, length.out=10)
-#' et$mu <- 0
-#' et$sigma <- 1
-#' 
-#' model <- rxode2({
-#'   fx <- llikNorm(time, mu, sigma)
-#'   dMean <- llikNormDmean(time, mu, sigma)
-#'   dSd <- llikNormDsd(time, mu, sigma)
-#' })
-#'
-#' ret <- rxSolve(model, et)
-#' ret
-#' 
-#' }
 #' @useDynLib rxode2ll, .registration=TRUE
 llikNorm <- function(x, mean = 0, sd = 1, full=FALSE) {
   checkmate::assertNumeric(x, min.len=1, any.missing=FALSE, finite=TRUE)
@@ -75,19 +76,17 @@ llikNorm <- function(x, mean = 0, sd = 1, full=FALSE) {
 #'
 #' llikPois(0:7, lambda = 4, full=TRUE)
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # In rxode2 you can use:
 #'
-#' et <- et(0:10)
-#' et$lambda <- 0.5
+#' # et <- et(0:10)
+#' # et$lambda <- 0.5
 #' 
-#' model <- rxode2({
-#'   fx <- llikPois(time, lambda)
-#'   dLambda <- llikPoisDlambda(time, lambda)
-#' })
+#' # model <- rxode2({
+#' #   fx <- llikPois(time, lambda)
+#' #   dLambda <- llikPoisDlambda(time, lambda)
+#' # })
 #'
-#' rxSolve(model, et)
-#' 
-#' }
+#' # rxSolve(model, et)
 #' 
 llikPois <- function(x, lambda, full=FALSE) {
   checkmate::assertIntegerish(x, min.len=0, lower=0, any.missing=FALSE)
@@ -126,20 +125,19 @@ llikPois <- function(x, lambda, full=FALSE) {
 #'
 #' llikBinom(46:54, 100, 0.5, TRUE)
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # In rxode2 you can use:
 #' 
-#' et <- et(46:54)
-#' et$size <- 100
-#' et$prob <-0.5
+#' # et <- et(46:54)
+#' # et$size <- 100
+#' # et$prob <-0.5
 #'
-#' model <- rxode2({
-#'   fx <- llikBinom(time, size, prob)
-#'   dProb <- llikBinomDprob(time, size, prob)
-#' })
+#' # model <- rxode2({
+#' #   fx <- llikBinom(time, size, prob)
+#' #  dProb <- llikBinomDprob(time, size, prob)
+#' # })
 #'
-#' rxSolve(model, et)
+#' # rxSolve(model, et)
 #' 
-#' }
 llikBinom <- function(x, size, prob, full=FALSE) {
   checkmate::assertIntegerish(x, min.len=0, lower=0, any.missing=FALSE)
   checkmate::assertIntegerish(size, min.len=0, lower=0, any.missing=FALSE)
@@ -176,20 +174,19 @@ llikBinom <- function(x, size, prob, full=FALSE) {
 #'
 #' llikNbinom(46:54, 100, 0.5, TRUE)
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
-#'
-#' et <- et(46:54)
-#' et$size <- 100
-#' et$prob <-0.5
-#'
-#' model <- rxode2({
-#'   fx <- llikNbinom(time, size, prob)
-#'   dProb <- llikNbinomDprob(time, size, prob)
-#' })
-#'
-#' rxSolve(model, et)
+#' # In rxode2 you can use:
 #' 
-#' }
+#' # et <- et(46:54)
+#' # et$size <- 100
+#' # et$prob <-0.5
+#'
+#' # model <- rxode2({
+#' #   fx <- llikNbinom(time, size, prob)
+#' #   dProb <- llikNbinomDprob(time, size, prob)
+#' # })
+#'
+#' #rxSolve(model, et)
+#' 
 llikNbinom <- function(x, size, prob, full=FALSE) {
   checkmate::assertIntegerish(x, min.len=0, lower=0, any.missing=FALSE)
   checkmate::assertIntegerish(size, min.len=0, lower=0, any.missing=FALSE)
@@ -232,19 +229,18 @@ llikNbinom <- function(x, size, prob, full=FALSE) {
 #'
 #' llikNbinomMu(46:54, 100, 40, TRUE)
 #' 
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # rxode2 can use:
 #'
-#' et <- et(46:54)
-#' et$size <- 100
-#' et$mu <- 40
+#' # et <- et(46:54)
+#' # et$size <- 100
+#' # et$mu <- 40
 #'
-#' model <- rxode2({
-#'   fx <- llikNbinomMu(time, size, mu)
-#'   dProb <- llikNbinomMuDmu(time, size, mu)
-#' })
+#' # model <- rxode2({
+#' #   fx <- llikNbinomMu(time, size, mu)
+#' #   dProb <- llikNbinomMuDmu(time, size, mu)
+#' # })
 #'
-#' rxSolve(model, et)
-#' }
+#' # rxSolve(model, et)
 llikNbinomMu <- function(x, size, mu, full=FALSE) {
   checkmate::assertIntegerish(x, min.len=0, lower=0, any.missing=FALSE)
   checkmate::assertIntegerish(size, min.len=0, lower=0, any.missing=FALSE)
@@ -286,21 +282,19 @@ llikNbinomMu <- function(x, size, mu, full=FALSE) {
 #'
 #' llikBeta(x, 1, 3, TRUE)
 #' 
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # rxode2 can use:
 #' 
-#' et <- et(seq(1e-4, 1-1e-4, length.out=21))
-#' et$shape1 <- 0.5
-#' et$shape2 <- 1.5
+#' # et <- et(seq(1e-4, 1-1e-4, length.out=21))
+#' # et$shape1 <- 0.5
+#' # et$shape2 <- 1.5
 #'
-#' model <- rxode2({
-#'   fx <- llikBeta(time, shape1, shape2)
-#'   dShape1 <- llikBetaDshape1(time, shape1, shape2)
-#'   dShape2 <- llikBetaDshape2(time, shape1, shape2)
-#' })
+#' # model <- rxode2({
+#' #   fx <- llikBeta(time, shape1, shape2)
+#' #   dShape1 <- llikBetaDshape1(time, shape1, shape2)
+#' #   dShape2 <- llikBetaDshape2(time, shape1, shape2)
+#' # })
 #'
-#' rxSolve(model, et)
-#'
-#' }
+#' # rxSolve(model, et)
 llikBeta <- function(x, shape1, shape2, full=FALSE) {
   checkmate::assertNumeric(x, min.len=0, lower=0, upper=1, any.missing=FALSE, finite=TRUE)
   checkmate::assertNumeric(shape1, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
@@ -337,23 +331,21 @@ llikBeta <- function(x, shape1, shape2, full=FALSE) {
 #'
 #' llikT(x, 15, 0, 1, full=TRUE)
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # rxode2 can use:
 #'
-#'  et <- et(-3, 3, length.out=10)
-#'  et$nu <- 7
-#'  et$mean <- 0
-#'  et$sd <- 1
+#' # et <- et(-3, 3, length.out=10)
+#' # et$nu <- 7
+#' # et$mean <- 0
+#' # et$sd <- 1
 #'
-#'  model <- rxode2({
-#'    fx <- llikT(time, nu, mean, sd)
-#'    dDf <- llikTDdf(time, nu, mean, sd)
-#'    dMean <- llikTDmean(time, nu, mean, sd)
-#'    dSd   <- llikTDsd(time, nu, mean, sd)
-#'  })
+#' # model <- rxode2({
+#' #   fx <- llikT(time, nu, mean, sd)
+#' #   dDf <- llikTDdf(time, nu, mean, sd)
+#' #   dMean <- llikTDmean(time, nu, mean, sd)
+#' #   dSd   <- llikTDsd(time, nu, mean, sd)
+#' # })
 #'
-#'  rxSolve(model, et)
-#'
-#' }
+#' # rxSolve(model, et)
 #'
 llikT <-function(x, df, mean=0, sd=1, full=FALSE) {
   checkmate::assertNumeric(x, min.len=0, any.missing=FALSE, finite=TRUE)
@@ -385,23 +377,21 @@ llikT <-function(x, df, mean=0, sd=1, full=FALSE) {
 #' `llikChisqDdf()`.
 #' @examples
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
-#' 
 #' llikChisq(1, df = 1:3, full=TRUE)
 #' 
 #' llikChisq(1, df = 6:9)
 #' 
-#' et <- et(1:3)
-#' et$x <- 1
+#' # In rxode2 you can use:
+#' 
+#' # et <- et(1:3)
+#' # et$x <- 1
 #'
-#' model <- rxode2({
-#'    fx <- llikChisq(x, time)
-#'    dDf <- llikChisqDdf(x, time)
-#' })
+#' # model <- rxode2({
+#' #    fx <- llikChisq(x, time)
+#' #    dDf <- llikChisqDdf(x, time)
+#' # })
 #'
-#' rxSolve(model, et)
-#'
-#' }
+#' # rxSolve(model, et)
 llikChisq <-function(x, df, full=FALSE) {
   checkmate::assertNumeric(x, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
   checkmate::assertNumeric(df, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
@@ -438,19 +428,17 @@ llikChisq <-function(x, df, full=FALSE) {
 #'
 #' llikExp(1, 1:3, full=TRUE)
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # You can use rxode2 for these too:
 #'
-#' et <- et(1:3)
-#' et$x <- 1
+#' # et <- et(1:3)
+#' # et$x <- 1
 #'
-#' model <- rxode2({
-#'   fx <- llikExp(x, time)
-#'   dRate <- llikExpDrate(x, time)
-#' })
+#' # model <- rxode2({
+#' #   fx <- llikExp(x, time)
+#' #   dRate <- llikExpDrate(x, time)
+#' # })
 #'
-#' rxSolve(model, et)
-#'
-#' }
+#' # rxSolve(model, et)
 llikExp <-function(x, rate, full=FALSE) {
   checkmate::assertNumeric(x, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
   checkmate::assertNumeric(rate, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
@@ -487,21 +475,19 @@ llikExp <-function(x, rate, full=FALSE) {
 #'
 #' llikF(x^2, 1, 5)
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # You can use this function in rxode2 too:
 #'
-#' model <- rxode2({
-#'  fx <- llikF(time, df1, df2)
-#'  dMean <- llikFDdf1(time, df1, df2)
-#'  dSd <- llikFDdf2(time, df1, df2)
-#' })
+#' # model <- rxode2({
+#' #   fx <- llikF(time, df1, df2)
+#' #   dMean <- llikFDdf1(time, df1, df2)
+#' #   dSd <- llikFDdf2(time, df1, df2)
+#' # })
 #' 
-#' et <- et(x)
-#' et$df1 <- 1
-#' et$df2 <- 5
+#' # et <- et(x)
+#' # et$df1 <- 1
+#' # et$df2 <- 5
 #' 
-#' rxSolve(model, et)
-#'
-#' }
+#' # rxSolve(model, et)
 llikF <-function(x, df1, df2, full=FALSE) {
   checkmate::assertNumeric(x, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
   checkmate::assertNumeric(df1, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
@@ -538,20 +524,17 @@ llikF <-function(x, df1, df2, full=FALSE) {
 #'
 #' llikGeom(1:10, 0.2)
 #' 
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # If you wish to use in rxode2 you can use:
 #' 
-#' et  <- et(1:10)
-#' et$prob <- 0.2
+#' # et  <- et(1:10)
+#' # et$prob <- 0.2
 #'  
-#' model <- rxode2({
-#'   fx <- llikGeom(time, prob)
-#'   dProb <- llikGeomDprob(time, prob)
-#' })
+#' # model <- rxode2({
+#' #   fx <- llikGeom(time, prob)
+#' #   dProb <- llikGeomDprob(time, prob)
+#' # })
 #'
-#'
-#' rxSolve(model, et)
-#' 
-#' }
+#' # rxSolve(model, et)
 llikGeom <-function(x, prob, full=FALSE) {
   checkmate::assertIntegerish(x, lower=0, min.len=0, any.missing=FALSE)
   checkmate::assertNumeric(prob, min.len=0, lower=0, upper=1,any.missing=FALSE, finite=TRUE)
@@ -589,22 +572,19 @@ llikGeom <-function(x, prob, full=FALSE) {
 #'
 #' llikUnif(1, -2, 2)
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # A rxode2 model can use this too:
 #' 
-#' et  <- et(seq(1,1, length.out=4))
-#' et$alpha <- -2
-#' et$beta <- 2
+#' # et  <- et(seq(1,1, length.out=4))
+#' # et$alpha <- -2
+#' # et$beta <- 2
 #'  
-#' model <- rxode2({
-#'   fx <- llikUnif(time, alpha, beta)
-#'   dAlpha<- llikUnifDalpha(time, alpha, beta)
-#'   dBeta <- llikUnifDbeta(time, alpha, beta)
-#' })
+#' # model <- rxode2({
+#' #   fx <- llikUnif(time, alpha, beta)
+#' #   dAlpha<- llikUnifDalpha(time, alpha, beta)
+#' #   dBeta <- llikUnifDbeta(time, alpha, beta)
+#' # })
 #' 
-#'
-#' rxSolve(model, et)
-#'
-#' }
+#' #rxSolve(model, et)
 llikUnif <-function(x, alpha, beta, full=FALSE) {
   checkmate::assertNumeric(x, min.len=0, any.missing=FALSE, finite=TRUE)
   checkmate::assertNumeric(alpha, min.len=0, any.missing=FALSE, finite=TRUE)
@@ -642,22 +622,19 @@ llikUnif <-function(x, alpha, beta, full=FALSE) {
 #'
 #' llikWeibull(1, 1, 10)
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # rxode2 can use this too:
 #'
-#' et  <- et(seq(0.001, 1, length.out=10))
-#' et$shape <- 1
-#' et$scale <- 10
+#' # et  <- et(seq(0.001, 1, length.out=10))
+#' # et$shape <- 1
+#' # et$scale <- 10
 #'  
-#' model <- rxode2({
-#'   fx <- llikWeibull(time, shape, scale)
-#'   dShape<- llikWeibullDshape(time, shape, scale)
-#'   dScale <- llikWeibullDscale(time, shape, scale)
-#' })
-#' 
+#' # model <- rxode2({
+#' #   fx <- llikWeibull(time, shape, scale)
+#' #   dShape<- llikWeibullDshape(time, shape, scale)
+#' #   dScale <- llikWeibullDscale(time, shape, scale)
+#' # })
 #'
-#' rxSolve(model, et)
-#'
-#' }
+#' # rxSolve(model, et)
 llikWeibull <-function(x, shape, scale, full=FALSE) {
   checkmate::assertNumeric(x, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
   checkmate::assertNumeric(shape, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
@@ -700,21 +677,19 @@ llikWeibull <-function(x, shape, scale, full=FALSE) {
 #'
 #' llikGamma(1, 1, 10)
 #' 
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
-#' et  <- et(seq(0.001, 1, length.out=10))
-#' et$shape <- 1
-#' et$rate <- 10
+#' # You can use this in `rxode2` too:
+#' 
+#' # et  <- et(seq(0.001, 1, length.out=10))
+#' # et$shape <- 1
+#' # et$rate <- 10
 #'  
-#' model <- rxode2({
-#'   fx <- llikGamma(time, shape, rate)
-#'   dShape<- llikGammaDshape(time, shape, rate)
-#'   dRate <- llikGammaDrate(time, shape, rate)
-#' })
+#' # model <- rxode2({
+#' #   fx <- llikGamma(time, shape, rate)
+#' #   dShape<- llikGammaDshape(time, shape, rate)
+#' #   dRate <- llikGammaDrate(time, shape, rate)
+#' # })
 #' 
-#'
-#' rxSolve(model, et)
-#' 
-#' }
+#' # rxSolve(model, et)
 llikGamma <-function(x, shape, rate, full=FALSE) {
   checkmate::assertNumeric(x, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
   checkmate::assertNumeric(shape, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
@@ -752,21 +727,19 @@ llikGamma <-function(x, shape, rate, full=FALSE) {
 #'
 #' llikCauchy(x, 3, 1, full=TRUE)
 #'
-#' if (requireNamespace("rxode2", quietly=TRUE)) {
+#' # You can use this function in rxode2 too:
 #'
-#'  et <- et(-3, 3, length.out=10)
-#'  et$location <- 0
-#'  et$scale <- 1
+#' # et <- et(-3, 3, length.out=10)
+#' # et$location <- 0
+#' # et$scale <- 1
 #'
-#'  model <- rxode2({
-#'    fx <- llikCauchy(time, location, scale)
-#'    dLocation <- llikCauchyDlocation(time, location, scale)
-#'    dScale <- llikCauchyDscale(time, location, scale)
-#'  })
+#' # model <- rxode2({
+#' #   fx <- llikCauchy(time, location, scale)
+#' #   dLocation <- llikCauchyDlocation(time, location, scale)
+#' #   dScale <- llikCauchyDscale(time, location, scale)
+#' # })
 #'
-#'  rxSolve(model, et)
-#'
-#' }
+#' # rxSolve(model, et)
 llikCauchy <-function(x, location=0, scale=1, full=FALSE) {
   checkmate::assertNumeric(x, min.len=0, any.missing=FALSE, finite=TRUE)
   checkmate::assertNumeric(location, min.len=0, any.missing=FALSE, finite=TRUE)

@@ -33,19 +33,17 @@ llikExp(1, 1:3)
 
 llikExp(1, 1:3, full=TRUE)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# You can use rxode2 for these too:
 
-et <- et(1:3)
-et$x <- 1
+# et <- et(1:3)
+# et$x <- 1
 
-model <- rxode2({
-  fx <- llikExp(x, time)
-  dRate <- llikExpDrate(x, time)
-})
+# model <- rxode2({
+#   fx <- llikExp(x, time)
+#   dRate <- llikExpDrate(x, time)
+# })
 
-rxSolve(model, et)
-
-}
+# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

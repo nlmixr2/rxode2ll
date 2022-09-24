@@ -40,23 +40,21 @@ llikT(x, 7, 0, 1)
 
 llikT(x, 15, 0, 1, full=TRUE)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# rxode2 can use:
 
- et <- et(-3, 3, length.out=10)
- et$nu <- 7
- et$mean <- 0
- et$sd <- 1
+# et <- et(-3, 3, length.out=10)
+# et$nu <- 7
+# et$mean <- 0
+# et$sd <- 1
 
- model <- rxode2({
-   fx <- llikT(time, nu, mean, sd)
-   dDf <- llikTDdf(time, nu, mean, sd)
-   dMean <- llikTDmean(time, nu, mean, sd)
-   dSd   <- llikTDsd(time, nu, mean, sd)
- })
+# model <- rxode2({
+#   fx <- llikT(time, nu, mean, sd)
+#   dDf <- llikTDdf(time, nu, mean, sd)
+#   dMean <- llikTDmean(time, nu, mean, sd)
+#   dSd   <- llikTDsd(time, nu, mean, sd)
+# })
 
- rxSolve(model, et)
-
-}
+# rxSolve(model, et)
 
 }
 \author{

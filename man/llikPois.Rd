@@ -33,19 +33,17 @@ llikPois(0:7, lambda = 1)
 
 llikPois(0:7, lambda = 4, full=TRUE)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# In rxode2 you can use:
 
-et <- et(0:10)
-et$lambda <- 0.5
+# et <- et(0:10)
+# et$lambda <- 0.5
 
-model <- rxode2({
-  fx <- llikPois(time, lambda)
-  dLambda <- llikPoisDlambda(time, lambda)
-})
+# model <- rxode2({
+#   fx <- llikPois(time, lambda)
+#   dLambda <- llikPoisDlambda(time, lambda)
+# })
 
-rxSolve(model, et)
-
-}
+# rxSolve(model, et)
 
 }
 \author{

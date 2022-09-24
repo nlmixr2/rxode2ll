@@ -35,21 +35,19 @@ llikBeta(x, 0.5, 0.5)
 
 llikBeta(x, 1, 3, TRUE)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# rxode2 can use:
 
-et <- et(seq(1e-4, 1-1e-4, length.out=21))
-et$shape1 <- 0.5
-et$shape2 <- 1.5
+# et <- et(seq(1e-4, 1-1e-4, length.out=21))
+# et$shape1 <- 0.5
+# et$shape2 <- 1.5
 
-model <- rxode2({
-  fx <- llikBeta(time, shape1, shape2)
-  dShape1 <- llikBetaDshape1(time, shape1, shape2)
-  dShape2 <- llikBetaDshape2(time, shape1, shape2)
-})
+# model <- rxode2({
+#   fx <- llikBeta(time, shape1, shape2)
+#   dShape1 <- llikBetaDshape1(time, shape1, shape2)
+#   dShape2 <- llikBetaDshape2(time, shape1, shape2)
+# })
 
-rxSolve(model, et)
-
-}
+# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

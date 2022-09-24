@@ -35,19 +35,18 @@ llikNbinomMu(46:54, 100, 40)
 
 llikNbinomMu(46:54, 100, 40, TRUE)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# rxode2 can use:
 
-et <- et(46:54)
-et$size <- 100
-et$mu <- 40
+# et <- et(46:54)
+# et$size <- 100
+# et$mu <- 40
 
-model <- rxode2({
-  fx <- llikNbinomMu(time, size, mu)
-  dProb <- llikNbinomMuDmu(time, size, mu)
-})
+# model <- rxode2({
+#   fx <- llikNbinomMu(time, size, mu)
+#   dProb <- llikNbinomMuDmu(time, size, mu)
+# })
 
-rxSolve(model, et)
-}
+# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

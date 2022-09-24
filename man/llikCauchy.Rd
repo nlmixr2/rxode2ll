@@ -35,21 +35,19 @@ llikCauchy(x, 0, 1)
 
 llikCauchy(x, 3, 1, full=TRUE)
 
-if (requireNamespace("rxode2", quietly=TRUE)) {
+# You can use this function in rxode2 too:
 
- et <- et(-3, 3, length.out=10)
- et$location <- 0
- et$scale <- 1
+# et <- et(-3, 3, length.out=10)
+# et$location <- 0
+# et$scale <- 1
 
- model <- rxode2({
-   fx <- llikCauchy(time, location, scale)
-   dLocation <- llikCauchyDlocation(time, location, scale)
-   dScale <- llikCauchyDscale(time, location, scale)
- })
+# model <- rxode2({
+#   fx <- llikCauchy(time, location, scale)
+#   dLocation <- llikCauchyDlocation(time, location, scale)
+#   dScale <- llikCauchyDscale(time, location, scale)
+# })
 
- rxSolve(model, et)
-
-}
+# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler
