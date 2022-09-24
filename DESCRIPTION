@@ -1,6 +1,6 @@
 Package: rxode2ll
 Version: 2.0.8
-Title: Log-likelihood Facilities for 'rxode2'
+Title: Log-likelihood Functions for 'rxode2'
 Authors@R: c(
    person("Matthew L.","Fidler",
       role = c("aut", "cre"), email = "matthew.fidler@gmail.com",
