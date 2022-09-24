@@ -1,5 +1,5 @@
 Package: rxode2ll
-Version: 2.0.8
+Version: 2.0.9
 Title: Log-likelihood Functions for 'rxode2'
 Authors@R: c(
    person("Matthew L.","Fidler",
@@ -14,10 +14,14 @@ Suggests:
 Imports:
     Rcpp (>= 1.0.9),
     checkmate
-Description: 'rxode2' is a tool for for running simulations from ordinary
-    differential equation ('ODE') models, such as pharmacometrics and other
-    compartmental models.  This tool provides the log-likelihoods with the gradients
-    needed for generalized log-likelihood in 'nlmixr2'.
+Description: 'rxode2' is a tool for for running simulations from
+    ordinary differential equation ('ODE') models, such as
+    pharmacometrics and other compartmental models.  This tool
+    provides the log-likelihoods with the gradients from 'stan' needed
+    for generalized log-likelihood estimation in 'nlmixr2'. This is
+    split of to reduce computational burden of recompiling 'rxode2' if
+    necessary and is data-like in that the distributions and
+    derivatives are unlikely to change.
 BugReports: https://github.com/nlmixr2/rxode2ll/issues/
 NeedsCompilation: yes
 License: GPL (>= 3) 
