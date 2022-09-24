@@ -90,6 +90,7 @@ jobs:
       - name: Install remotes
         run: |
           install.packages('remotes')
+          install.packages('sessioninfo')
         shell: Rscript {0}
 
       - name: Install dependencies
