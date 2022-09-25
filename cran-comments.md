@@ -1,3 +1,29 @@
+## Cran comments
+
+> Thanks we see:
+>   The Title field should be in title case. Current version is:
+>   'Log-likelihood Functions for 'rxode2''
+>   In title case that is:
+>   'Log-Likelihood Functions for 'rxode2''
+
+* Fixed
+
+>
+>   The Description field should start with a capital letter and not with
+>   the package name. Ideally omit the redudnant (and non grammatical)
+> "'rxode2' is a tool for for "
+
+* Rewrote the description as requested
+
+
+> Is there some reference about the method you can add in the Description
+> field in the form Authors (year) <doi:10.....> or <arXiv:.....>?
+
+* Added 3 references in the description
+
+
+## First attempt comments
+
 * This is a new package to split off the log-likelihoods (with
   derivatives) from 'stan' to allow nonlinear mixed effects models
   using generalized likelihood link functions in 'nlmixr2'
