@@ -71,6 +71,7 @@ Rcpp::DataFrame llikUnifInternal(Rcpp::NumericVector x,
   NumericVector dAlpha(x.size());
   NumericVector dBeta(x.size());
   double cur[7];
+  std::fill_n(cur, 7, 0.0);
   for (int j = x.size(); j--;) {
     llikUnifFull(cur, x[j], alpha[j], beta[j]);
     fx[j]     = cur[4];

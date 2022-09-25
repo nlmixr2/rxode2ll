@@ -73,6 +73,7 @@ Rcpp::DataFrame llikWeibullInternal(Rcpp::NumericVector x,
   NumericVector dShape(x.size());
   NumericVector dScale(x.size());
   double cur[7];
+  std::fill_n(cur, 7, 0.0);
   for (int j = x.size(); j--;) {
     llikWeibullFull(cur, x[j], shape[j], scale[j]);
     fx[j]     = cur[4];

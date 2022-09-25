@@ -59,6 +59,7 @@ Rcpp::DataFrame llikExpInternal(Rcpp::NumericVector x, Rcpp::NumericVector rate)
   NumericVector fx(x.size());
   NumericVector dRate(x.size());
   double cur[5];
+  std::fill_n(cur, 5, 0.0);
   for (int j = x.size(); j--;) {
     llikExpFull(cur, x[j], rate[j]);
     fx[j]    = cur[3];

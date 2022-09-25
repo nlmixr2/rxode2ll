@@ -72,6 +72,7 @@ Rcpp::DataFrame llikCauchyInternal(Rcpp::NumericVector x,
   NumericVector dLocation(x.size());
   NumericVector dScale(x.size());
   double cur[7];
+  std::fill_n(cur, 7, 0.0);
   for (int j = x.size(); j--;) {
     llikCauchyFull(cur, x[j], location[j], scale[j]);
     fx[j]    = cur[4];

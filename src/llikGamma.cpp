@@ -71,6 +71,7 @@ Rcpp::DataFrame llikGammaInternal(Rcpp::NumericVector x,
   NumericVector dShape(x.size());
   NumericVector dRate(x.size());
   double cur[7];
+  std::fill_n(cur, 7, 0.0);
   for (int j = x.size(); j--;) {
     llikGammaFull(cur, x[j], shape[j], rate[j]);
     fx[j]     = cur[4];

@@ -62,6 +62,7 @@ Rcpp::DataFrame llikPoisInternal(Rcpp::NumericVector x, Rcpp::NumericVector lamb
   NumericVector fx(x.size());
   NumericVector dLambda(x.size());
   double cur[5];
+  std::fill_n(cur, 5, 0.0);
   for (int j = x.size(); j--;) {
     llikPoisFull(cur, x[j], lambda[j]);
     fx[j]      = cur[3];

@@ -61,6 +61,7 @@ Rcpp::DataFrame llikGeomInternal(Rcpp::NumericVector x, Rcpp::NumericVector p) {
   NumericVector fx(x.size());
   NumericVector dP(x.size());
   double cur[5];
+  std::fill_n(cur, 5, 0.0);
   for (int j = x.size(); j--;) {
     llikGeomFull(cur, x[j], p[j]);
     fx[j]    = cur[3];

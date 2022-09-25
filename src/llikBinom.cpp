@@ -66,6 +66,7 @@ Rcpp::DataFrame llikBinomInternal(Rcpp::NumericVector x, Rcpp::NumericVector siz
   NumericVector fx(x.size());
   NumericVector dProb(x.size());
   double cur[6];
+  std::fill_n(cur, 6, 0.0);
   for (int j = x.size(); j--;) {
     llikBinomFull(cur, x[j], size[j], prob[j]);
     fx[j]      = cur[4];

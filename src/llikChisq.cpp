@@ -60,6 +60,7 @@ Rcpp::DataFrame llikChisqInternal(Rcpp::NumericVector x, Rcpp::NumericVector df)
   NumericVector fx(x.size());
   NumericVector dDf(x.size());
   double cur[5];
+  std::fill_n(cur, 5, 0.0);
   for (int j = x.size(); j--;) {
     llikChisqFull(cur, x[j], df[j]);
     fx[j]    = cur[3];

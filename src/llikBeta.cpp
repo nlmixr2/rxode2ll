@@ -68,6 +68,7 @@ Rcpp::DataFrame llikBetaInternal(Rcpp::NumericVector x, Rcpp::NumericVector shap
   NumericVector dShape1(x.size());
   NumericVector dShape2(x.size());
   double cur[7];
+  std::fill_n(cur, 7, 0.0);
   for (int j = x.size(); j--;) {
     llikBetaFull(cur, x[j], shape1[j], shape2[j]);
     fx[j]      = cur[4];
