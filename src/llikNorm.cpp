@@ -67,6 +67,7 @@ Rcpp::DataFrame llikNormInternal(Rcpp::NumericVector x, Rcpp::NumericVector mu, 
   NumericVector dMu(x.size());
   NumericVector dSigma(x.size());
   double cur[7];
+  std::fill_n(cur, 7, 0.0);
   for (int j = x.size(); j--;) {
     llikNormFull(cur, x[j], mu[j], sigma[j]);
     fx[j] = cur[4];

@@ -78,6 +78,7 @@ Rcpp::DataFrame llikTInternal(Rcpp::NumericVector x, Rcpp::NumericVector df,
   NumericVector dMean(x.size());
   NumericVector dSd(x.size());
   double cur[9];
+  std::fill_n(cur, 9, 0.0);
   for (int j = x.size(); j--;) {
     llikTFull(cur, x[j], df[j], mean[j], sd[j]);
     fx[j]    = cur[5];

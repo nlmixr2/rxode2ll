@@ -72,6 +72,7 @@ Rcpp::DataFrame llikFInternal(Rcpp::NumericVector x, Rcpp::NumericVector df1,
   NumericVector dDf1(x.size());
   NumericVector dDf2(x.size());
   double cur[7];
+  std::fill_n(cur, 7, 0.0);
   for (int j = x.size(); j--;) {
     llikFFull(cur, x[j], df1[j], df2[j]);
     fx[j]    = cur[4];
