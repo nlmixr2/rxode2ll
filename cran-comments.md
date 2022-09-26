@@ -1,5 +1,7 @@
 ## Cran comments
 
+* Fixed `Conditional jump or move depends on uninitialised value(s)` in code
+
 > Thanks we see:
 >   The Title field should be in title case. Current version is:
 >   'Log-likelihood Functions for 'rxode2''
