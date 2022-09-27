@@ -22,30 +22,12 @@ the observation time-point
 \description{
 log likelihood and derivatives for F distribution
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikF()} but you have to
-use the x and rate arguments.  You can also get the derivative of \code{df1} and \code{df2} with
-\code{llikFDdf1()} and \code{llikFDdf2()}.
-}
 \examples{
 
 x <- seq(0.001, 5, length.out = 100)
 
 llikF(x^2, 1, 5)
 
-# You can use this function in rxode2 too:
-
-# model <- rxode2({
-#   fx <- llikF(time, df1, df2)
-#   dMean <- llikFDdf1(time, df1, df2)
-#   dSd <- llikFDdf2(time, df1, df2)
-# })
-
-# et <- et(x)
-# et$df1 <- 1
-# et$df2 <- 5
-
-# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

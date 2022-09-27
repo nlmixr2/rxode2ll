@@ -27,11 +27,6 @@ the observation time-point
 \description{
 Log likelihood of T and it's derivatives (from stan)
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikT()} but you have to
-use all arguments.  You can also get the derivative of \code{df}, \code{mean} and \code{sd} with
-\code{llikTDdf()}, \code{llikTDmean()} and \code{llikTDsd()}.
-}
 \examples{
 
 x <- seq(-3, 3, length.out = 21)
@@ -39,22 +34,6 @@ x <- seq(-3, 3, length.out = 21)
 llikT(x, 7, 0, 1)
 
 llikT(x, 15, 0, 1, full=TRUE)
-
-# rxode2 can use:
-
-# et <- et(-3, 3, length.out=10)
-# et$nu <- 7
-# et$mean <- 0
-# et$sd <- 1
-
-# model <- rxode2({
-#   fx <- llikT(time, nu, mean, sd)
-#   dDf <- llikTDdf(time, nu, mean, sd)
-#   dMean <- llikTDmean(time, nu, mean, sd)
-#   dSd   <- llikTDsd(time, nu, mean, sd)
-# })
-
-# rxSolve(model, et)
 
 }
 \author{

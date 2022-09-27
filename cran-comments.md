@@ -1,4 +1,37 @@
-## Cran comments
+## Third Attempt CRAN comments
+
+> Please write references in the description of the DESCRIPTION file in
+> the form
+> authors (year) <doi:...>
+> authors (year) <arXiv:...>
+> authors (year, ISBN:...)
+> or if those are not available: authors (year) <https:...>
+> with no space after 'doi:', 'arXiv:', 'https:' and angle brackets for
+> auto-linking. (If you want to add a title as well please put it in
+> quotes: "Title")
+
+Added parentheses in the year, as requested.
+
+> Some code lines in examples are commented out. Please never do that.
+> Ideally find toy examples that can be regularly executed and checked.
+> Lengthy examples (> 5 sec), can be wrapped in \donttest{}.
+> Since you want to show how it is done in 'rxode2', maybe list 'rxode2'
+> in ‘Suggests’, and wrap the examples in
+> if(requireNamespace("rxode2")){}. That way, users who have 'rxode2'
+> installed can run the examples and those who have not don't get an error.
+
+This was commented out to avoid a cyclic dependency (that is rxode2ll needs
+rxode2 to test, but rxode2 needs rxode2ll to compile).
+
+Instead of commenting out all references to the 'rxode2' examples,
+they are removed in this package (and all references in the
+documentation to 'rxode2' are removed too).
+
+In the next release of the 'rxode2' package, the same examples and
+documentation will be moved to 'rxode2' when the binary linkage is
+available.
+
+## Second Attempt Cran comments
 
 * Fixed `Conditional jump or move depends on uninitialised value(s)` in code
 

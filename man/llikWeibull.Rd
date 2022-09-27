@@ -22,28 +22,10 @@ the observation time-point
 \description{
 log likelihood and derivatives for Weibull distribution
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikWeibull()} but you have to
-use the x and rate arguments.  You can also get the derivative of \code{shape} or \code{scale} with
-\code{llikWeibullDshape()} and \code{llikWeibullDscale()}.
-}
 \examples{
 
 llikWeibull(1, 1, 10)
 
-# rxode2 can use this too:
-
-# et  <- et(seq(0.001, 1, length.out=10))
-# et$shape <- 1
-# et$scale <- 10
- 
-# model <- rxode2({
-#   fx <- llikWeibull(time, shape, scale)
-#   dShape<- llikWeibullDshape(time, shape, scale)
-#   dScale <- llikWeibullDscale(time, shape, scale)
-# })
-
-# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

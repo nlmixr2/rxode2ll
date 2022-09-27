@@ -24,28 +24,10 @@ the observation time-point
 \description{
 log likelihood and derivatives for Unif distribution
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikUnif()} but you have to
-use the x and rate arguments.  You can also get the derivative of \code{alpha} or \code{beta} with
-\code{llikUnifDalpha()} and \code{llikUnifDbeta()}.
-}
 \examples{
 
 llikUnif(1, -2, 2)
 
-# A rxode2 model can use this too:
-
-# et  <- et(seq(1,1, length.out=4))
-# et$alpha <- -2
-# et$beta <- 2
- 
-# model <- rxode2({
-#   fx <- llikUnif(time, alpha, beta)
-#   dAlpha<- llikUnifDalpha(time, alpha, beta)
-#   dBeta <- llikUnifDbeta(time, alpha, beta)
-# })
-
-#rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

@@ -22,28 +22,12 @@ the observation time-point
 \description{
 log likelihood and derivatives for chi-squared distribution
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikChisq()} but you have to
-use the x and df arguments.  You can also get the derivative of \code{df} with
-\code{llikChisqDdf()}.
-}
 \examples{
 
 llikChisq(1, df = 1:3, full=TRUE)
 
 llikChisq(1, df = 6:9)
 
-# In rxode2 you can use:
-
-# et <- et(1:3)
-# et$x <- 1
-
-# model <- rxode2({
-#    fx <- llikChisq(x, time)
-#    dDf <- llikChisqDdf(x, time)
-# })
-
-# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

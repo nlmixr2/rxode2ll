@@ -24,33 +24,11 @@ the observation time-point
 \description{
 Log likelihood for normal distribution
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikNorm()} but you have to
-use all arguments.  You can also get the derivatives with
-\code{llikNormDmean()} and \code{llikNormDsd()}
-}
 \examples{
 
 llikNorm(0)
 
 llikNorm(seq(-2,2,length.out=10), full=TRUE)
-
-# This is how rxode2 uses rxode2ll:
-
-# With rxode2 you can use:
-# 
-# et <- et(-3, 3, length.out=10)
-# et$mu <- 0
-# et$sigma <- 1
-
-# model <- rxode2({
-#   fx <- llikNorm(time, mu, sigma)
-#   dMean <- llikNormDmean(time, mu, sigma)
-#   dSd <- llikNormDsd(time, mu, sigma)
-# })
-
-# ret <- rxSolve(model, et)
-# ret
 
 }
 \author{

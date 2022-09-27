@@ -22,28 +22,12 @@ the observation time-point
 \description{
 log likelihood and derivatives for exponential distribution
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikExp()} but you have to
-use the x and rate arguments.  You can also get the derivative of \code{rate} with
-\code{llikExpDrate()}.
-}
 \examples{
 
 llikExp(1, 1:3)
 
 llikExp(1, 1:3, full=TRUE)
 
-# You can use rxode2 for these too:
-
-# et <- et(1:3)
-# et$x <- 1
-
-# model <- rxode2({
-#   fx <- llikExp(x, time)
-#   dRate <- llikExpDrate(x, time)
-# })
-
-# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

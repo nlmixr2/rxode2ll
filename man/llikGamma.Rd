@@ -24,28 +24,10 @@ the observation time-point
 \description{
 log likelihood and derivatives for Gamma distribution
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikGamma()} but you have to
-use the x and rate arguments.  You can also get the derivative of \code{shape} or \code{rate} with
-\code{llikGammaDshape()} and \code{llikGammaDrate()}.
-}
 \examples{
 
 llikGamma(1, 1, 10)
 
-# You can use this in `rxode2` too:
-
-# et  <- et(seq(0.001, 1, length.out=10))
-# et$shape <- 1
-# et$rate <- 10
- 
-# model <- rxode2({
-#   fx <- llikGamma(time, shape, rate)
-#   dShape<- llikGammaDshape(time, shape, rate)
-#   dRate <- llikGammaDrate(time, shape, rate)
-# })
-
-# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

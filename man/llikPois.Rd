@@ -22,30 +22,6 @@ the observation time-point
 \description{
 log-likelihood for the Poisson distribution
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikPois()} but you have to
-use all arguments.  You can also get the derivatives with
-\code{llikPoisDlambda()}
-}
-\examples{
-
-llikPois(0:7, lambda = 1)
-
-llikPois(0:7, lambda = 4, full=TRUE)
-
-# In rxode2 you can use:
-
-# et <- et(0:10)
-# et$lambda <- 0.5
-
-# model <- rxode2({
-#   fx <- llikPois(time, lambda)
-#   dLambda <- llikPoisDlambda(time, lambda)
-# })
-
-# rxSolve(model, et)
-
-}
 \author{
 Matthew L. Fidler
 }

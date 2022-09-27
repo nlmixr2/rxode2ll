@@ -22,26 +22,10 @@ the observation time-point
 \description{
 log likelihood and derivatives for Geom distribution
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikGeom()} but you have to
-use the x and rate arguments.  You can also get the derivative of \code{prob} with
-\code{llikGeomDprob()}.
-}
 \examples{
 
 llikGeom(1:10, 0.2)
 
-# If you wish to use in rxode2 you can use:
-
-# et  <- et(1:10)
-# et$prob <- 0.2
- 
-# model <- rxode2({
-#   fx <- llikGeom(time, prob)
-#   dProb <- llikGeomDprob(time, prob)
-# })
-
-# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

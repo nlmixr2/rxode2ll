@@ -22,11 +22,6 @@ the observation time-point
 \description{
 Calculate the log likelihood of the binomial function (and its derivatives)
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikBeta()} but you have to
-use all arguments.  You can also get the derivative of \code{shape1} and \code{shape2} with
-\code{llikBetaDshape1()} and \code{llikBetaDshape2()}.
-}
 \examples{
 
 x <- seq(1e-4, 1 - 1e-4, length.out = 21)
@@ -34,20 +29,6 @@ x <- seq(1e-4, 1 - 1e-4, length.out = 21)
 llikBeta(x, 0.5, 0.5)
 
 llikBeta(x, 1, 3, TRUE)
-
-# rxode2 can use:
-
-# et <- et(seq(1e-4, 1-1e-4, length.out=21))
-# et$shape1 <- 0.5
-# et$shape2 <- 1.5
-
-# model <- rxode2({
-#   fx <- llikBeta(time, shape1, shape2)
-#   dShape1 <- llikBetaDshape1(time, shape1, shape2)
-#   dShape2 <- llikBetaDshape2(time, shape1, shape2)
-# })
-
-# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

@@ -22,11 +22,6 @@ the observation time-point
 \description{
 log likelihood of Cauchy distribution and it's derivatives (from stan)
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikCauchy()} but you have to
-use all arguments.  You can also get the derivative of \code{location} and \code{scale} with
-\code{llikCauchyDlocation()} and \code{llikCauchyDscale()}.
-}
 \examples{
 
 x <- seq(-3, 3, length.out = 21)
@@ -35,19 +30,6 @@ llikCauchy(x, 0, 1)
 
 llikCauchy(x, 3, 1, full=TRUE)
 
-# You can use this function in rxode2 too:
-
-# et <- et(-3, 3, length.out=10)
-# et$location <- 0
-# et$scale <- 1
-
-# model <- rxode2({
-#   fx <- llikCauchy(time, location, scale)
-#   dLocation <- llikCauchyDlocation(time, location, scale)
-#   dScale <- llikCauchyDscale(time, location, scale)
-# })
-
-# rxSolve(model, et)
 }
 \author{
 Matthew L. Fidler

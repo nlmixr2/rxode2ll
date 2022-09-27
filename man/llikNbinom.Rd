@@ -24,29 +24,11 @@ the observation time-point
 \description{
 Calculate the log likelihood of the negative binomial function (and its derivatives)
 }
-\details{
-In an \code{rxode2()} model, you can use \code{llikNbinom()} but you have to
-use all arguments.  You can also get the derivative of \code{prob} with
-\code{llikNbinomDprob()}
-}
 \examples{
 
 llikNbinom(46:54, 100, 0.5)
 
 llikNbinom(46:54, 100, 0.5, TRUE)
-
-# In rxode2 you can use:
-
-# et <- et(46:54)
-# et$size <- 100
-# et$prob <-0.5
-
-# model <- rxode2({
-#   fx <- llikNbinom(time, size, prob)
-#   dProb <- llikNbinomDprob(time, size, prob)
-# })
-
-#rxSolve(model, et)
 
 }
 \author{

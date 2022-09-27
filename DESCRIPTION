@@ -15,11 +15,11 @@ Imports:
     Rcpp (>= 1.0.9),
     checkmate
 Description: Provides the log-likelihoods with gradients from 'stan'
-    (Carpenter et al 2015, <arXiv:1509.07164>) needed
+    (Carpenter et al (2015), <arXiv:1509.07164>) needed
     for generalized log-likelihood estimation in 'nlmixr2'
-    (Fidler et al 2019 <doi:10.1002/psp4.12445>). This is
+    (Fidler et al (2019) <doi:10.1002/psp4.12445>). This is
     split of to reduce computational burden of recompiling 'rxode2'
-    (Wang, Hallow and James 2016 <doi:10.1002/psp4.12052>) which runs
+    (Wang, Hallow and James (2016) <doi:10.1002/psp4.12052>) which runs
     the 'nlmixr2' models during estimation.
 BugReports: https://github.com/nlmixr2/rxode2ll/issues/
 NeedsCompilation: yes
