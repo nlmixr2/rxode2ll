@@ -81,12 +81,6 @@ fx and derivatives</p></dd>
 <p>that has the derivatives with respect to the <code>df</code> parameter
 the observation time-point</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>In an <code>rxode2()</code> model, you can use <code>llikChisq()</code> but you have to
-use the x and df arguments.  You can also get the derivative of <code>df</code> with
-<code>llikChisqDdf()</code>.</p>
-    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Matthew L. Fidler</p>
@@ -108,17 +102,6 @@ use the x and df arguments.  You can also get the derivative of <code>df</code> 
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 -5.064348 -0.9746324</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 -6.072899 -1.0410091</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># In rxode2 you can use:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># et &lt;- et(1:3)</span></span></span>
-<span class="r-in"><span><span class="co"># et$x &lt;- 1</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># model &lt;- rxode2({</span></span></span>
-<span class="r-in"><span><span class="co">#    fx &lt;- llikChisq(x, time)</span></span></span>
-<span class="r-in"><span><span class="co">#    dDf &lt;- llikChisqDdf(x, time)</span></span></span>
-<span class="r-in"><span><span class="co"># })</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># rxSolve(model, et)</span></span></span>
 </code></pre></div>
     </div>
   </div>

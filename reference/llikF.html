@@ -81,12 +81,6 @@ fx and derivatives</p></dd>
 <p>that has the derivatives with respect to the <code>df1</code>/<code>df2</code> parameters at
 the observation time-point</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>In an <code>rxode2()</code> model, you can use <code>llikF()</code> but you have to
-use the x and rate arguments.  You can also get the derivative of <code>df1</code> and <code>df2</code> with
-<code>llikFDdf1()</code> and <code>llikFDdf2()</code>.</p>
-    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Matthew L. Fidler</p>
@@ -200,19 +194,6 @@ use the x and rate arguments.  You can also get the derivative of <code>df1</cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> 99  -7.892520171 -0.641203751 -0.3793248413</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 100 -7.953335909 -0.648013598 -0.3860658874</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># You can use this function in rxode2 too:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># model &lt;- rxode2({</span></span></span>
-<span class="r-in"><span><span class="co">#   fx &lt;- llikF(time, df1, df2)</span></span></span>
-<span class="r-in"><span><span class="co">#   dMean &lt;- llikFDdf1(time, df1, df2)</span></span></span>
-<span class="r-in"><span><span class="co">#   dSd &lt;- llikFDdf2(time, df1, df2)</span></span></span>
-<span class="r-in"><span><span class="co"># })</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># et &lt;- et(x)</span></span></span>
-<span class="r-in"><span><span class="co"># et$df1 &lt;- 1</span></span></span>
-<span class="r-in"><span><span class="co"># et$df2 &lt;- 5</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># rxSolve(model, et)</span></span></span>
 </code></pre></div>
     </div>
   </div>

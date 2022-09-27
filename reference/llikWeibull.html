@@ -81,12 +81,6 @@ fx and derivatives</p></dd>
 <p>that has the derivatives with respect to the <code>prob</code> parameters at
 the observation time-point</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>In an <code>rxode2()</code> model, you can use <code>llikWeibull()</code> but you have to
-use the x and rate arguments.  You can also get the derivative of <code>shape</code> or <code>scale</code> with
-<code>llikWeibullDshape()</code> and <code>llikWeibullDscale()</code>.</p>
-    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Matthew L. Fidler</p>
@@ -99,19 +93,6 @@ use the x and rate arguments.  You can also get the derivative of <code>shape</c
 <span class="r-out co"><span class="r-pr">#&gt;</span>          fx    dShape dScale</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 -2.402585 -1.072327  -0.09</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># rxode2 can use this too:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># et  &lt;- et(seq(0.001, 1, length.out=10))</span></span></span>
-<span class="r-in"><span><span class="co"># et$shape &lt;- 1</span></span></span>
-<span class="r-in"><span><span class="co"># et$scale &lt;- 10</span></span></span>
-<span class="r-in"><span> </span></span>
-<span class="r-in"><span><span class="co"># model &lt;- rxode2({</span></span></span>
-<span class="r-in"><span><span class="co">#   fx &lt;- llikWeibull(time, shape, scale)</span></span></span>
-<span class="r-in"><span><span class="co">#   dShape&lt;- llikWeibullDshape(time, shape, scale)</span></span></span>
-<span class="r-in"><span><span class="co">#   dScale &lt;- llikWeibullDscale(time, shape, scale)</span></span></span>
-<span class="r-in"><span><span class="co"># })</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># rxSolve(model, et)</span></span></span>
 </code></pre></div>
     </div>
   </div>

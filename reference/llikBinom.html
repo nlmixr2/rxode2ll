@@ -83,12 +83,6 @@ fx and derivatives</p></dd>
 <code>dProb</code> that has the derivatives with respect to the parameters at
 the observation time-point</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>In an <code>rxode2()</code> model, you can use <code>llikBinom()</code> but you have to
-use all arguments.  You can also get the derivative of <code>prob</code> with
-<code>llikBinomDprob()</code></p>
-    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Matthew L. Fidler</p>
@@ -120,19 +114,6 @@ use all arguments.  You can also get the derivative of <code>prob</code> with
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 52  100  0.5 -2.610102     8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 53  100  0.5 -2.709193    12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9 54  100  0.5 -2.848030    16</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># In rxode2 you can use:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># et &lt;- et(46:54)</span></span></span>
-<span class="r-in"><span><span class="co"># et$size &lt;- 100</span></span></span>
-<span class="r-in"><span><span class="co"># et$prob &lt;-0.5</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># model &lt;- rxode2({</span></span></span>
-<span class="r-in"><span><span class="co">#   fx &lt;- llikBinom(time, size, prob)</span></span></span>
-<span class="r-in"><span><span class="co">#  dProb &lt;- llikBinomDprob(time, size, prob)</span></span></span>
-<span class="r-in"><span><span class="co"># })</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># rxSolve(model, et)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

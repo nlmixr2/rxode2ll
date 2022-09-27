@@ -83,12 +83,6 @@ fx and derivatives</p></dd>
 <code>dSd</code> that has the derivatives with respect to the parameters at
 the observation time-point</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>In an <code>rxode2()</code> model, you can use <code>llikNorm()</code> but you have to
-use all arguments.  You can also get the derivatives with
-<code>llikNormDmean()</code> and <code>llikNormDsd()</code></p>
-    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Matthew L. Fidler</p>
@@ -113,23 +107,6 @@ use all arguments.  You can also get the derivatives with
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8   1.1111111    0  1 -1.5362225  1.1111111  0.2345679</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9   1.5555556    0  1 -2.1288151  1.5555556  1.4197531</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10  2.0000000    0  1 -2.9189385  2.0000000  3.0000000</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># This is how rxode2 uses rxode2ll:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># With rxode2 you can use:</span></span></span>
-<span class="r-in"><span><span class="co"># </span></span></span>
-<span class="r-in"><span><span class="co"># et &lt;- et(-3, 3, length.out=10)</span></span></span>
-<span class="r-in"><span><span class="co"># et$mu &lt;- 0</span></span></span>
-<span class="r-in"><span><span class="co"># et$sigma &lt;- 1</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># model &lt;- rxode2({</span></span></span>
-<span class="r-in"><span><span class="co">#   fx &lt;- llikNorm(time, mu, sigma)</span></span></span>
-<span class="r-in"><span><span class="co">#   dMean &lt;- llikNormDmean(time, mu, sigma)</span></span></span>
-<span class="r-in"><span><span class="co">#   dSd &lt;- llikNormDsd(time, mu, sigma)</span></span></span>
-<span class="r-in"><span><span class="co"># })</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># ret &lt;- rxSolve(model, et)</span></span></span>
-<span class="r-in"><span><span class="co"># ret</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

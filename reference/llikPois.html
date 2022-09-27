@@ -79,56 +79,11 @@ fx and derivatives</p></dd>
 <code>dLambda</code> that has the derivatives with respect to the parameters at
 the observation time-point</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>In an <code>rxode2()</code> model, you can use <code>llikPois()</code> but you have to
-use all arguments.  You can also get the derivatives with
-<code>llikPoisDlambda()</code></p>
-    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Matthew L. Fidler</p>
     </div>
 
-    <div id="ref-examples">
-    <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">llikPois</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">7</span>, lambda <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          fx dLambda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -1.000000      -1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -1.000000       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -1.693147       1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -2.791759       2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -4.178054       3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -5.787492       4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 -7.579251       5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 -9.525161       6</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">llikPois</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">7</span>, lambda <span class="op">=</span> <span class="fl">4</span>, full<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   x lambda        fx dLambda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0      4 -4.000000   -1.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1      4 -2.613706   -0.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2      4 -1.920558   -0.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 3      4 -1.632876   -0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 4      4 -1.632876    0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 5      4 -1.856020    0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 6      4 -2.261485    0.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 7      4 -2.821101    0.75</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># In rxode2 you can use:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># et &lt;- et(0:10)</span></span></span>
-<span class="r-in"><span><span class="co"># et$lambda &lt;- 0.5</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># model &lt;- rxode2({</span></span></span>
-<span class="r-in"><span><span class="co">#   fx &lt;- llikPois(time, lambda)</span></span></span>
-<span class="r-in"><span><span class="co">#   dLambda &lt;- llikPoisDlambda(time, lambda)</span></span></span>
-<span class="r-in"><span><span class="co"># })</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># rxSolve(model, et)</span></span></span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
-    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

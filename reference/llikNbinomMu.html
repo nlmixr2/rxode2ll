@@ -83,12 +83,6 @@ fx and derivatives</p></dd>
 <code>dProb</code> that has the derivatives with respect to the parameters at
 the observation time-point</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>In an <code>rxode2()</code> model, you can use <code>llikNbinomMu()</code> but you have to
-use all arguments.  You can also get the derivative of <code>mu</code> with
-<code>llikNbinomMuDmu()</code></p>
-    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Matthew L. Fidler</p>
@@ -121,18 +115,6 @@ use all arguments.  You can also get the derivative of <code>mu</code> with
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 53  100 40 -4.447728 0.2321429</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9 54  100 40 -4.659037 0.2500000</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># rxode2 can use:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># et &lt;- et(46:54)</span></span></span>
-<span class="r-in"><span><span class="co"># et$size &lt;- 100</span></span></span>
-<span class="r-in"><span><span class="co"># et$mu &lt;- 40</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># model &lt;- rxode2({</span></span></span>
-<span class="r-in"><span><span class="co">#   fx &lt;- llikNbinomMu(time, size, mu)</span></span></span>
-<span class="r-in"><span><span class="co">#   dProb &lt;- llikNbinomMuDmu(time, size, mu)</span></span></span>
-<span class="r-in"><span><span class="co"># })</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># rxSolve(model, et)</span></span></span>
 </code></pre></div>
     </div>
   </div>

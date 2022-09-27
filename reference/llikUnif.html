@@ -85,12 +85,6 @@ fx and derivatives</p></dd>
 <p>that has the derivatives with respect to the <code>prob</code> parameters at
 the observation time-point</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>In an <code>rxode2()</code> model, you can use <code>llikUnif()</code> but you have to
-use the x and rate arguments.  You can also get the derivative of <code>alpha</code> or <code>beta</code> with
-<code>llikUnifDalpha()</code> and <code>llikUnifDbeta()</code>.</p>
-    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Matthew L. Fidler</p>
@@ -103,19 +97,6 @@ use the x and rate arguments.  You can also get the derivative of <code>alpha</c
 <span class="r-out co"><span class="r-pr">#&gt;</span>          fx dAlpha dBeta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 -1.386294   0.25 -0.25</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># A rxode2 model can use this too:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># et  &lt;- et(seq(1,1, length.out=4))</span></span></span>
-<span class="r-in"><span><span class="co"># et$alpha &lt;- -2</span></span></span>
-<span class="r-in"><span><span class="co"># et$beta &lt;- 2</span></span></span>
-<span class="r-in"><span> </span></span>
-<span class="r-in"><span><span class="co"># model &lt;- rxode2({</span></span></span>
-<span class="r-in"><span><span class="co">#   fx &lt;- llikUnif(time, alpha, beta)</span></span></span>
-<span class="r-in"><span><span class="co">#   dAlpha&lt;- llikUnifDalpha(time, alpha, beta)</span></span></span>
-<span class="r-in"><span><span class="co">#   dBeta &lt;- llikUnifDbeta(time, alpha, beta)</span></span></span>
-<span class="r-in"><span><span class="co"># })</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#rxSolve(model, et)</span></span></span>
 </code></pre></div>
     </div>
   </div>

@@ -79,12 +79,6 @@ fx and derivatives</p></dd>
 <code>dLocation</code> and <code>dScale</code> that has the derivatives with respect to the parameters at
 the observation time-point</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>In an <code>rxode2()</code> model, you can use <code>llikCauchy()</code> but you have to
-use all arguments.  You can also get the derivative of <code>location</code> and <code>scale</code> with
-<code>llikCauchyDlocation()</code> and <code>llikCauchyDscale()</code>.</p>
-    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Matthew L. Fidler</p>
@@ -143,19 +137,6 @@ use all arguments.  You can also get the derivative of <code>location</code> and
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20  2.7        3     1 -1.230908 -0.5504587 -0.8348624</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 21  3.0        3     1 -1.144730  0.0000000 -1.0000000</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># You can use this function in rxode2 too:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># et &lt;- et(-3, 3, length.out=10)</span></span></span>
-<span class="r-in"><span><span class="co"># et$location &lt;- 0</span></span></span>
-<span class="r-in"><span><span class="co"># et$scale &lt;- 1</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># model &lt;- rxode2({</span></span></span>
-<span class="r-in"><span><span class="co">#   fx &lt;- llikCauchy(time, location, scale)</span></span></span>
-<span class="r-in"><span><span class="co">#   dLocation &lt;- llikCauchyDlocation(time, location, scale)</span></span></span>
-<span class="r-in"><span><span class="co">#   dScale &lt;- llikCauchyDscale(time, location, scale)</span></span></span>
-<span class="r-in"><span><span class="co"># })</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># rxSolve(model, et)</span></span></span>
 </code></pre></div>
     </div>
   </div>

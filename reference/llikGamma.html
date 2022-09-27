@@ -85,12 +85,6 @@ fx and derivatives</p></dd>
 <p>that has the derivatives with respect to the <code>prob</code> parameters at
 the observation time-point</p>
     </div>
-    <div id="details">
-    <h2>Details</h2>
-    <p>In an <code>rxode2()</code> model, you can use <code>llikGamma()</code> but you have to
-use the x and rate arguments.  You can also get the derivative of <code>shape</code> or <code>rate</code> with
-<code>llikGammaDshape()</code> and <code>llikGammaDrate()</code>.</p>
-    </div>
     <div id="author">
     <h2>Author</h2>
     <p>Matthew L. Fidler</p>
@@ -103,19 +97,6 @@ use the x and rate arguments.  You can also get the derivative of <code>shape</c
 <span class="r-out co"><span class="r-pr">#&gt;</span>          fx   dShape dRate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 -7.697415 2.879801  -0.9</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># You can use this in `rxode2` too:</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># et  &lt;- et(seq(0.001, 1, length.out=10))</span></span></span>
-<span class="r-in"><span><span class="co"># et$shape &lt;- 1</span></span></span>
-<span class="r-in"><span><span class="co"># et$rate &lt;- 10</span></span></span>
-<span class="r-in"><span> </span></span>
-<span class="r-in"><span><span class="co"># model &lt;- rxode2({</span></span></span>
-<span class="r-in"><span><span class="co">#   fx &lt;- llikGamma(time, shape, rate)</span></span></span>
-<span class="r-in"><span><span class="co">#   dShape&lt;- llikGammaDshape(time, shape, rate)</span></span></span>
-<span class="r-in"><span><span class="co">#   dRate &lt;- llikGammaDrate(time, shape, rate)</span></span></span>
-<span class="r-in"><span><span class="co"># })</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># rxSolve(model, et)</span></span></span>
 </code></pre></div>
     </div>
   </div>
