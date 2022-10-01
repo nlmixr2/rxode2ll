@@ -5,9 +5,15 @@
 
 <!-- badges: start -->
 
-[![Codecov test
-coverage](https://codecov.io/gh/nlmixr2/rxode2ll/branch/main/graph/badge.svg)](https://app.codecov.io/gh/nlmixr2/rxode2ll?branch=main)
-[![R-CMD-check](https://github.com/nlmixr2/rxode2ll/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/rxode2ll/actions/workflows/R-CMD-check.yaml)
+[![R build
+status](https://github.com/nlmixr2/rxode2ll/workflows/R-CMD-check/badge.svg)](https://github.com/nlmixr2/rxode2ll/actions)
+[![codecov.io](https://codecov.io/github/nlmixr2/rxode2ll/coverage.svg)](https://codecov.io/github/nlmixr2/rxode2ll)
+[![CRAN
+version](http://www.r-pkg.org/badges/version/rxode2ll)](https://cran.r-project.org/package=rxode2ll)
+[![CRAN total
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/rxode2ll)](https://cran.r-project.org/package=rxode2ll)
+[![CRAN total
+downloads](https://cranlogs.r-pkg.org/badges/rxode2ll)](https://cran.r-project.org/package=rxode2ll)
 [![CodeFactor](https://www.codefactor.io/repository/github/nlmixr2/rxode2ll/badge)](https://www.codefactor.io/repository/github/nlmixr2/rxode2ll)
 <!-- badges: end -->
 
