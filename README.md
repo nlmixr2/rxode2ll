@@ -15,6 +15,8 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/rxode2ll)](https://cran
 [![CRAN total
 downloads](https://cranlogs.r-pkg.org/badges/rxode2ll)](https://cran.r-project.org/package=rxode2ll)
 [![CodeFactor](https://www.codefactor.io/repository/github/nlmixr2/rxode2ll/badge)](https://www.codefactor.io/repository/github/nlmixr2/rxode2ll)
+![r-universe](https://nlmixr2.r-universe.dev/badges/rxode2ll)
+
 <!-- badges: end -->
 
 The goal of rxode2ll is to create log-likelihood functions for use in
