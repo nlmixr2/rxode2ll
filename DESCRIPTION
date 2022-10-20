@@ -28,7 +28,7 @@ URL: https://nlmixr2.github.io/rxode2ll/, https://github.com/nlmixr2/rxode2ll/
 RoxygenNote: 7.2.1
 Biarch: true
 LinkingTo:
-    Rcpp (>= 1.0.9),
+    Rcpp (>= 1.0.8),
     RcppEigen (>= 0.3.3.9.2),
     StanHeaders (>= 2.21.0.7),
     BH (>= 1.78.0.0)
