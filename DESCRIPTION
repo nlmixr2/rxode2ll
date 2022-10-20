@@ -12,7 +12,7 @@ Suggests:
     covr,
     testthat (>= 3.0.0)
 Imports:
-    Rcpp (>= 1.0.9),
+    Rcpp (>= 1.0.8),
     checkmate
 Description: Provides the log-likelihoods with gradients from 'stan'
     (Carpenter et al (2015), <arXiv:1509.07164>) needed
