@@ -13,7 +13,8 @@ Suggests:
     testthat (>= 3.0.0)
 Imports:
     Rcpp (>= 1.0.8),
-    checkmate
+    checkmate,
+    RcppParallel
 Description: Provides the log-likelihoods with gradients from 'stan'
     (Carpenter et al (2015), <arXiv:1509.07164>) needed
     for generalized log-likelihood estimation in 'nlmixr2'
@@ -23,16 +24,18 @@ Description: Provides the log-likelihoods with gradients from 'stan'
     the 'nlmixr2' models during estimation.
 BugReports: https://github.com/nlmixr2/rxode2ll/issues/
 NeedsCompilation: yes
-License: GPL (>= 3) 
+License: GPL (>= 3)
 URL: https://nlmixr2.github.io/rxode2ll/, https://github.com/nlmixr2/rxode2ll/
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Biarch: true
 LinkingTo:
     Rcpp (>= 1.0.8),
     RcppEigen (>= 0.3.3.9.2),
     StanHeaders (>= 2.21.0.7),
-    BH (>= 1.78.0.0)
+    BH (>= 1.78.0.0),
+    RcppParallel
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
+SystemRequirements: GNU make
