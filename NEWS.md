@@ -1,4 +1,6 @@
-# rxode2ll (development version)
+# rxode2ll 2.0.10
+
+* Update compile flags based on StanHeaders change
 
 # rxode2ll 2.0.9
 * Initial release, exports log-likelihood functions from 'stan' and

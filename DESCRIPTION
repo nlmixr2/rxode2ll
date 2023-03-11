@@ -1,5 +1,5 @@
 Package: rxode2ll
-Version: 2.0.9.9000
+Version: 2.0.10
 Title: Log-Likelihood Functions for 'rxode2'
 Authors@R: c(
    person("Matthew L.","Fidler",
