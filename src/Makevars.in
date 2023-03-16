@@ -3,9 +3,7 @@ BH=@BH@
 RCPP=@RCPP@
 EG=@EG@
 SH=@SH@
-CXX_STD = CXX14
-CXX14STD = @CXX14STD@
-
+CXX_STD = CXX17
 ################################################################################
 ## Package library flags.
 PKG_LIBS    = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) $(SHLIB_OPENMP_CXXFLAGS) @SL@
