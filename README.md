@@ -7,7 +7,7 @@
 
 [![R build
 status](https://github.com/nlmixr2/rxode2ll/workflows/R-CMD-check/badge.svg)](https://github.com/nlmixr2/rxode2ll/actions)
-[![codecov.io](https://codecov.io/github/nlmixr2/rxode2ll/coverage.svg)](https://codecov.io/github/nlmixr2/rxode2ll)
+[![codecov.io](https://codecov.io/gh/nlmixr2/rxode2ll/coverage.svg)](https://codecov.io/gh/nlmixr2/rxode2ll)
 [![CRAN
 version](http://www.r-pkg.org/badges/version/rxode2ll)](https://cran.r-project.org/package=rxode2ll)
 [![CRAN total
