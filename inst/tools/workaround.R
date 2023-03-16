@@ -15,13 +15,11 @@
             .in)
 
 if (.Platform$OS.type == "windows" && !file.exists("src/Makevars.win")) {
-  .in <- gsub("@CXX14STD@", "-std=c++1y", .in)
   file.out <- file("src/Makevars.win", "wb")
   writeLines(gsub("@ISYSTEM@", "I", .in),
              file.out)
   close(file.out)
 } else {
-  .in <- gsub("@CXX14STD@", "-std=gnu++14", .in)
   file.out <- file("src/Makevars", "wb")
   writeLines(gsub("@ISYSTEM@", "isystem", .in),
              file.out)
