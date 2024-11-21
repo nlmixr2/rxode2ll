@@ -19,12 +19,20 @@ if ((.Platform$OS.type == "windows" && !file.exists("src/Makevars.win"))) {
   .makevars <- "src/Makevars.win"
 }
 
-if (.Platform$OS.type == "windows" || R.version$os = "linux-musl") {
+if (.Platform$OS.type == "windows" || R.version$os == "linux-musl") {
   .i <- "I"
 } else {
-   .i <- "isystem"
+  if (file.exists("/etc/os-release")) {
+    .os <- readLines("/etc/os-release")
+    if (any(grepl("Pop!_OS", .os, fixed=TRUE))) {
+      .i <- "isystem"
+    } else {
+      .i <- "I"
+    }
+  } else {
+    .i <- "I"
+  }
 }
-
 file.out <- file(.makevars, "wb")
 writeLines(gsub("@ISYSTEM@", .i, .in),
            file.out)
