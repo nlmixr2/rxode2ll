@@ -1,4 +1,6 @@
-# rxode2ll (development version)
+# rxode2ll 2.0.12
+
+* Update compile flags for alpine linux (#7)
 
 # rxode2ll 2.0.11
 

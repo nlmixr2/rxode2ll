@@ -14,7 +14,8 @@
 .in <- gsub("@SL@", paste(capture.output(StanHeaders:::LdFlags()), capture.output(RcppParallel:::RcppParallelLibs())), #nolint
             .in)
 
-if (.Platform$OS.type == "windows" && !file.exists("src/Makevars.win")) {
+if ((.Platform$OS.type == "windows" && !file.exists("src/Makevars.win")) ||
+      (R.version$os == "linux-musl")) {
   file.out <- file("src/Makevars.win", "wb")
   writeLines(gsub("@ISYSTEM@", "I", .in),
              file.out)
@@ -25,4 +26,3 @@ if (.Platform$OS.type == "windows" && !file.exists("src/Makevars.win")) {
              file.out)
   close(file.out)
 }
-
