@@ -22,13 +22,8 @@ if ((.Platform$OS.type == "windows" && !file.exists("src/Makevars.win"))) {
 if (.Platform$OS.type == "windows" || R.version$os == "linux-musl") {
   .i <- "I"
 } else {
-  if (file.exists("/etc/os-release")) {
-    .os <- readLines("/etc/os-release")
-    if (any(grepl("Pop!_OS", .os, fixed=TRUE))) {
-      .i <- "isystem"
-    } else {
-      .i <- "I"
-    }
+  if (any(grepl("Pop!_OS", utils::osVersion, fixed=TRUE))) {
+    .i <- "isystem"
   } else {
     .i <- "I"
   }
