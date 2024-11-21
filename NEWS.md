@@ -1,4 +1,6 @@
-# rxode2ll (development version)
+# rxode2ll 2.0.12
+
+* Update compile flags for alpine linux (#7)
 
 # rxode2ll 2.0.11
 
@@ -9,6 +11,7 @@
 * Update compile flags based on StanHeaders change.
 
 # rxode2ll 2.0.9
+
 * Initial release, exports log-likelihood functions from 'stan' and
   their derivatives to R and C.  This allows linkage in 'rxode2' to
   allow generalized log-likelihood in 'nlmixr2'.

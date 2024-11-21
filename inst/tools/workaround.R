@@ -14,15 +14,21 @@
 .in <- gsub("@SL@", paste(capture.output(StanHeaders:::LdFlags()), capture.output(RcppParallel:::RcppParallelLibs())), #nolint
             .in)
 
-if (.Platform$OS.type == "windows" && !file.exists("src/Makevars.win")) {
-  file.out <- file("src/Makevars.win", "wb")
-  writeLines(gsub("@ISYSTEM@", "I", .in),
-             file.out)
-  close(file.out)
-} else {
-  file.out <- file("src/Makevars", "wb")
-  writeLines(gsub("@ISYSTEM@", "isystem", .in),
-             file.out)
-  close(file.out)
+.makevars <- "src/Makevars"
+if ((.Platform$OS.type == "windows" && !file.exists("src/Makevars.win"))) {
+  .makevars <- "src/Makevars.win"
 }
 
+if (.Platform$OS.type == "windows" || R.version$os == "linux-musl") {
+  .i <- "I"
+} else {
+  if (any(grepl("Pop!_OS", utils::osVersion, fixed=TRUE))) {
+    .i <- "isystem"
+  } else {
+    .i <- "I"
+  }
+}
+file.out <- file(.makevars, "wb")
+writeLines(gsub("@ISYSTEM@", .i, .in),
+           file.out)
+close(file.out)
