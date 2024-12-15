@@ -1,3 +1,1 @@
-## Updates
-
-- This is an update to allow StanHeaders to work with CXX17
+- This is an update to support BH release for 1.87.0
