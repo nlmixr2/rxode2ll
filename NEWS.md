@@ -1,3 +1,7 @@
+# rxode2ll 2.0.13
+
+* Update compile flags in anticipation of BH 1.87.0 (#10)
+
 # rxode2ll 2.0.12
 
 * Update compile flags for alpine linux (#7)
