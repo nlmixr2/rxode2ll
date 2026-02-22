@@ -1,4 +1,8 @@
 #include "llik2.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // Gamma distribution
 // R shape=alpha, scale=1/beta rate=beta
@@ -20,6 +24,7 @@ struct gamma_llik {
 };
 
 stanLl llik_gamma(Eigen::VectorXd& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   gamma_llik f(y);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -31,6 +36,17 @@ stanLl llik_gamma(Eigen::VectorXd& y, Eigen::VectorXd& params) {
 }
 
 static inline void llikGammaFull(double* ret, double x, double shape, double rate) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isGamma &&
+        ret[1] == x   &&
+        ret[2] == shape &&
+        ret[3] == rate) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isGamma &&
       ret[1] == x   &&
       ret[2] == shape &&
@@ -38,6 +54,8 @@ static inline void llikGammaFull(double* ret, double x, double shape, double rat
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(shape) || !R_finite(rate)) {
     ret[0] = isGamma;
     ret[1] = x;

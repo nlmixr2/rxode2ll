@@ -1,4 +1,8 @@
 #include "llik2.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // exponential
 struct exp_llik {
@@ -16,6 +20,7 @@ struct exp_llik {
 };
 
 stanLl llik_exp(Eigen::VectorXd& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   exp_llik f(y);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -27,12 +32,24 @@ stanLl llik_exp(Eigen::VectorXd& y, Eigen::VectorXd& params) {
 }
 
 static inline void llikExpFull(double* ret, double x, double rate) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isExp &&
+        ret[1] == x &&
+        ret[2] == rate) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isExp &&
       ret[1] == x &&
       ret[2] == rate) {
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(rate)) {
     ret[0] = isExp;
     ret[1] = x;

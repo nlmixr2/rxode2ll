@@ -5,6 +5,22 @@
 #define USE_FC_LEN_T
 #define STRICT_R_HEADERS
 #include <stan/math.hpp>
+
+#include <stan/math/rev/core/chainablestack.hpp>
+// -----------------------------------------------------------------------------
+// Stan Math reverse-mode autodiff is thread-local. When called from OpenMP worker
+// threads (e.g., rxode2 parallel solves), each thread must initialize its AD tape
+// before using reverse-mode functions like jacobian()/gradient().
+// -----------------------------------------------------------------------------
+static inline void rx_stan_math_thread_init_rev_autodiff() {
+#if defined(STAN_THREADS) || defined(_OPENMP)
+  // A per-thread ChainableStack ensures Stan reverse-mode autodiff is initialized
+  // for OpenMP worker threads before calling jacobian()/gradient(), etc.
+  static thread_local stan::math::ChainableStack tls_ad_stack;
+  (void)tls_ad_stack;
+#endif
+}
+
 #ifndef NDEBUG
 #define NDEBUG // just in case
 #endif

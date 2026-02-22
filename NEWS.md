@@ -1,3 +1,7 @@
+# rxode2ll 2.0.13.9000
+
+* Make all distribution calculations thread safe
+
 # rxode2ll 2.0.13
 
 * Update compile flags in anticipation of BH 1.87.0 (#10)

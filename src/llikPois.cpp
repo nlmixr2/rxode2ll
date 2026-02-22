@@ -1,4 +1,8 @@
 #include "llik2.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 
 struct poisson_llik {
@@ -18,6 +22,7 @@ struct poisson_llik {
 
 
 stanLl llik_poisson(Eigen::VectorXi& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   poisson_llik f(y);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -29,12 +34,24 @@ stanLl llik_poisson(Eigen::VectorXi& y, Eigen::VectorXd& params) {
 }
 
 static inline void llikPoisFull(double* ret, double x, double lambda) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isPois &&
+        ret[1] == x &&
+        ret[2] == lambda) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isPois &&
       ret[1] == x &&
       ret[2] == lambda) {
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(lambda)) {
     ret[0] = isPois;
     ret[1] = x;

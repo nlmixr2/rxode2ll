@@ -1,4 +1,8 @@
 #include "llik2.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 struct binom_llik {
   const Eigen::VectorXi y_;
@@ -18,6 +22,7 @@ struct binom_llik {
 
 
 stanLl llik_binom(Eigen::VectorXi& y, Eigen::VectorXi& N, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   binom_llik f(y, N);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -29,6 +34,17 @@ stanLl llik_binom(Eigen::VectorXi& y, Eigen::VectorXi& N, Eigen::VectorXd& param
 }
 
 static inline void llikBinomFull(double* ret, double x, double size, double prob) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isBinom &&
+        ret[1] == x &&
+        ret[2] == size &&
+        ret[3] == prob) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isBinom &&
       ret[1] == x &&
       ret[2] == size &&
@@ -36,6 +52,8 @@ static inline void llikBinomFull(double* ret, double x, double size, double prob
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(size) || !R_finite(prob)) {
     ret[0] = isBinom;
     ret[1] = x;

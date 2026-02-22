@@ -1,5 +1,9 @@
 #include "llik2.h"
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // Negative Binomial 2
 // R , sigma=scale
@@ -21,6 +25,7 @@ struct nbinomMu_llik {
 };
 
 stanLl llik_nbinomMu(Eigen::VectorXi& y, Eigen::VectorXi& N, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   nbinomMu_llik f(y, N);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -33,6 +38,17 @@ stanLl llik_nbinomMu(Eigen::VectorXi& y, Eigen::VectorXi& N, Eigen::VectorXd& pa
 
 
 static inline void llikNbinomMuFull(double* ret, double x, double size, double mu) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isNbinomMu &&
+        ret[1] == x &&
+        ret[2] == size &&
+        ret[3] == mu) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isNbinomMu &&
       ret[1] == x &&
       ret[2] == size &&
@@ -40,6 +56,8 @@ static inline void llikNbinomMuFull(double* ret, double x, double size, double m
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(size) || !R_finite(mu)) {
     ret[0] = isNbinomMu;
     ret[1] = x;
