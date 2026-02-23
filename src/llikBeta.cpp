@@ -1,4 +1,8 @@
 #include "llik2.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 
 struct beta_llik {
@@ -17,6 +21,7 @@ struct beta_llik {
 };
 
 stanLl llik_beta(Eigen::VectorXd& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   beta_llik f(y);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -28,6 +33,17 @@ stanLl llik_beta(Eigen::VectorXd& y, Eigen::VectorXd& params) {
 }
 
 static inline void llikBetaFull(double* ret, double x, double shape1, double shape2) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isBeta &&
+        ret[1] == x &&
+        ret[2] == shape1 &&
+        ret[3] == shape2) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isBeta &&
       ret[1] == x &&
       ret[2] == shape1 &&
@@ -35,6 +51,8 @@ static inline void llikBetaFull(double* ret, double x, double shape1, double sha
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(shape1) || !R_finite(shape2)) {
     ret[0] = isBeta;
     ret[1] = x;

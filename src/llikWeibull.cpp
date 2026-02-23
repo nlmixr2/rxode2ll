@@ -1,5 +1,9 @@
 #include "llik2.h"
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // Weibull distribution
 // R alpha=shape, sigma=scale
@@ -22,6 +26,7 @@ struct weibull_llik {
 };
 
 stanLl llik_weibull(Eigen::VectorXd& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   weibull_llik f(y);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -33,6 +38,17 @@ stanLl llik_weibull(Eigen::VectorXd& y, Eigen::VectorXd& params) {
 }
 
 static inline void llikWeibullFull(double* ret, double x, double shape, double scale) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isWeibull &&
+        ret[1] == x   &&
+        ret[2] == shape &&
+        ret[3] == scale) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isWeibull &&
       ret[1] == x   &&
       ret[2] == shape &&
@@ -40,6 +56,8 @@ static inline void llikWeibullFull(double* ret, double x, double shape, double s
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(shape) || !R_finite(scale)) {
     ret[0] = isWeibull;
     ret[1] = x;

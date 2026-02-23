@@ -5,9 +5,9 @@
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/nlmixr2/rxode2ll/workflows/R-CMD-check/badge.svg)](https://github.com/nlmixr2/rxode2ll/actions)
-[![codecov.io](https://codecov.io/gh/nlmixr2/rxode2ll/coverage.svg)](https://app.codecov.io/gh/nlmixr2/rxode2ll)
+[![R-CMD-check](https://github.com/nlmixr2/rxode2ll/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/rxode2ll/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/nlmixr2/rxode2ll/graph/badge.svg)](https://app.codecov.io/gh/nlmixr2/rxode2ll)
 [![CRAN
 version](http://www.r-pkg.org/badges/version/rxode2ll)](https://cran.r-project.org/package=rxode2ll)
 [![CRAN total
@@ -16,7 +16,6 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/rxode2ll)](https://cran
 downloads](https://cranlogs.r-pkg.org/badges/rxode2ll)](https://cran.r-project.org/package=rxode2ll)
 [![CodeFactor](https://www.codefactor.io/repository/github/nlmixr2/rxode2ll/badge)](https://www.codefactor.io/repository/github/nlmixr2/rxode2ll)
 ![r-universe](https://nlmixr2.r-universe.dev/badges/rxode2ll)
-
 <!-- badges: end -->
 
 The goal of rxode2ll is to create log-likelihood functions for use in
@@ -43,18 +42,18 @@ llikNorm(seq(-2,2,length.out=10), full=TRUE)
 
 The following log-likelihood distributions are supported:
 
-  - `llikNorm()`
-  - `llikPois()`
-  - `llikBinom()`
-  - `llikNbinom()`
-  - `llikNbinomMu()`
-  - `llikBeta()`
-  - `llikT()`
-  - `llikChisq()`
-  - `llikExp()`
-  - `llikF()`
-  - `llikGeom()`
-  - `llikUnif()`
-  - `llikWeibull()`
-  - `llikGamma()`
-  - `llikCauchy()`
+- `llikNorm()`
+- `llikPois()`
+- `llikBinom()`
+- `llikNbinom()`
+- `llikNbinomMu()`
+- `llikBeta()`
+- `llikT()`
+- `llikChisq()`
+- `llikExp()`
+- `llikF()`
+- `llikGeom()`
+- `llikUnif()`
+- `llikWeibull()`
+- `llikGamma()`
+- `llikCauchy()`

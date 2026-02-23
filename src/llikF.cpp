@@ -1,4 +1,8 @@
 #include "llik2.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // F (not available in stan..., why not, probably not used often)
 struct f_llik {
@@ -21,6 +25,7 @@ struct f_llik {
 };
 
 stanLl llik_f(Eigen::VectorXd& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   f_llik f(y);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -32,6 +37,17 @@ stanLl llik_f(Eigen::VectorXd& y, Eigen::VectorXd& params) {
 }
 
 static inline void llikFFull(double* ret, double x, double df1, double df2) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isF &&
+        ret[1] == x   &&
+        ret[2] == df1 &&
+        ret[3] == df2) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isF &&
       ret[1] == x   &&
       ret[2] == df1 &&
@@ -39,6 +55,8 @@ static inline void llikFFull(double* ret, double x, double df1, double df2) {
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(df1) || !R_finite(df2)) {
     ret[0] = isF;
     ret[1] = x;

@@ -1,5 +1,9 @@
 #include "llik2.h"
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // Negative Binomial 2
 // R , sigma=scale
@@ -24,6 +28,7 @@ struct nbinom_llik {
 
 
 stanLl llik_nbinom(Eigen::VectorXi& y, Eigen::VectorXi& N, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   nbinom_llik f(y, N);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -35,6 +40,17 @@ stanLl llik_nbinom(Eigen::VectorXi& y, Eigen::VectorXi& N, Eigen::VectorXd& para
 }
 
 static inline void llikNbinomFull(double* ret, double x, double size, double prob) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isNbinom &&
+        ret[1] == x &&
+        ret[2] == size &&
+        ret[3] == prob) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isNbinom &&
       ret[1] == x &&
       ret[2] == size &&
@@ -42,6 +58,8 @@ static inline void llikNbinomFull(double* ret, double x, double size, double pro
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(size) || !R_finite(prob)) {
     ret[0] = isNbinom;
     ret[1] = x;

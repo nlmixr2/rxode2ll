@@ -1,5 +1,9 @@
 #include "llik2.h"
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 struct normal_llik {
   const Eigen::VectorXd y_;
   normal_llik(const Eigen::VectorXd& y) : y_(y) { }
@@ -17,6 +21,7 @@ struct normal_llik {
 };
 
 stanLl llik_normal(Eigen::VectorXd& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   normal_llik f(y);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -28,6 +33,17 @@ stanLl llik_normal(Eigen::VectorXd& y, Eigen::VectorXd& params) {
 }
 
 static inline void llikNormFull(double* ret, double x, double mu, double sigma) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isNorm &&
+        ret[1] == x &&
+        ret[2] == mu &&
+        ret[3] == sigma) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isNorm &&
       ret[1] == x &&
       ret[2] == mu &&
@@ -35,6 +51,8 @@ static inline void llikNormFull(double* ret, double x, double mu, double sigma) 
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(mu) || !R_finite(sigma)) {
     ret[0] = isNorm;
     ret[1] = x;

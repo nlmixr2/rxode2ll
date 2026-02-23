@@ -1,4 +1,8 @@
 #include "llik2.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // chisq
 
@@ -17,6 +21,7 @@ struct chisq_llik {
 };
 
 stanLl llik_chisq(Eigen::VectorXd& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   chisq_llik f(y);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -28,12 +33,24 @@ stanLl llik_chisq(Eigen::VectorXd& y, Eigen::VectorXd& params) {
 }
 
 static inline void llikChisqFull(double* ret, double x, double df) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isChisq &&
+        ret[1] == x &&
+        ret[2] == df) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isChisq &&
       ret[1] == x &&
       ret[2] == df) {
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x) || !R_finite(df)) {
     ret[0] = isChisq;
     ret[1] = x;

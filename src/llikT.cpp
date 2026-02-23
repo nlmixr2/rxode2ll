@@ -1,4 +1,8 @@
 #include "llik2.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 
 struct t_llik {
@@ -18,6 +22,7 @@ struct t_llik {
 };
 
 stanLl llik_t(Eigen::VectorXd& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
   t_llik f(y);
   Eigen::VectorXd fx;
   Eigen::Matrix<double, -1, -1> J;
@@ -29,6 +34,18 @@ stanLl llik_t(Eigen::VectorXd& y, Eigen::VectorXd& params) {
 }
 
 static inline void llikTFull(double* ret, double x, double df, double mean, double sd) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isT &&
+        ret[1] == x &&
+        ret[2] == df &&
+        ret[3] == mean &&
+        ret[4] == sd) {
+      // Assume this is the same
+      return;
+    }
+  }
+#else
   if (ret[0] == isT &&
       ret[1] == x &&
       ret[2] == df &&
@@ -37,6 +54,8 @@ static inline void llikTFull(double* ret, double x, double df, double mean, doub
     // Assume this is the same
     return;
   }
+#endif
+
   if (!R_finite(x)    || !R_finite(df) ||
       !R_finite(mean) || !R_finite(sd)) {
     ret[0] = isT;
