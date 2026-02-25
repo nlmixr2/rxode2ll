@@ -2,6 +2,8 @@
 
 ## rxode2ll 2.0.14
 
+CRAN release: 2026-02-24
+
 - Make all distribution calculations thread safe
 
 ## rxode2ll 2.0.13
