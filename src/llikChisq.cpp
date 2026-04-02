@@ -14,7 +14,7 @@ struct chisq_llik {
   Eigen::Matrix<T, -1, 1> operator()(const Eigen::Matrix<T, -1, 1>& theta) const {
     T nu    = theta[0];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
-    for (int n = 0; n < y_.size(); ++n)
+    for (Eigen::Index n = 0; n < y_.size(); ++n)
       lp[n] = chi_square_log(y_[n], nu);
     return lp;
   }
@@ -78,7 +78,7 @@ Rcpp::DataFrame llikChisqInternal(Rcpp::NumericVector x, Rcpp::NumericVector df)
   NumericVector dDf(x.size());
   double cur[5];
   std::fill_n(cur, 5, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikChisqFull(cur, x[j], df[j]);
     fx[j]    = cur[3];
     dDf[j]   = cur[4];

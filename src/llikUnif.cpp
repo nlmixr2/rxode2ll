@@ -16,7 +16,7 @@ struct unif_llik {
     T beta  = theta[1];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     // manually code log(f) density
-    for (int n = 0; n < y_.size(); ++n) {
+    for (Eigen::Index n = 0; n < y_.size(); ++n) {
       lp[n] = uniform_log(y_[n], alpha, beta);
     }
     return lp;
@@ -90,7 +90,7 @@ Rcpp::DataFrame llikUnifInternal(Rcpp::NumericVector x,
   NumericVector dBeta(x.size());
   double cur[7];
   std::fill_n(cur, 7, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikUnifFull(cur, x[j], alpha[j], beta[j]);
     fx[j]     = cur[4];
     dAlpha[j] = cur[5];

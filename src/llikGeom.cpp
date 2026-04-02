@@ -14,7 +14,7 @@ struct geom_llik {
     T p = theta[0];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     // manually code log(f) density
-    for (int n = 0; n < y_.size(); ++n) {
+    for (Eigen::Index n = 0; n < y_.size(); ++n) {
       lp[n] = log(p)+y_[n]*log(1-p);
     }
     return lp;
@@ -60,6 +60,14 @@ static inline void llikGeomFull(double* ret, double x, double p) {
     ret[4] = NA_REAL;
     return;
   }
+  if (x < 0.0 || x > static_cast<double>(INT_MAX)) {
+    ret[0] = isGeom;
+    ret[1] = x;
+    ret[2] = p;
+    ret[3] = NA_REAL;
+    ret[4] = NA_REAL;
+    return;
+  }
   Eigen::VectorXi y(1);
   Eigen::VectorXd params(1);
   y(0) = (int)(x);
@@ -79,7 +87,7 @@ Rcpp::DataFrame llikGeomInternal(Rcpp::NumericVector x, Rcpp::NumericVector p) {
   NumericVector dP(x.size());
   double cur[5];
   std::fill_n(cur, 5, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikGeomFull(cur, x[j], p[j]);
     fx[j]    = cur[3];
     dP[j]    = cur[4];

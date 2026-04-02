@@ -15,7 +15,7 @@ struct f_llik {
     T nu2 = theta[1];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     // manually code log(f) density
-    for (int n = 0; n < y_.size(); ++n) {
+    for (Eigen::Index n = 0; n < y_.size(); ++n) {
       lp[n] = lgamma(0.5*nu1+0.5*nu2) - lgamma(0.5*nu1) - lgamma(0.5*nu2) +
         (0.5*nu1)*log(nu1/nu2)  + (0.5*nu1 - 1.0)*log(y_[n])  -
         (0.5*(nu1+nu2))*log(1.0+nu1*y_[n]/nu2);
@@ -91,7 +91,7 @@ Rcpp::DataFrame llikFInternal(Rcpp::NumericVector x, Rcpp::NumericVector df1,
   NumericVector dDf2(x.size());
   double cur[7];
   std::fill_n(cur, 7, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikFFull(cur, x[j], df1[j], df2[j]);
     fx[j]    = cur[4];
     dDf1[j]  = cur[5];

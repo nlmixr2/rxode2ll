@@ -15,7 +15,7 @@ struct t_llik {
     T mu    = theta[1];
     T sigma = theta[2];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
-    for (int n = 0; n < y_.size(); ++n)
+    for (Eigen::Index n = 0; n < y_.size(); ++n)
       lp[n] = student_t_log(y_[n], nu, mu, sigma);
     return lp;
   }
@@ -98,7 +98,7 @@ Rcpp::DataFrame llikTInternal(Rcpp::NumericVector x, Rcpp::NumericVector df,
   NumericVector dSd(x.size());
   double cur[9];
   std::fill_n(cur, 9, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikTFull(cur, x[j], df[j], mean[j], sd[j]);
     fx[j]    = cur[5];
     dDf[j]   = cur[6];

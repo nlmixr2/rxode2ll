@@ -14,7 +14,7 @@ struct binom_llik {
     T prob = theta[0];
 		
     Eigen::Matrix<T, -1, 1> lp(y_.size());
-    for (int n = 0; n < y_.size(); ++n)
+    for (Eigen::Index n = 0; n < y_.size(); ++n)
       lp[n] = binomial_log(y_[n], N_[n], prob);
     return lp;
   }
@@ -63,6 +63,16 @@ static inline void llikBinomFull(double* ret, double x, double size, double prob
     ret[5] = NA_REAL;
     return;
   }
+  if (x < 0.0 || x > static_cast<double>(INT_MAX) ||
+      size < 0.0 || size > static_cast<double>(INT_MAX)) {
+    ret[0] = isBinom;
+    ret[1] = x;
+    ret[2] = size;
+    ret[3] = prob;
+    ret[4] = NA_REAL;
+    ret[5] = NA_REAL;
+    return;
+  }
   Eigen::VectorXi y(1);
   Eigen::VectorXi N(1);
   Eigen::VectorXd params(1);
@@ -85,7 +95,7 @@ Rcpp::DataFrame llikBinomInternal(Rcpp::NumericVector x, Rcpp::NumericVector siz
   NumericVector dProb(x.size());
   double cur[6];
   std::fill_n(cur, 6, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikBinomFull(cur, x[j], size[j], prob[j]);
     fx[j]      = cur[4];
     dProb[j] = cur[5];
