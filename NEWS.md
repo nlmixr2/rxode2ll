@@ -1,3 +1,25 @@
+# rxode2ll 2.0.15
+
+* Fix signed integer overflow: loop indices in `llikXxxInternal()` Rcpp
+  functions changed from `int` to `R_xlen_t`; previously vectors longer
+  than ~500 million elements (>4 GB) could cause undefined behavior due
+  to `int` overflow when assigned from `x.size()`.
+* Fix undefined behavior from unchecked `double`-to-`int` casts for discrete
+  distribution count arguments (`x`, `size`) exceeding `INT_MAX`
+  (2147483647); the five affected C-API functions (`rxLlikPois`,
+  `rxLlikBinom`, `rxLlikGeom`, `rxLlikNbinom`, `rxLlikNbinomMu`) now return
+  `NA` instead of invoking undefined behavior for out-of-range inputs.
+* Fix type correctness for loop indices in Stan autodiff functor
+  `operator()` methods across all 15 distributions: changed from `int` to
+  `Eigen::Index` to match the return type of `Eigen::VectorXd::size()`.
+* Add comprehensive derivative validation tests using central finite
+  differences for all 14 differentiable distributions.
+* Add integer overflow bounds-checking tests for all 5 discrete
+  distributions, calling the `*Internal()` C++ functions directly to
+  bypass R-level input validation.
+* Add a `skip()`-guarded large-vector test that documents the `R_xlen_t`
+  fix and can be run manually on systems with >4 GB free RAM.
+
 # rxode2ll 2.0.14
 
 * Make all distribution calculations thread safe

@@ -18,7 +18,7 @@ struct nbinom_llik {
     T p = theta[0]; // prob = size/(size+mu); size/prob-size = mu
 		
     Eigen::Matrix<T, -1, 1> lp(y_.size());
-    for (int i = 0; i < y_.size(); ++i) {
+    for (Eigen::Index i = 0; i < y_.size(); ++i) {
       T mu = (double)(N_[i])*(1.0-p)/p;
       lp[i] = stan::math::neg_binomial_2_lpmf(y_[i], mu, N_[i]);
     }
@@ -69,6 +69,16 @@ static inline void llikNbinomFull(double* ret, double x, double size, double pro
     ret[5] = NA_REAL;
     return;
   }
+  if (x < 0.0 || x > static_cast<double>(INT_MAX) ||
+      size < 0.0 || size > static_cast<double>(INT_MAX)) {
+    ret[0] = isNbinom;
+    ret[1] = x;
+    ret[2] = size;
+    ret[3] = prob;
+    ret[4] = NA_REAL;
+    ret[5] = NA_REAL;
+    return;
+  }
   Eigen::VectorXi y(1);
   Eigen::VectorXi N(1);
   Eigen::VectorXd params(1);
@@ -91,7 +101,7 @@ Rcpp::DataFrame llikNbinomInternal(Rcpp::NumericVector x, Rcpp::NumericVector si
   NumericVector dProb(x.size());
   double cur[6];
   std::fill_n(cur, 6, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikNbinomFull(cur, x[j], size[j], prob[j]);
     fx[j]      = cur[4];
     dProb[j]     = cur[5];

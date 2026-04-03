@@ -17,7 +17,7 @@ struct cauchy_llik {
     T location    = theta[0];
     T scale = theta[1];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
-    for (int n = 0; n < y_.size(); ++n)
+    for (Eigen::Index n = 0; n < y_.size(); ++n)
       lp[n] = student_t_log(y_[n], 1.0, location, scale);
     return lp;
   }
@@ -91,7 +91,7 @@ Rcpp::DataFrame llikCauchyInternal(Rcpp::NumericVector x,
   NumericVector dScale(x.size());
   double cur[7];
   std::fill_n(cur, 7, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikCauchyFull(cur, x[j], location[j], scale[j]);
     fx[j]    = cur[4];
     dLocation[j]   = cur[5];

@@ -14,7 +14,7 @@ struct normal_llik {
     T sigma = theta[1];
 		
     Eigen::Matrix<T, -1, 1> lp(y_.size());
-    for (int n = 0; n < y_.size(); ++n)
+    for (Eigen::Index n = 0; n < y_.size(); ++n)
       lp[n] = normal_log(y_[n], mu, sigma);
     return lp;
   }
@@ -86,7 +86,7 @@ Rcpp::DataFrame llikNormInternal(Rcpp::NumericVector x, Rcpp::NumericVector mu, 
   NumericVector dSigma(x.size());
   double cur[7];
   std::fill_n(cur, 7, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikNormFull(cur, x[j], mu[j], sigma[j]);
     fx[j] = cur[4];
     dMu[j] = cur[5];

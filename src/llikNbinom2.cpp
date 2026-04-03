@@ -17,7 +17,7 @@ struct nbinomMu_llik {
   Eigen::Matrix<T, -1, 1> operator()(const Eigen::Matrix<T, -1, 1>& theta) const {
     T mu = theta[0];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
-    for (int i = 0; i < y_.size(); ++i) {
+    for (Eigen::Index i = 0; i < y_.size(); ++i) {
       lp[i] = stan::math::neg_binomial_2_lpmf(y_[i], mu, N_[i]);
     }
     return lp;
@@ -67,6 +67,16 @@ static inline void llikNbinomMuFull(double* ret, double x, double size, double m
     ret[5] = NA_REAL;
     return;
   }
+  if (x < 0.0 || x > static_cast<double>(INT_MAX) ||
+      size < 0.0 || size > static_cast<double>(INT_MAX)) {
+    ret[0] = isNbinomMu;
+    ret[1] = x;
+    ret[2] = size;
+    ret[3] = mu;
+    ret[4] = NA_REAL;
+    ret[5] = NA_REAL;
+    return;
+  }
   Eigen::VectorXi y(1);
   Eigen::VectorXi N(1);
   Eigen::VectorXd params(1);
@@ -89,7 +99,7 @@ Rcpp::DataFrame llikNbinomMuInternal(Rcpp::NumericVector x, Rcpp::NumericVector 
   NumericVector dMu(x.size());
   double cur[6];
   std::fill_n(cur, 6, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikNbinomMuFull(cur, x[j], size[j], mu[j]);
     fx[j]      = cur[4];
     dMu[j]     = cur[5];

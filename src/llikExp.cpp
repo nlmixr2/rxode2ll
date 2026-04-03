@@ -13,7 +13,7 @@ struct exp_llik {
   Eigen::Matrix<T, -1, 1> operator()(const Eigen::Matrix<T, -1, 1>& theta) const {
     T beta    = theta[0];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
-    for (int n = 0; n < y_.size(); ++n)
+    for (Eigen::Index n = 0; n < y_.size(); ++n)
       lp[n] = exponential_log(y_[n], beta);
     return lp;
   }
@@ -77,7 +77,7 @@ Rcpp::DataFrame llikExpInternal(Rcpp::NumericVector x, Rcpp::NumericVector rate)
   NumericVector dRate(x.size());
   double cur[5];
   std::fill_n(cur, 5, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikExpFull(cur, x[j], rate[j]);
     fx[j]    = cur[3];
     dRate[j]   = cur[4];

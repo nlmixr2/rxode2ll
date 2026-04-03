@@ -14,7 +14,7 @@ struct poisson_llik {
     T l = theta[0];
 		
     Eigen::Matrix<T, -1, 1> lp(y_.size());
-    for (int n = 0; n < y_.size(); ++n)
+    for (Eigen::Index n = 0; n < y_.size(); ++n)
       lp[n] = poisson_log(y_[n], l);
     return lp;
   }
@@ -60,6 +60,14 @@ static inline void llikPoisFull(double* ret, double x, double lambda) {
     ret[4] = NA_REAL;
     return;
   }
+  if (x < 0.0 || x > static_cast<double>(INT_MAX)) {
+    ret[0] = isPois;
+    ret[1] = x;
+    ret[2] = lambda;
+    ret[3] = NA_REAL;
+    ret[4] = NA_REAL;
+    return;
+  }
   Eigen::VectorXi y(1);
   Eigen::VectorXd params(1);
   y(0) = (int)(x);
@@ -80,7 +88,7 @@ Rcpp::DataFrame llikPoisInternal(Rcpp::NumericVector x, Rcpp::NumericVector lamb
   NumericVector dLambda(x.size());
   double cur[5];
   std::fill_n(cur, 5, 0.0);
-  for (int j = x.size(); j--;) {
+  for (R_xlen_t j = x.size(); j--;) {
     llikPoisFull(cur, x[j], lambda[j]);
     fx[j]      = cur[3];
     dLambda[j] = cur[4];
