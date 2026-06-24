@@ -36,6 +36,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 x <- seq(-3, 3, length.out = 21)
 
 llikCauchy(x, 0, 1)

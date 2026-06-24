@@ -36,6 +36,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 llikExp(1, 1:3)
 #>          fx      dRate
 #> 1 -1.000000  0.0000000

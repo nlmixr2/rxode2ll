@@ -36,6 +36,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 llikWeibull(1, 1, 10)
 #>          fx    dShape dScale
 #> 1 -2.402585 -1.072327  -0.09

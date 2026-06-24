@@ -37,6 +37,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 x <- seq(1e-4, 1 - 1e-4, length.out = 21)
 
 llikBeta(x, 0.5, 0.5)

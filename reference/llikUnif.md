@@ -40,6 +40,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 llikUnif(1, -2, 2)
 #>          fx dAlpha dBeta
 #> 1 -1.386294   0.25 -0.25

@@ -40,6 +40,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 llikNorm(0)
 #>           fx dMean dSd
 #> 1 -0.9189385     0  -1

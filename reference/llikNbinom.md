@@ -40,6 +40,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 llikNbinom(46:54, 100, 0.5)
 #>          fx dProb
 #> 1 -13.25200   108

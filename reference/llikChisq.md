@@ -36,6 +36,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 llikChisq(1, df = 1:3, full=TRUE)
 #>   x df        fx         dDf
 #> 1 1  1 -1.418939  0.63518142

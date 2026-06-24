@@ -36,6 +36,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 x <- seq(0.001, 5, length.out = 100)
 
 llikF(x^2, 1, 5)

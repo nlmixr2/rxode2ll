@@ -40,6 +40,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 llikGamma(1, 1, 10)
 #>          fx   dShape dRate
 #> 1 -7.697415 2.879801  -0.9

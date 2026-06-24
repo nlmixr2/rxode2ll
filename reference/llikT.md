@@ -45,6 +45,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 x <- seq(-3, 3, length.out = 21)
 
 llikT(x, 7, 0, 1)

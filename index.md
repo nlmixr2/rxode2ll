@@ -9,6 +9,7 @@ You can install the development version of rxode2ll from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("nlmixr2/rxode2ll")
 ```
@@ -19,6 +20,7 @@ Each of the C++ interface to the `stan` log-likelihood equations can be
 used in a stand-alone manner. For example:
 
 ``` r
+
 llikNorm(seq(-2,2,length.out=10), full=TRUE)
 ```
 

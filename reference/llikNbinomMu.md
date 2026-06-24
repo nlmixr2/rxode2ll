@@ -40,6 +40,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 llikNbinomMu(46:54, 100, 40)
 #>          fx       dMu
 #> 1 -3.326828 0.1071429

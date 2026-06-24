@@ -36,6 +36,7 @@ Matthew L. Fidler
 ## Examples
 
 ``` r
+
 llikGeom(1:10, 0.2)
 #>           fx dProb
 #> 1  -1.832581  3.75
