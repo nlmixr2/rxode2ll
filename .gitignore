@@ -1,5 +1,6 @@
 *.o
 *.so
 /.Rhistory
+.RData
 /src/Makevars
 docs
