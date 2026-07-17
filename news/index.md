@@ -2,6 +2,8 @@
 
 ## rxode2ll 2.0.15
 
+CRAN release: 2026-07-17
+
 - Fix signed integer overflow: loop indices in `llikXxxInternal()` Rcpp
   functions changed from `int` to `R_xlen_t`; previously vectors longer
   than ~500 million elements (\>4 GB) could cause undefined behavior due
