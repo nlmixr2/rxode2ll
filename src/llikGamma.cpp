@@ -17,7 +17,7 @@ struct gamma_llik {
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     // manually code log(f) density
     for (Eigen::Index n = 0; n < y_.size(); ++n) {
-      lp[n] = gamma_log(y_[n], shape, rate);
+      lp[n] = gamma_lpdf(y_[n], shape, rate);
     }
     return lp;
   }

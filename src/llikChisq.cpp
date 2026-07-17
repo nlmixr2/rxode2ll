@@ -15,7 +15,7 @@ struct chisq_llik {
     T nu    = theta[0];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     for (Eigen::Index n = 0; n < y_.size(); ++n)
-      lp[n] = chi_square_log(y_[n], nu);
+      lp[n] = chi_square_lpdf(y_[n], nu);
     return lp;
   }
 };

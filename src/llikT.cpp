@@ -16,7 +16,7 @@ struct t_llik {
     T sigma = theta[2];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     for (Eigen::Index n = 0; n < y_.size(); ++n)
-      lp[n] = student_t_log(y_[n], nu, mu, sigma);
+      lp[n] = student_t_lpdf(y_[n], nu, mu, sigma);
     return lp;
   }
 };

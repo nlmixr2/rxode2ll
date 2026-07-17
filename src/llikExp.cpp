@@ -14,7 +14,7 @@ struct exp_llik {
     T beta    = theta[0];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     for (Eigen::Index n = 0; n < y_.size(); ++n)
-      lp[n] = exponential_log(y_[n], beta);
+      lp[n] = exponential_lpdf(y_[n], beta);
     return lp;
   }
 };

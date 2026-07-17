@@ -17,7 +17,7 @@ struct unif_llik {
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     // manually code log(f) density
     for (Eigen::Index n = 0; n < y_.size(); ++n) {
-      lp[n] = uniform_log(y_[n], alpha, beta);
+      lp[n] = uniform_lpdf(y_[n], alpha, beta);
     }
     return lp;
   }
