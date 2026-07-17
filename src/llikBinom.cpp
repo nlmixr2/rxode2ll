@@ -12,10 +12,10 @@ struct binom_llik {
   template <typename T>
   Eigen::Matrix<T, -1, 1> operator()(const Eigen::Matrix<T, -1, 1>& theta) const {
     T prob = theta[0];
-		
+
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     for (Eigen::Index n = 0; n < y_.size(); ++n)
-      lp[n] = binomial_log(y_[n], N_[n], prob);
+      lp[n] = binomial_lpmf(y_[n], N_[n], prob);
     return lp;
   }
 };
@@ -113,4 +113,3 @@ extern "C" double rxLlikBinomDprob(double* ret, double x, double size, double pr
   llikBinomFull(ret, x, size, prob);
   return ret[5];
 }
-

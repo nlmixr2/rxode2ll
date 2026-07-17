@@ -19,7 +19,7 @@ struct weibull_llik {
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     // manually code log(f) density
     for (Eigen::Index n = 0; n < y_.size(); ++n) {
-      lp[n] = weibull_log(y_[n], alpha, sigma);
+      lp[n] = weibull_lpdf(y_[n], alpha, sigma);
     }
     return lp;
   }
@@ -66,7 +66,7 @@ static inline void llikWeibullFull(double* ret, double x, double shape, double s
     ret[4] = NA_REAL;
     ret[5] = NA_REAL;
     ret[6] = NA_REAL;
-    return;    
+    return;
   }
   Eigen::VectorXd y(1);
   Eigen::VectorXd params(2);
@@ -117,4 +117,3 @@ extern "C" double rxLlikWeibullDscale(double* ret, double x, double shape, doubl
   llikWeibullFull(ret, x, shape, scale);
   return ret[6];
 }
-

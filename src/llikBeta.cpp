@@ -15,7 +15,7 @@ struct beta_llik {
     T shape2 = theta[1];
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     for (Eigen::Index n = 0; n < y_.size(); ++n)
-      lp[n] = beta_log(y_[n], shape1, shape2);
+      lp[n] = beta_lpdf(y_[n], shape1, shape2);
     return lp;
   }
 };
@@ -112,4 +112,3 @@ extern "C" double rxLlikBetaDshape2(double* ret, double x, double shape1, double
   llikBetaFull(ret, x, shape1, shape2);
   return ret[6];
 }
-

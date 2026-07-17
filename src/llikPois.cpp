@@ -12,10 +12,10 @@ struct poisson_llik {
   template <typename T>
   Eigen::Matrix<T, -1, 1> operator()(const Eigen::Matrix<T, -1, 1>& theta) const {
     T l = theta[0];
-		
+
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     for (Eigen::Index n = 0; n < y_.size(); ++n)
-      lp[n] = poisson_log(y_[n], l);
+      lp[n] = poisson_lpmf(y_[n], l);
     return lp;
   }
 };

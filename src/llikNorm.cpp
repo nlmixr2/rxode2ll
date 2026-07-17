@@ -12,10 +12,10 @@ struct normal_llik {
   Eigen::Matrix<T, -1, 1> operator()(const Eigen::Matrix<T, -1, 1>& theta) const {
     T mu = theta[0];
     T sigma = theta[1];
-		
+
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     for (Eigen::Index n = 0; n < y_.size(); ++n)
-      lp[n] = normal_log(y_[n], mu, sigma);
+      lp[n] = normal_lpdf(y_[n], mu, sigma);
     return lp;
   }
 };
