@@ -25,6 +25,8 @@ CRAN release: 2026-07-17
   bypass R-level input validation.
 - Add a `skip()`-guarded large-vector test that documents the `R_xlen_t`
   fix and can be run manually on systems with \>4 GB free RAM.
+- Changed \_log() to \_lpmf()/\_lpdf() because these functions changed
+  in StanHeaders
 
 ## rxode2ll 2.0.14
 
