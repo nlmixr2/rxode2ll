@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/nlmixr2/rxode2ll/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/nlmixr2/rxode2ll/blob/v2.0.15/inst/CITATION)
 
 Wang W, Hallow K, James D (2015). “A Tutorial on RxODE: Simulating
 Differential Equation Pharmacometric Models in R.” *CPT: Pharmacometrics
