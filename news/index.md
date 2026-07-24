@@ -1,5 +1,10 @@
 # Changelog
 
+## rxode2ll 2.0.16
+
+- Fix ABI issues in rxode2 and the nlmixr2 ecosystem by requiring
+  RcppParallel 6.0.0
+
 ## rxode2ll 2.0.15
 
 CRAN release: 2026-07-17
