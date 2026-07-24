@@ -1,3 +1,8 @@
+# rxode2ll 2.0.16
+
+* Fix ABI issues in rxode2 and the nlmixr2 ecosystem by requiring
+  RcppParallel 6.0.0
+
 # rxode2ll 2.0.15
 
 * Fix signed integer overflow: loop indices in `llikXxxInternal()` Rcpp
