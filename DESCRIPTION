@@ -33,7 +33,7 @@ LinkingTo:
     RcppEigen (>= 0.3.3.9.2),
     StanHeaders (>= 2.26),
     BH (>= 1.78.0.0),
-    RcppParallel
+    RcppParallel (>= 6.0.0)
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
