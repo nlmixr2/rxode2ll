@@ -39,6 +39,31 @@ test_that("log-liklihood tests for NbinomMu (including derivatives)", {
   expect_equal(fromR$fx, dnbinom(et$time, size=100, mu=40, log=TRUE))
 })
 
+test_that("nbinom size may be continuous (non-integer dispersion)", {
+  # size used to be truncated to an int, silently returning the value at
+  # trunc(size) for size > 1 and aborting the process for 0 < size < 1.
+  size <- c(0.05, 0.3, 0.7, 0.99, 1.5, 2.5, 3.9)
+  x <- rep(2L, length(size))
+  expect_equal(llikNbinomMu(x, size, rep(5, length(size)))$fx,
+               dnbinom(2L, size=size, mu=5, log=TRUE))
+  expect_equal(llikNbinom(x, size, rep(0.4, length(size)))$fx,
+               dnbinom(2L, size=size, prob=0.4, log=TRUE))
+})
+
+test_that("nbinom derivatives are correct for continuous size", {
+  h <- 1e-5
+  size <- c(0.3, 0.7, 1.5, 4.25)
+  x <- rep(2L, length(size))
+  dMuNum <- (dnbinom(2L, size=size, mu=5 + h, log=TRUE) -
+             dnbinom(2L, size=size, mu=5 - h, log=TRUE)) / (2 * h)
+  expect_equal(llikNbinomMu(x, size, rep(5, length(size)))$dMu, dMuNum,
+               tolerance=1e-5)
+  dProbNum <- (dnbinom(2L, size=size, prob=0.4 + h, log=TRUE) -
+               dnbinom(2L, size=size, prob=0.4 - h, log=TRUE)) / (2 * h)
+  expect_equal(llikNbinom(x, size, rep(0.4, length(size)))$dProb, dProbNum,
+               tolerance=1e-5)
+})
+
 test_that("log-liklihood tests for beta (including derivatives)", {
   et <- data.frame(time=seq(1e-4, 1-1e-4, length.out=21))
   et$shape1 <- 0.5
@@ -293,11 +318,15 @@ test_that("llikNbinomInternal returns NA for x > INT_MAX", {
   expect_true(is.na(res$dProb))
 })
 
-test_that("llikNbinomInternal returns NA for size > INT_MAX", {
+test_that("llikNbinomInternal accepts size > INT_MAX (size is a real dispersion)", {
   big <- 2^31
   res <- llikNbinomInternal(5, big, 0.5)
-  expect_true(is.na(res$fx))
-  expect_true(is.na(res$dProb))
+  expect_equal(res$fx, stats::dnbinom(5, size = big, prob = 0.5, log = TRUE))
+})
+
+test_that("llikNbinomInternal returns NA for size <= 0", {
+  expect_true(is.na(llikNbinomInternal(5, 0, 0.5)$fx))
+  expect_true(is.na(llikNbinomInternal(5, -1, 0.5)$fx))
 })
 
 test_that("llikNbinomMuInternal returns NA for x > INT_MAX", {
@@ -307,11 +336,15 @@ test_that("llikNbinomMuInternal returns NA for x > INT_MAX", {
   expect_true(is.na(res$dMu))
 })
 
-test_that("llikNbinomMuInternal returns NA for size > INT_MAX", {
+test_that("llikNbinomMuInternal accepts size > INT_MAX (size is a real dispersion)", {
   big <- 2^31
   res <- llikNbinomMuInternal(5, big, 40)
-  expect_true(is.na(res$fx))
-  expect_true(is.na(res$dMu))
+  expect_equal(res$fx, stats::dnbinom(5, size = big, mu = 40, log = TRUE))
+})
+
+test_that("llikNbinomMuInternal returns NA for size <= 0", {
+  expect_true(is.na(llikNbinomMuInternal(5, 0, 40)$fx))
+  expect_true(is.na(llikNbinomMuInternal(5, -1, 40)$fx))
 })
 
 ## Large-vector test for R_xlen_t fix

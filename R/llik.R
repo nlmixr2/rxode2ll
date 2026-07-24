@@ -88,9 +88,9 @@ llikBinom <- function(x, size, prob, full=FALSE) {
 }
 
 #' Calculate the log likelihood of the negative binomial function (and its derivatives)
-#' 
+#'
 #' @param x  Number of successes
-#' @param size Size of trial
+#' @param size Dispersion parameter; may be non-integer
 #' @param prob probability of success
 #' 
 #' @inheritParams llikNorm
@@ -108,7 +108,7 @@ llikBinom <- function(x, size, prob, full=FALSE) {
 #'
 llikNbinom <- function(x, size, prob, full=FALSE) {
   checkmate::assertIntegerish(x, min.len=0, lower=0, any.missing=FALSE)
-  checkmate::assertIntegerish(size, min.len=0, lower=0, any.missing=FALSE)
+  checkmate::assertNumeric(size, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
   checkmate::assertNumeric(prob, min.len=0, lower=0, upper=1, any.missing=FALSE, finite=TRUE)
   .df <- try(data.frame(x=x, size=size, prob=prob), silent=TRUE)
   if (inherits(.df, "try-error")) {
@@ -123,8 +123,8 @@ llikNbinom <- function(x, size, prob, full=FALSE) {
 #' 
 #' @param x  Number of successes
 #' 
-#' @param size Size of trial
-#' 
+#' @param size Dispersion parameter; may be non-integer
+#'
 #' @param mu mu parameter for negative binomial
 #' 
 #' @inheritParams llikNorm
@@ -144,7 +144,7 @@ llikNbinom <- function(x, size, prob, full=FALSE) {
 #' 
 llikNbinomMu <- function(x, size, mu, full=FALSE) {
   checkmate::assertIntegerish(x, min.len=0, lower=0, any.missing=FALSE)
-  checkmate::assertIntegerish(size, min.len=0, lower=0, any.missing=FALSE)
+  checkmate::assertNumeric(size, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
   checkmate::assertNumeric(mu, min.len=0, lower=0, any.missing=FALSE, finite=TRUE)
   .df <- try(data.frame(x=x, size=size, mu=mu), silent=TRUE)
   if (inherits(.df, "try-error")) {

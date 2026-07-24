@@ -3,6 +3,20 @@
 * Fix ABI issues in rxode2 and the nlmixr2 ecosystem by requiring
   RcppParallel 6.0.0
 
+* `llikNbinom()` and `llikNbinomMu()` now accept a continuous (non-integer)
+  `size`.  In the negative binomial's mean/dispersion parameterisation `size`
+  is a real dispersion parameter, not a count, and `stats::dnbinom()` has
+  always allowed it.  Previously `size` was stored in an integer vector and
+  silently truncated, so a `size` above 1 returned the log-likelihood at
+  `trunc(size)` and a `size` between 0 and 1 truncated to 0 and aborted; the
+  R-level `assertIntegerish(size)` rejected such values outright.  Truncation
+  also made the log-likelihood a step function of `size`, so the dispersion
+  could not be estimated even when its true value was an integer.  This
+  blocked `nbinomMu()` models with continuous overdispersion in `nlmixr2`.
+  `size` must now be strictly positive; non-positive values return `NA`.  The
+  `INT_MAX` bound added in 2.0.15 still applies to `x` everywhere, and to
+  `size` for `rxLlikBinom` where `size` is a number of trials.
+
 # rxode2ll 2.0.15
 
 * Fix signed integer overflow: loop indices in `llikXxxInternal()` Rcpp

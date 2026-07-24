@@ -10,8 +10,8 @@
 
 struct nbinomMu_llik {
   const Eigen::VectorXi y_;
-  const Eigen::VectorXi N_;
-  nbinomMu_llik(const Eigen::VectorXi& y, Eigen::VectorXi& N) : y_(y), N_(N) { }
+  const Eigen::VectorXd N_; // dispersion; real-valued, not a count
+  nbinomMu_llik(const Eigen::VectorXi& y, Eigen::VectorXd& N) : y_(y), N_(N) { }
 
   template <typename T>
   Eigen::Matrix<T, -1, 1> operator()(const Eigen::Matrix<T, -1, 1>& theta) const {
@@ -24,7 +24,7 @@ struct nbinomMu_llik {
   }
 };
 
-stanLl llik_nbinomMu(Eigen::VectorXi& y, Eigen::VectorXi& N, Eigen::VectorXd& params) {
+stanLl llik_nbinomMu(Eigen::VectorXi& y, Eigen::VectorXd& N, Eigen::VectorXd& params) {
   rx_stan_math_thread_init_rev_autodiff();
   nbinomMu_llik f(y, N);
   Eigen::VectorXd fx;
@@ -68,7 +68,7 @@ static inline void llikNbinomMuFull(double* ret, double x, double size, double m
     return;
   }
   if (x < 0.0 || x > static_cast<double>(INT_MAX) ||
-      size < 0.0 || size > static_cast<double>(INT_MAX)) {
+      size <= 0.0) {
     ret[0] = isNbinomMu;
     ret[1] = x;
     ret[2] = size;
@@ -78,10 +78,10 @@ static inline void llikNbinomMuFull(double* ret, double x, double size, double m
     return;
   }
   Eigen::VectorXi y(1);
-  Eigen::VectorXi N(1);
+  Eigen::VectorXd N(1);
   Eigen::VectorXd params(1);
   y(0) = (int)(x);
-  N(0) = (int)(size);
+  N(0) = size;
   params(0) = mu;
   stanLl ll = llik_nbinomMu(y, N, params);
   ret[0] = isNbinomMu;
