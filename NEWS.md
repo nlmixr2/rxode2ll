@@ -17,6 +17,15 @@
   `INT_MAX` bound added in 2.0.15 still applies to `x` everywhere, and to
   `size` for `rxLlikBinom` where `size` is a number of trials.
 
+* `llikNbinom()` and `llikNbinomMu()` now return `NA` instead of aborting the R
+  process when the mean handed to the underlying likelihood is out of domain.
+  This covers `prob` of 0 or 1 (and, through the C API, `prob` outside
+  `[0, 1]`), a non-positive `mu`, and -- because `size` is no longer bounded by
+  `INT_MAX` -- a large `size` with a small `prob` whose product overflows.
+  Previously these threw a C++ exception that escaped the `rxLlikNbinom()` /
+  `rxLlikNbinomMu()` entry points used by `rxode2` solves and `focei`, killing
+  the session.
+
 # rxode2ll 2.0.15
 
 * Fix signed integer overflow: loop indices in `llikXxxInternal()` Rcpp

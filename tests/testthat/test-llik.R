@@ -329,6 +329,22 @@ test_that("llikNbinomInternal returns NA for size <= 0", {
   expect_true(is.na(llikNbinomInternal(5, -1, 0.5)$fx))
 })
 
+test_that("llikNbinomInternal returns NA for an out-of-domain prob", {
+  # mu = size*(1-prob)/prob is Inf at prob == 0, 0 at prob == 1 and negative
+  # outside [0, 1]; each makes neg_binomial_2_lpmf() throw, which aborts the
+  # process when it escapes rxLlikNbinom()
+  expect_true(is.na(llikNbinomInternal(5, 10, 0)$fx))
+  expect_true(is.na(llikNbinomInternal(5, 10, 1)$fx))
+  expect_true(is.na(llikNbinomInternal(5, 10, -0.5)$fx))
+  expect_true(is.na(llikNbinomInternal(5, 10, 1.5)$fx))
+})
+
+test_that("llikNbinomInternal returns NA when size/prob overflows the mean", {
+  # size is no longer bounded by INT_MAX, so size*(1-prob)/prob can overflow
+  # even though both size and prob are finite and in range
+  expect_true(is.na(llikNbinomInternal(5, 1e300, 1e-10)$fx))
+})
+
 test_that("llikNbinomMuInternal returns NA for x > INT_MAX", {
   big <- 2^31
   res <- llikNbinomMuInternal(big, 10, 40)
@@ -345,6 +361,13 @@ test_that("llikNbinomMuInternal accepts size > INT_MAX (size is a real dispersio
 test_that("llikNbinomMuInternal returns NA for size <= 0", {
   expect_true(is.na(llikNbinomMuInternal(5, 0, 40)$fx))
   expect_true(is.na(llikNbinomMuInternal(5, -1, 40)$fx))
+})
+
+test_that("llikNbinomMuInternal returns NA for mu <= 0", {
+  # neg_binomial_2_lpmf() throws on a non-positive mean, which aborts the
+  # process when it escapes rxLlikNbinomMu()
+  expect_true(is.na(llikNbinomMuInternal(5, 10, 0)$fx))
+  expect_true(is.na(llikNbinomMuInternal(5, 10, -1)$fx))
 })
 
 ## Large-vector test for R_xlen_t fix

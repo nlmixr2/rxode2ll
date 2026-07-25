@@ -69,8 +69,15 @@ static inline void llikNbinomFull(double* ret, double x, double size, double pro
     ret[5] = NA_REAL;
     return;
   }
+  // neg_binomial_2_lpmf() needs a positive finite mean, which this
+  // parameterisation reaches through mu = size*(1-prob)/prob: that is Inf at
+  // prob == 0, 0 at prob == 1, negative outside [0, 1], and -- now that size is
+  // no longer bounded by INT_MAX -- can overflow for a large size with a small
+  // prob.  Stan throws on all of those, and the exception would escape the
+  // extern "C" entry points below and abort the R process, so return NA here.
+  double meanPar = size*(1.0-prob)/prob;
   if (x < 0.0 || x > static_cast<double>(INT_MAX) ||
-      size <= 0.0) {
+      size <= 0.0 || !R_finite(meanPar) || meanPar <= 0.0) {
     ret[0] = isNbinom;
     ret[1] = x;
     ret[2] = size;

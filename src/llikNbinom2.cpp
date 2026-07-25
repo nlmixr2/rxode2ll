@@ -67,8 +67,11 @@ static inline void llikNbinomMuFull(double* ret, double x, double size, double m
     ret[5] = NA_REAL;
     return;
   }
+  // neg_binomial_2_lpmf() needs a positive finite mean; a non-positive mu makes
+  // it throw, and that exception would escape the extern "C" entry points below
+  // and abort the R process, so return NA here instead.
   if (x < 0.0 || x > static_cast<double>(INT_MAX) ||
-      size <= 0.0) {
+      size <= 0.0 || mu <= 0.0) {
     ret[0] = isNbinomMu;
     ret[1] = x;
     ret[2] = size;
