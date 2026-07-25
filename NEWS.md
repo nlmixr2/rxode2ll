@@ -1,10 +1,5 @@
 # rxode2ll (development version)
 
-# rxode2ll 2.0.16
-
-* Fix ABI issues in rxode2 and the nlmixr2 ecosystem by requiring
-  RcppParallel 6.0.0
-
 * `llikNbinom()` and `llikNbinomMu()` now accept a continuous (non-integer)
   `size`.  In the negative binomial's mean/dispersion parameterisation `size`
   is a real dispersion parameter, not a count, and `stats::dnbinom()` has
@@ -27,6 +22,12 @@
   Previously these threw a C++ exception that escaped the `rxLlikNbinom()` /
   `rxLlikNbinomMu()` entry points used by `rxode2` solves and `focei`, killing
   the session.
+
+
+# rxode2ll 2.0.16
+
+* Fix ABI issues in rxode2 and the nlmixr2 ecosystem by requiring
+  RcppParallel 6.0.0
 
 # rxode2ll 2.0.15
 
