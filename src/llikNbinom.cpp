@@ -69,15 +69,41 @@ static inline void llikNbinomFull(double* ret, double x, double size, double pro
     ret[5] = NA_REAL;
     return;
   }
+  if (x < 0.0 || x > static_cast<double>(INT_MAX) || size <= 0.0) {
+    ret[0] = isNbinom;
+    ret[1] = x;
+    ret[2] = size;
+    ret[3] = prob;
+    ret[4] = NA_REAL;
+    ret[5] = NA_REAL;
+    return;
+  }
+  if (prob == 1.0) {
+    // prob == 1 makes the distribution degenerate at zero, so the likelihood is
+    // 1 at x == 0 and 0 elsewhere, matching stats::dnbinom().  Stan cannot
+    // evaluate this point at all (it needs a strictly positive mean) and there
+    // is no usable derivative here, so report the value R would and leave the
+    // gradient NA rather than returning NA for both.  Test prob rather than the
+    // derived mean below: that mean can also underflow to 0 for a denormal size
+    // with a prob well under 1, where the true log-likelihood is finite and
+    // large-negative rather than -Inf.
+    ret[0] = isNbinom;
+    ret[1] = x;
+    ret[2] = size;
+    ret[3] = prob;
+    ret[4] = (x == 0.0) ? 0.0 : R_NegInf;
+    ret[5] = NA_REAL;
+    return;
+  }
   // neg_binomial_2_lpmf() needs a positive finite mean, which this
   // parameterisation reaches through mu = size*(1-prob)/prob: that is Inf at
-  // prob == 0, 0 at prob == 1, negative outside [0, 1], and -- now that size is
-  // no longer bounded by INT_MAX -- can overflow for a large size with a small
-  // prob.  Stan throws on all of those, and the exception would escape the
-  // extern "C" entry points below and abort the R process, so return NA here.
+  // prob == 0, negative outside [0, 1], and -- now that size is no longer
+  // bounded by INT_MAX -- can overflow for a large size with a small prob, or
+  // underflow to 0 for a denormal size.  Stan throws on all of those, and the
+  // exception would escape the extern "C" entry points below and abort the R
+  // process, so return NA here.
   double meanPar = size*(1.0-prob)/prob;
-  if (x < 0.0 || x > static_cast<double>(INT_MAX) ||
-      size <= 0.0 || !R_finite(meanPar) || meanPar <= 0.0) {
+  if (!R_finite(meanPar) || meanPar <= 0.0) {
     ret[0] = isNbinom;
     ret[1] = x;
     ret[2] = size;

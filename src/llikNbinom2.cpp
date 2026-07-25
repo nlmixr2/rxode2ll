@@ -67,16 +67,32 @@ static inline void llikNbinomMuFull(double* ret, double x, double size, double m
     ret[5] = NA_REAL;
     return;
   }
-  // neg_binomial_2_lpmf() needs a positive finite mean; a non-positive mu makes
-  // it throw, and that exception would escape the extern "C" entry points below
-  // and abort the R process, so return NA here instead.
+  // neg_binomial_2_lpmf() needs a positive finite mean; a negative mu (reachable
+  // through the C API, which bypasses the R-level assertions) makes it throw,
+  // and that exception would escape the extern "C" entry points below and abort
+  // the R process, so return NA here instead.  mu == 0 is degenerate rather than
+  // out of domain and is handled just below.
   if (x < 0.0 || x > static_cast<double>(INT_MAX) ||
-      size <= 0.0 || mu <= 0.0) {
+      size <= 0.0 || mu < 0.0) {
     ret[0] = isNbinomMu;
     ret[1] = x;
     ret[2] = size;
     ret[3] = mu;
     ret[4] = NA_REAL;
+    ret[5] = NA_REAL;
+    return;
+  }
+  if (mu == 0.0) {
+    // mu == 0 makes the distribution degenerate at zero, so the likelihood is 1
+    // at x == 0 and 0 elsewhere, matching stats::dnbinom().  Stan cannot
+    // evaluate this point at all (it needs a strictly positive mean) and there
+    // is no usable derivative here, so report the value R would and leave the
+    // gradient NA rather than returning NA for both.
+    ret[0] = isNbinomMu;
+    ret[1] = x;
+    ret[2] = size;
+    ret[3] = mu;
+    ret[4] = (x == 0.0) ? 0.0 : R_NegInf;
     ret[5] = NA_REAL;
     return;
   }
