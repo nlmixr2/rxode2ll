@@ -9,9 +9,9 @@
 // R , sigma=scale
 struct nbinom_llik {
   const Eigen::VectorXi y_;
-  const Eigen::VectorXi N_;
-  
-  nbinom_llik(const Eigen::VectorXi& y, Eigen::VectorXi& N) : y_(y), N_(N) { }
+  const Eigen::VectorXd N_; // dispersion; real-valued, not a count
+
+  nbinom_llik(const Eigen::VectorXi& y, Eigen::VectorXd& N) : y_(y), N_(N) { }
 
   template <typename T>
   Eigen::Matrix<T, -1, 1> operator()(const Eigen::Matrix<T, -1, 1>& theta) const {
@@ -19,7 +19,7 @@ struct nbinom_llik {
 		
     Eigen::Matrix<T, -1, 1> lp(y_.size());
     for (Eigen::Index i = 0; i < y_.size(); ++i) {
-      T mu = (double)(N_[i])*(1.0-p)/p;
+      T mu = N_[i]*(1.0-p)/p;
       lp[i] = stan::math::neg_binomial_2_lpmf(y_[i], mu, N_[i]);
     }
     return lp;
@@ -27,7 +27,7 @@ struct nbinom_llik {
 };
 
 
-stanLl llik_nbinom(Eigen::VectorXi& y, Eigen::VectorXi& N, Eigen::VectorXd& params) {
+stanLl llik_nbinom(Eigen::VectorXi& y, Eigen::VectorXd& N, Eigen::VectorXd& params) {
   rx_stan_math_thread_init_rev_autodiff();
   nbinom_llik f(y, N);
   Eigen::VectorXd fx;
@@ -69,8 +69,41 @@ static inline void llikNbinomFull(double* ret, double x, double size, double pro
     ret[5] = NA_REAL;
     return;
   }
-  if (x < 0.0 || x > static_cast<double>(INT_MAX) ||
-      size < 0.0 || size > static_cast<double>(INT_MAX)) {
+  if (x < 0.0 || x > static_cast<double>(INT_MAX) || size <= 0.0) {
+    ret[0] = isNbinom;
+    ret[1] = x;
+    ret[2] = size;
+    ret[3] = prob;
+    ret[4] = NA_REAL;
+    ret[5] = NA_REAL;
+    return;
+  }
+  if (prob == 1.0) {
+    // prob == 1 makes the distribution degenerate at zero, so the likelihood is
+    // 1 at x == 0 and 0 elsewhere, matching stats::dnbinom().  Stan cannot
+    // evaluate this point at all (it needs a strictly positive mean) and there
+    // is no usable derivative here, so report the value R would and leave the
+    // gradient NA rather than returning NA for both.  Test prob rather than the
+    // derived mean below: that mean can also underflow to 0 for a denormal size
+    // with a prob well under 1, where the true log-likelihood is finite and
+    // large-negative rather than -Inf.
+    ret[0] = isNbinom;
+    ret[1] = x;
+    ret[2] = size;
+    ret[3] = prob;
+    ret[4] = (x == 0.0) ? 0.0 : R_NegInf;
+    ret[5] = NA_REAL;
+    return;
+  }
+  // neg_binomial_2_lpmf() needs a positive finite mean, which this
+  // parameterisation reaches through mu = size*(1-prob)/prob: that is Inf at
+  // prob == 0, negative outside [0, 1], and -- now that size is no longer
+  // bounded by INT_MAX -- can overflow for a large size with a small prob, or
+  // underflow to 0 for a denormal size.  Stan throws on all of those, and the
+  // exception would escape the extern "C" entry points below and abort the R
+  // process, so return NA here.
+  double meanPar = size*(1.0-prob)/prob;
+  if (!R_finite(meanPar) || meanPar <= 0.0) {
     ret[0] = isNbinom;
     ret[1] = x;
     ret[2] = size;
@@ -80,10 +113,10 @@ static inline void llikNbinomFull(double* ret, double x, double size, double pro
     return;
   }
   Eigen::VectorXi y(1);
-  Eigen::VectorXi N(1);
+  Eigen::VectorXd N(1);
   Eigen::VectorXd params(1);
   y(0) = (int)(x);
-  N(0) = (int)(size);
+  N(0) = size;
   params(0) = prob;
   stanLl ll = llik_nbinom(y, N, params);
   ret[0] = isNbinom;

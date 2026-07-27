@@ -9,7 +9,7 @@ llikNbinom(x, size, prob, full = FALSE)
 \arguments{
 \item{x}{Number of successes}
 
-\item{size}{Size of trial}
+\item{size}{Dispersion parameter; may be non-integer}
 
 \item{prob}{probability of success}
 

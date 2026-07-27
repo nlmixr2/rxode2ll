@@ -39,6 +39,31 @@ test_that("log-liklihood tests for NbinomMu (including derivatives)", {
   expect_equal(fromR$fx, dnbinom(et$time, size=100, mu=40, log=TRUE))
 })
 
+test_that("nbinom size may be continuous (non-integer dispersion)", {
+  # size used to be truncated to an int, silently returning the value at
+  # trunc(size) for size > 1 and aborting the process for 0 < size < 1.
+  size <- c(0.05, 0.3, 0.7, 0.99, 1.5, 2.5, 3.9)
+  x <- rep(2L, length(size))
+  expect_equal(llikNbinomMu(x, size, rep(5, length(size)))$fx,
+               dnbinom(2L, size=size, mu=5, log=TRUE))
+  expect_equal(llikNbinom(x, size, rep(0.4, length(size)))$fx,
+               dnbinom(2L, size=size, prob=0.4, log=TRUE))
+})
+
+test_that("nbinom derivatives are correct for continuous size", {
+  h <- 1e-5
+  size <- c(0.3, 0.7, 1.5, 4.25)
+  x <- rep(2L, length(size))
+  dMuNum <- (dnbinom(2L, size=size, mu=5 + h, log=TRUE) -
+             dnbinom(2L, size=size, mu=5 - h, log=TRUE)) / (2 * h)
+  expect_equal(llikNbinomMu(x, size, rep(5, length(size)))$dMu, dMuNum,
+               tolerance=1e-5)
+  dProbNum <- (dnbinom(2L, size=size, prob=0.4 + h, log=TRUE) -
+               dnbinom(2L, size=size, prob=0.4 - h, log=TRUE)) / (2 * h)
+  expect_equal(llikNbinom(x, size, rep(0.4, length(size)))$dProb, dProbNum,
+               tolerance=1e-5)
+})
+
 test_that("log-liklihood tests for beta (including derivatives)", {
   et <- data.frame(time=seq(1e-4, 1-1e-4, length.out=21))
   et$shape1 <- 0.5
@@ -293,11 +318,55 @@ test_that("llikNbinomInternal returns NA for x > INT_MAX", {
   expect_true(is.na(res$dProb))
 })
 
-test_that("llikNbinomInternal returns NA for size > INT_MAX", {
+test_that("llikNbinomInternal accepts size > INT_MAX (size is a real dispersion)", {
   big <- 2^31
   res <- llikNbinomInternal(5, big, 0.5)
-  expect_true(is.na(res$fx))
-  expect_true(is.na(res$dProb))
+  expect_equal(res$fx, stats::dnbinom(5, size = big, prob = 0.5, log = TRUE))
+})
+
+test_that("llikNbinomInternal returns NA for size <= 0", {
+  expect_true(is.na(llikNbinomInternal(5, 0, 0.5)$fx))
+  expect_true(is.na(llikNbinomInternal(5, -1, 0.5)$fx))
+})
+
+test_that("llikNbinomInternal returns NA for an out-of-domain prob", {
+  # mu = size*(1-prob)/prob is Inf at prob == 0 and negative outside [0, 1];
+  # each makes neg_binomial_2_lpmf() throw, which aborts the process when it
+  # escapes rxLlikNbinom()
+  expect_true(is.na(llikNbinomInternal(5, 10, 0)$fx))
+  expect_true(is.na(llikNbinomInternal(5, 10, -0.5)$fx))
+  expect_true(is.na(llikNbinomInternal(5, 10, 1.5)$fx))
+})
+
+test_that("llikNbinom is degenerate at zero for prob == 1", {
+  # prob == 1 puts all the mass at zero, as stats::dnbinom() does; Stan cannot
+  # evaluate the point (mu == 0), so the value is filled in and the gradient,
+  # which does not exist here, is NA
+  res <- llikNbinomInternal(c(0, 1, 5), rep(10, 3), rep(1, 3))
+  expect_equal(res$fx, stats::dnbinom(c(0, 1, 5), size = 10, prob = 1, log = TRUE))
+  expect_equal(res$fx, c(0, -Inf, -Inf))
+  expect_true(all(is.na(res$dProb)))
+  # a continuous size is degenerate at zero too
+  expect_equal(llikNbinomInternal(c(0, 1), c(0.5, 0.5), c(1, 1))$fx,
+               stats::dnbinom(c(0, 1), size = 0.5, prob = 1, log = TRUE))
+  # and it is reachable from the R-level interface
+  expect_equal(llikNbinom(0L, 10, 1)$fx, 0)
+})
+
+test_that("llikNbinomInternal returns NA when size/prob overflows the mean", {
+  # size is no longer bounded by INT_MAX, so size*(1-prob)/prob can overflow
+  # even though both size and prob are finite and in range
+  expect_true(is.na(llikNbinomInternal(5, 1e300, 1e-10)$fx))
+})
+
+test_that("llikNbinomInternal returns NA when a denormal size underflows the mean", {
+  # size*(1-prob)/prob underflows to exactly 0 for a denormal size even with a
+  # prob well under 1.  That is not the degenerate prob == 1 point -- the true
+  # log-likelihood is finite (about -745 here) -- so it must return NA rather
+  # than the -Inf used at the point mass
+  expect_true(is.finite(stats::dnbinom(1, size = 5e-324, prob = 0.5, log = TRUE)))
+  expect_true(is.na(llikNbinomInternal(1, 5e-324, 0.5)$fx))
+  expect_true(is.na(llikNbinomInternal(0, 5e-324, 0.5)$fx))
 })
 
 test_that("llikNbinomMuInternal returns NA for x > INT_MAX", {
@@ -307,11 +376,36 @@ test_that("llikNbinomMuInternal returns NA for x > INT_MAX", {
   expect_true(is.na(res$dMu))
 })
 
-test_that("llikNbinomMuInternal returns NA for size > INT_MAX", {
+test_that("llikNbinomMuInternal accepts size > INT_MAX (size is a real dispersion)", {
   big <- 2^31
   res <- llikNbinomMuInternal(5, big, 40)
-  expect_true(is.na(res$fx))
-  expect_true(is.na(res$dMu))
+  expect_equal(res$fx, stats::dnbinom(5, size = big, mu = 40, log = TRUE))
+})
+
+test_that("llikNbinomMuInternal returns NA for size <= 0", {
+  expect_true(is.na(llikNbinomMuInternal(5, 0, 40)$fx))
+  expect_true(is.na(llikNbinomMuInternal(5, -1, 40)$fx))
+})
+
+test_that("llikNbinomMuInternal returns NA for mu < 0", {
+  # neg_binomial_2_lpmf() throws on a negative mean, which aborts the process
+  # when it escapes rxLlikNbinomMu()
+  expect_true(is.na(llikNbinomMuInternal(5, 10, -1)$fx))
+})
+
+test_that("llikNbinomMu is degenerate at zero for mu == 0", {
+  # mu == 0 puts all the mass at zero, as stats::dnbinom() does; Stan cannot
+  # evaluate the point, so the value is filled in and the gradient, which does
+  # not exist here, is NA
+  res <- llikNbinomMuInternal(c(0, 1, 5), rep(10, 3), rep(0, 3))
+  expect_equal(res$fx, stats::dnbinom(c(0, 1, 5), size = 10, mu = 0, log = TRUE))
+  expect_equal(res$fx, c(0, -Inf, -Inf))
+  expect_true(all(is.na(res$dMu)))
+  # a continuous size is degenerate at zero too
+  expect_equal(llikNbinomMuInternal(c(0, 1), c(0.5, 0.5), c(0, 0))$fx,
+               stats::dnbinom(c(0, 1), size = 0.5, mu = 0, log = TRUE))
+  # and it is reachable from the R-level interface
+  expect_equal(llikNbinomMu(0L, 10, 0)$fx, 0)
 })
 
 ## Large-vector test for R_xlen_t fix

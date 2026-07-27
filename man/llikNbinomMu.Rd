@@ -9,7 +9,7 @@ llikNbinomMu(x, size, mu, full = FALSE)
 \arguments{
 \item{x}{Number of successes}
 
-\item{size}{Size of trial}
+\item{size}{Dispersion parameter; may be non-integer}
 
 \item{mu}{mu parameter for negative binomial}
 

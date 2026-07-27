@@ -1,5 +1,5 @@
 Package: rxode2ll
-Version: 2.0.16
+Version: 2.0.16.9000
 Title: Log-Likelihood Functions for 'rxode2'
 Authors@R: c(
    person("Matthew L.","Fidler",
@@ -14,7 +14,7 @@ Suggests:
 Imports:
     Rcpp (>= 1.0.8),
     checkmate,
-    RcppParallel (>= 6.0.0)
+    RcppParallel
 Description: Provides the log-likelihoods with gradients from 'stan'
     (Carpenter et al (2015), <doi:10.48550/arXiv.1509.07164>) needed
     for generalized log-likelihood estimation in 'nlmixr2'
