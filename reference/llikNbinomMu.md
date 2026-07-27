@@ -17,7 +17,7 @@ llikNbinomMu(x, size, mu, full = FALSE)
 
 - size:
 
-  Size of trial
+  Dispersion parameter; may be non-integer
 
 - mu:
 

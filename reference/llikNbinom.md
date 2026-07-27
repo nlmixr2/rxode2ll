@@ -17,7 +17,7 @@ llikNbinom(x, size, prob, full = FALSE)
 
 - size:
 
-  Size of trial
+  Dispersion parameter; may be non-integer
 
 - prob:
 
