@@ -4,3 +4,15 @@
 .RData
 /src/Makevars
 docs
+
+# Build artifacts (R CMD build/INSTALL/check output)
+*.Rcheck/
+*.tar.gz
+*.tgz
+inst/tools/*.Rout
+src/Makevars.win
+src/*.dll
+src/*.o
+src/*.so
+.RData
+.Rhistory
