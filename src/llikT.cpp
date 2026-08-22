@@ -74,7 +74,7 @@ static inline void llikTFull(double* ret, double x, double df, double mean, doub
   y(0) = x;
   params(0) = _smallIsNotZero(df);
   params(1) = mean;
-  params(2) = _smallIsOne(sd);
+  params(2) = _smallIsNotZero(sd);
   stanLl ll = llik_t(y, params);
   ret[0] = isT;
   ret[1] = x;

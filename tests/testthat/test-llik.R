@@ -474,3 +474,41 @@ test_that("llikNorm returns consistent results on repeated calls (cache hit and 
   r3 <- llikNorm(x + 0.1, mu, sd)  # cache invalidated
   expect_false(isTRUE(all.equal(r1$fx, r3$fx)))
 })
+
+## Small-scale-parameter guard: a normal/t/cauchy scale parameter smaller than
+## sqrt(.Machine$double.eps) used to be silently replaced by 1 (`_smallIsOne`),
+## not floored near zero the way llikT's own df parameter already is
+## (`_smallIsNotZero`). Snapping a genuinely tiny scale to 1 turns a
+## catastrophically bad fit (a large residual over a near-zero scale, which
+## should read as an enormous negative log-likelihood) into one that merely
+## looks moderately bad -- a maximum-likelihood search or an MCMC sampler
+## (e.g. nlmixr2est SAEM's general-likelihood do_mcmc/theta step) can then
+## wander into and get trapped in that degenerate region, since nothing in
+## the objective correctly punishes it. All three now floor at
+## sqrt(.Machine$double.eps) instead, matching `_smallIsNotZero`.
+
+test_that("llikNorm floors a small sigma instead of snapping it to 1", {
+  floor <- sqrt(.Machine$double.eps)
+  tiny <- floor / 10
+  r <- llikNorm(500, 0, tiny)
+  expect_equal(r$fx, dnorm(500, 0, floor, log = TRUE))
+  # NOT the old (wrong) behavior -- a huge residual over sigma=1 reads as only
+  # moderately bad, not catastrophically bad
+  expect_true(r$fx < dnorm(500, 0, 1, log = TRUE))
+})
+
+test_that("llikT floors a small sd instead of snapping it to 1", {
+  floor <- sqrt(.Machine$double.eps)
+  tiny <- floor / 10
+  r <- llikT(500, 7, 0, tiny, full = TRUE)
+  expect_equal(r$fx, dt((500 - 0) / floor, df = 7, log = TRUE) - log(floor))
+  expect_true(r$fx < dt(500, df = 7, log = TRUE))
+})
+
+test_that("llikCauchy floors a small scale instead of snapping it to 1", {
+  floor <- sqrt(.Machine$double.eps)
+  tiny <- floor / 10
+  r <- llikCauchy(500, 0, tiny, full = TRUE)
+  expect_equal(r$fx, dcauchy(500, 0, floor, log = TRUE))
+  expect_true(r$fx < dcauchy(500, 0, 1, log = TRUE))
+})

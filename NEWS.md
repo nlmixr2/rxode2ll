@@ -1,5 +1,24 @@
 # rxode2ll (development version)
 
+* `llikNorm()`, `llikT()`, and `llikCauchy()` no longer silently replace a
+  scale parameter (`sigma`/`sd`/`scale`) smaller than
+  `sqrt(.Machine$double.eps)` with `1`. That guard (`_smallIsOne`) was meant
+  to avoid a divide-by-zero, but replacing a genuinely tiny scale with `1`
+  turned a catastrophically bad fit -- a large residual over a near-zero
+  scale, which should read as an enormous negative log-likelihood -- into one
+  that merely looked moderately bad. A maximum-likelihood search or an MCMC
+  sampler reading this log-likelihood (e.g. `nlmixr2est`'s SAEM
+  general-likelihood `do_mcmc`/direct theta optimization) could wander into
+  and get trapped in that degenerate region, since nothing in the objective
+  correctly punished it -- observed as `saem` diverging to nonsensical
+  parameter estimates on a `dnorm()`/`dt()`/`cauchy()` general-likelihood
+  endpoint whose structural model can drive its prediction toward zero (e.g.
+  a Michaelis-Menten elimination model with proportional error). The scale
+  is now floored at `sqrt(.Machine$double.eps)` instead (`_smallIsNotZero`,
+  matching the guard `llikT()`'s own `df` parameter already used), so it
+  still avoids the divide-by-zero but the resulting log-likelihood stays
+  correctly, severely negative rather than flipping to a false local optimum.
+
 * `llikNbinom()` and `llikNbinomMu()` now accept a continuous (non-integer)
   `size`.  In the negative binomial's mean/dispersion parameterisation `size`
   is a real dispersion parameter, not a count, and `stats::dnbinom()` has
