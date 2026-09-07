@@ -10,6 +10,7 @@
 #define __DOINIT__
 #include "llik.h"
 
+SEXP _rxode2ll_ptr(void);
 SEXP _rxode2ll_llikNormInternal(SEXP xSEXP, SEXP muSEXP, SEXP sigmaSEXP);
 SEXP _rxode2ll_llikPoisInternal(SEXP xSEXP, SEXP lambdaSEXP);
 SEXP _rxode2ll_llikBinomInternal(SEXP xSEXP, SEXP sizeSEXP, SEXP probSEXP);
@@ -28,6 +29,7 @@ SEXP _rxode2ll_llikCauchyInternal(SEXP xSEXP, SEXP locationSEXP, SEXP scaleSEXP)
 
 void R_init_rxode2ll(DllInfo *info){
   R_CallMethodDef callMethods[]  = {
+    {"_rxode2ll_ptr", (DL_FUNC) &_rxode2ll_ptr, 0},
     {"_rxode2ll_llikNormInternal", (DL_FUNC) &_rxode2ll_llikNormInternal, 3},
     {"_rxode2ll_llikPoisInternal", (DL_FUNC) &_rxode2ll_llikPoisInternal, 2},
     {"_rxode2ll_llikBinomInternal",(DL_FUNC) &_rxode2ll_llikBinomInternal, 3},
