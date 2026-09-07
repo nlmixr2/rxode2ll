@@ -5,6 +5,10 @@ llikBetaInternal <- function(x, shape1, shape2) {
     .Call(`_rxode2ll_llikBetaInternal`, x, shape1, shape2)
 }
 
+llikBetaProportionInternal <- function(x, mu, kappa) {
+    .Call(`_rxode2ll_llikBetaProportionInternal`, x, mu, kappa)
+}
+
 llikBinomInternal <- function(x, size, prob) {
     .Call(`_rxode2ll_llikBinomInternal`, x, size, prob)
 }
@@ -17,6 +21,10 @@ llikChisqInternal <- function(x, df) {
     .Call(`_rxode2ll_llikChisqInternal`, x, df)
 }
 
+llikDblExpInternal <- function(x, mu, sigma) {
+    .Call(`_rxode2ll_llikDblExpInternal`, x, mu, sigma)
+}
+
 llikExpInternal <- function(x, rate) {
     .Call(`_rxode2ll_llikExpInternal`, x, rate)
 }
@@ -25,12 +33,36 @@ llikFInternal <- function(x, df1, df2) {
     .Call(`_rxode2ll_llikFInternal`, x, df1, df2)
 }
 
+llikFrechetInternal <- function(x, alpha, sigma) {
+    .Call(`_rxode2ll_llikFrechetInternal`, x, alpha, sigma)
+}
+
 llikGammaInternal <- function(x, shape, rate) {
     .Call(`_rxode2ll_llikGammaInternal`, x, shape, rate)
 }
 
 llikGeomInternal <- function(x, p) {
     .Call(`_rxode2ll_llikGeomInternal`, x, p)
+}
+
+llikGumbelInternal <- function(x, mu, beta) {
+    .Call(`_rxode2ll_llikGumbelInternal`, x, mu, beta)
+}
+
+llikInvChisqInternal <- function(x, nu) {
+    .Call(`_rxode2ll_llikInvChisqInternal`, x, nu)
+}
+
+llikInvGammaInternal <- function(x, alpha, beta) {
+    .Call(`_rxode2ll_llikInvGammaInternal`, x, alpha, beta)
+}
+
+llikLnormInternal <- function(x, meanlog, sdlog) {
+    .Call(`_rxode2ll_llikLnormInternal`, x, meanlog, sdlog)
+}
+
+llikLogisInternal <- function(x, location, scale) {
+    .Call(`_rxode2ll_llikLogisInternal`, x, location, scale)
 }
 
 llikNbinomInternal <- function(x, size, prob) {
@@ -45,8 +77,24 @@ llikNormInternal <- function(x, mu, sigma) {
     .Call(`_rxode2ll_llikNormInternal`, x, mu, sigma)
 }
 
+llikParetoInternal <- function(x, yMin, alpha) {
+    .Call(`_rxode2ll_llikParetoInternal`, x, yMin, alpha)
+}
+
+llikParetoType2Internal <- function(x, mu, lambda, alpha) {
+    .Call(`_rxode2ll_llikParetoType2Internal`, x, mu, lambda, alpha)
+}
+
 llikPoisInternal <- function(x, lambda) {
     .Call(`_rxode2ll_llikPoisInternal`, x, lambda)
+}
+
+llikRayleighInternal <- function(x, sigma) {
+    .Call(`_rxode2ll_llikRayleighInternal`, x, sigma)
+}
+
+llikScaledInvChisqInternal <- function(x, nu, sigma) {
+    .Call(`_rxode2ll_llikScaledInvChisqInternal`, x, nu, sigma)
 }
 
 llikTInternal <- function(x, df, mean, sd) {

@@ -45,6 +45,18 @@ using namespace Rcpp;
 #define isCauchy 13.0
 #define isNbinomMu 14.0
 #define isNbinom 15.0
+#define isLnorm 16.0
+#define isLogis 17.0
+#define isGumbel 18.0
+#define isDblExp 19.0
+#define isInvGamma 20.0
+#define isInvChisq 21.0
+#define isScaledInvChisq 22.0
+#define isFrechet 23.0
+#define isRayleigh 24.0
+#define isPareto 25.0
+#define isParetoType2 26.0
+#define isBetaProportion 27.0
 
 typedef struct stanLl {
   Eigen::VectorXd fx;
