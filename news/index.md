@@ -1,6 +1,6 @@
 # Changelog
 
-## rxode2ll (development version)
+## rxode2ll 2.0.17
 
 - [`llikNbinom()`](https://nlmixr2.github.io/rxode2ll/reference/llikNbinom.md)
   and
@@ -46,6 +46,9 @@
   mass, so `dProb` / `dMu` are `NA`; an unusable gradient beats a `NA`
   log-likelihood, and beats the abort these used to cause. `prob == 0`
   remains `NA`, matching the `NaN` R returns there.
+
+- Added more liklihood families and also added a ABI free header for
+  linking
 
 ## rxode2ll 2.0.16
 
