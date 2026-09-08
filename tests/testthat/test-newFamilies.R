@@ -48,7 +48,7 @@ test_that("gumbel, double exponential and rayleigh match closed forms", {
   .g <- unlist(llikDblExp(.x, .p[1], .p[2]))
   expect_equal(.g[[1]], .rf(.p)); .gradCheck(.g, .p, .rf)
 
-  .p <- c(0.9)
+  .p <- 0.9
   .rf <- function(q) log(.x) - 2 * log(q[1]) - .x^2 / (2 * q[1]^2)
   .g <- unlist(llikRayleigh(.x, .p[1]))
   expect_equal(.g[[1]], .rf(.p)); .gradCheck(.g, .p, .rf)
@@ -61,7 +61,7 @@ test_that("the inverse-gamma family matches closed forms", {
   .g <- unlist(llikInvGamma(.x, .p[1], .p[2]))
   expect_equal(.g[[1]], .rf(.p)); .gradCheck(.g, .p, .rf)
 
-  .p <- c(3.2)
+  .p <- 3.2
   .rf <- function(q) -lgamma(q[1] / 2) - (q[1] / 2) * log(2) -
     (q[1] / 2 + 1) * log(.x) - 1 / (2 * .x)
   .g <- unlist(llikInvChisq(.x, .p[1]))
