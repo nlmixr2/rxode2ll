@@ -1,4 +1,4 @@
-# rxode2ll (development version)
+# rxode2ll 2.0.17
 
 * `llikNbinom()` and `llikNbinomMu()` now accept a continuous (non-integer)
   `size`.  In the negative binomial's mean/dispersion parameterisation `size`
@@ -31,6 +31,9 @@
   derivative exists at a point mass, so `dProb` / `dMu` are `NA`; an unusable
   gradient beats a `NA` log-likelihood, and beats the abort these used to
   cause.  `prob == 0` remains `NA`, matching the `NaN` R returns there.
+
+* Added more liklihood families and also added a ABI free header for
+  linking
 
 
 # rxode2ll 2.0.16
