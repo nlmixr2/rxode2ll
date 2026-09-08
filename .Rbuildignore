@@ -1,3 +1,4 @@
+^.vexp$
 ^README\.Rmd$
 ^codecov\.yml$
 ^\.github$
