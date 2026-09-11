@@ -2,6 +2,8 @@
 
 ## rxode2ll 2.0.17
 
+CRAN release: 2026-09-09
+
 - [`llikNbinom()`](https://nlmixr2.github.io/rxode2ll/reference/llikNbinom.md)
   and
   [`llikNbinomMu()`](https://nlmixr2.github.io/rxode2ll/reference/llikNbinomMu.md)
