@@ -6,8 +6,12 @@ SH=@SH@
 CXX_STD = CXX17
 ################################################################################
 ## Package library flags.
-PKG_LIBS    = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) $(SHLIB_OPENMP_CXXFLAGS) @SL@
+PKG_LIBS    = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) $(SHLIB_OPENMP_CXXFLAGS)
 
 # Release options
 PKG_CFLAGS  =  -D_isrxode2parse_
-PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS) -DSTAN_THREADS -D_isrxode2parse_ -DBOOST_DISABLE_ASSERTS -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION -D_HAS_AUTO_PTR_ETC=0 -D_REENTRANT -@ISYSTEM@"$(BH)" -@ISYSTEM@"$(EG)" $(SH) -@ISYSTEM@"$(RCPP)"
+# -DSTAN_MATH_REV_CORE_INIT_CHAINABLESTACK_HPP keeps stan-math's TBB
+# ad_tape_observer out of the build, so nothing links or loads TBB (loading it
+# is what CRAN's gcc-UBSAN check reports); rx_stan_math_thread_init_rev_autodiff()
+# in llik2.h creates each thread's AD tape before every jacobian().
+PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS) -DSTAN_THREADS -DSTAN_MATH_REV_CORE_INIT_CHAINABLESTACK_HPP -D_isrxode2parse_ -DBOOST_DISABLE_ASSERTS -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION -D_HAS_AUTO_PTR_ETC=0 -D_REENTRANT -@ISYSTEM@"$(BH)" -@ISYSTEM@"$(EG)" $(SH) -@ISYSTEM@"$(RCPP)"

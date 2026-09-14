@@ -3,16 +3,20 @@
 .in <- gsub("@RCPP@", file.path(find.package("Rcpp"),"include"), .in)
 .in <- gsub("@EG@", file.path(find.package("RcppEigen"),"include"), .in)
 
-.badStan <- ""
-.in <- gsub("@SH@", gsub("-I", "-@ISYSTEM@",
-                         paste(capture.output(StanHeaders:::CxxFlags()), # nolint
-                               capture.output(RcppParallel:::CxxFlags()), # nolint
-                               paste0("-@ISYSTEM@'", system.file('include', 'src', package = 'StanHeaders', mustWork = TRUE), "'"),
-                               .badStan)),
-            .in)
-
-.in <- gsub("@SL@", paste(capture.output(StanHeaders:::LdFlags()), capture.output(RcppParallel:::RcppParallelLibs())), #nolint
-            .in)
+# Stan and TBB headers only; nothing links TBB (see src/Makevars.in).  These
+# are the flags StanHeaders:::CxxFlags() emits, built with system.file()
+# because calling it loads 'StanHeaders' and so 'RcppParallel', which loads
+# the TBB library.
+.tbbInc <- Sys.getenv("TBB_INC")
+if (dir.exists(.tbbInc)) {
+  .tbbInc <- normalizePath(.tbbInc)
+} else {
+  .tbbInc <- system.file("include", package = "RcppParallel", mustWork = TRUE)
+}
+.sh <- paste0("-I", shQuote(.tbbInc), " -D_REENTRANT -DSTAN_THREADS",
+              if (file.exists(file.path(.tbbInc, "tbb", "version.h"))) " -DTBB_INTERFACE_NEW",
+              " -@ISYSTEM@'", system.file("include", "src", package = "StanHeaders", mustWork = TRUE), "'")
+.in <- gsub("@SH@", gsub("-I", "-@ISYSTEM@", .sh), .in)
 
 .makevars <- "src/Makevars"
 if ((.Platform$OS.type == "windows" && !file.exists("src/Makevars.win"))) {

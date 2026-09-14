@@ -12,7 +12,6 @@
 #' @author Matthew L. Fidler
 #' @export
 #' @importFrom Rcpp sourceCpp
-#' @importFrom RcppParallel RcppParallelLibs
 #' @examples
 #'
 #' llikNorm(0)
