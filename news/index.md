@@ -1,5 +1,14 @@
 # Changelog
 
+## rxode2ll 2.0.18
+
+- ‘rxode2ll’ no longer links or loads the TBB library. ‘stan’‘s TBB tape
+  observer is kept out of the build, since every gradient already
+  creates its own thread’s autodiff tape, so ’RcppParallel’ is needed
+  only for its headers. Loading TBB is what CRAN’s gcc-UBSAN check
+  reports for packages that load ‘rxode2ll’. Log-likelihoods and their
+  gradients are unchanged.
+
 ## rxode2ll 2.0.17
 
 CRAN release: 2026-09-09

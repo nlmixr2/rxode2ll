@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rxode2ll</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.17</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.18</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,9 +29,13 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/nlmixr2/rxode2ll/blob/v2.0.17/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/nlmixr2/rxode2ll/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.0.18" id="rxode2ll-2018">rxode2ll 2.0.18<a class="anchor" aria-label="anchor" href="#rxode2ll-2018"></a></h2>
+<ul><li>‘rxode2ll’ no longer links or loads the TBB library. ‘stan’‘s TBB tape observer is kept out of the build, since every gradient already creates its own thread’s autodiff tape, so ’RcppParallel’ is needed only for its headers. Loading TBB is what CRAN’s gcc-UBSAN check reports for packages that load ‘rxode2ll’. Log-likelihoods and their gradients are unchanged.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.0.17" id="rxode2ll-2017">rxode2ll 2.0.17<a class="anchor" aria-label="anchor" href="#rxode2ll-2017"></a></h2><p class="text-muted">CRAN release: 2026-09-09</p>
 <ul><li><p><code><a href="../reference/llikNbinom.html">llikNbinom()</a></code> and <code><a href="../reference/llikNbinomMu.html">llikNbinomMu()</a></code> now accept a continuous (non-integer) <code>size</code>. In the negative binomial’s mean/dispersion parameterisation <code>size</code> is a real dispersion parameter, not a count, and <code><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">stats::dnbinom()</a></code> has always allowed it. Previously <code>size</code> was stored in an integer vector and silently truncated, so a <code>size</code> above 1 returned the log-likelihood at <code>trunc(size)</code> and a <code>size</code> between 0 and 1 truncated to 0 and aborted; the R-level <code>assertIntegerish(size)</code> rejected such values outright. Truncation also made the log-likelihood a step function of <code>size</code>, so the dispersion could not be estimated even when its true value was an integer. This blocked <code>nbinomMu()</code> models with continuous overdispersion in <code>nlmixr2</code>. <code>size</code> must now be strictly positive; non-positive values return <code>NA</code>. The <code>INT_MAX</code> bound added in 2.0.15 still applies to <code>x</code> everywhere, and to <code>size</code> for <code>rxLlikBinom</code> where <code>size</code> is a number of trials.</p></li>
