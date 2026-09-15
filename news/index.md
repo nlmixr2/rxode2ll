@@ -2,6 +2,8 @@
 
 ## rxode2ll 2.0.18
 
+CRAN release: 2026-09-15
+
 - ‘rxode2ll’ no longer links or loads the TBB library. ‘stan’‘s TBB tape
   observer is kept out of the build, since every gradient already
   creates its own thread’s autodiff tape, so ’RcppParallel’ is needed
