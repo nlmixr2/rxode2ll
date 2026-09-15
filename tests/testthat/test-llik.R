@@ -155,10 +155,10 @@ test_that("llikNorm derivatives match numerical finite differences", {
   mu <- 0.5
   sd <- 2.0
   r <- llikNorm(x, mu, sd)
-  dMu_num <- (llikNorm(x, mu + h, sd)$fx - llikNorm(x, mu - h, sd)$fx) / (2 * h)
-  dSd_num <- (llikNorm(x, mu, sd + h)$fx - llikNorm(x, mu, sd - h)$fx) / (2 * h)
-  expect_equal(r$dMean, dMu_num, tolerance = 1e-4)
-  expect_equal(r$dSd, dSd_num, tolerance = 1e-4)
+  dMuNum <- (llikNorm(x, mu + h, sd)$fx - llikNorm(x, mu - h, sd)$fx) / (2 * h)
+  dSdNum <- (llikNorm(x, mu, sd + h)$fx - llikNorm(x, mu, sd - h)$fx) / (2 * h)
+  expect_equal(r$dMean, dMuNum, tolerance = 1e-4)
+  expect_equal(r$dSd, dSdNum, tolerance = 1e-4)
 })
 
 test_that("llikPois derivatives match numerical finite differences", {
@@ -166,8 +166,8 @@ test_that("llikPois derivatives match numerical finite differences", {
   x <- 3
   lambda <- 2.0
   r <- llikPois(x, lambda)
-  dL_num <- (llikPois(x, lambda + h)$fx - llikPois(x, lambda - h)$fx) / (2 * h)
-  expect_equal(r$dLambda, dL_num, tolerance = 1e-4)
+  dLNum <- (llikPois(x, lambda + h)$fx - llikPois(x, lambda - h)$fx) / (2 * h)
+  expect_equal(r$dLambda, dLNum, tolerance = 1e-4)
 })
 
 test_that("llikBinom derivatives match numerical finite differences", {
@@ -176,8 +176,8 @@ test_that("llikBinom derivatives match numerical finite differences", {
   size <- 20
   prob <- 0.4
   r <- llikBinom(x, size, prob)
-  dP_num <- (llikBinom(x, size, prob + h)$fx - llikBinom(x, size, prob - h)$fx) / (2 * h)
-  expect_equal(r$dProb, dP_num, tolerance = 1e-4)
+  dPNum <- (llikBinom(x, size, prob + h)$fx - llikBinom(x, size, prob - h)$fx) / (2 * h)
+  expect_equal(r$dProb, dPNum, tolerance = 1e-4)
 })
 
 test_that("llikNbinom derivatives match numerical finite differences", {
@@ -186,8 +186,8 @@ test_that("llikNbinom derivatives match numerical finite differences", {
   size <- 10
   prob <- 0.4
   r <- llikNbinom(x, size, prob)
-  dP_num <- (llikNbinom(x, size, prob + h)$fx - llikNbinom(x, size, prob - h)$fx) / (2 * h)
-  expect_equal(r$dProb, dP_num, tolerance = 1e-4)
+  dPNum <- (llikNbinom(x, size, prob + h)$fx - llikNbinom(x, size, prob - h)$fx) / (2 * h)
+  expect_equal(r$dProb, dPNum, tolerance = 1e-4)
 })
 
 test_that("llikNbinomMu derivatives match numerical finite differences", {
@@ -196,8 +196,8 @@ test_that("llikNbinomMu derivatives match numerical finite differences", {
   size <- 10
   mu <- 8.0
   r <- llikNbinomMu(x, size, mu)
-  dMu_num <- (llikNbinomMu(x, size, mu + h)$fx - llikNbinomMu(x, size, mu - h)$fx) / (2 * h)
-  expect_equal(r$dMu, dMu_num, tolerance = 1e-4)
+  dMuNum <- (llikNbinomMu(x, size, mu + h)$fx - llikNbinomMu(x, size, mu - h)$fx) / (2 * h)
+  expect_equal(r$dMu, dMuNum, tolerance = 1e-4)
 })
 
 test_that("llikBeta derivatives match numerical finite differences", {
@@ -206,10 +206,10 @@ test_that("llikBeta derivatives match numerical finite differences", {
   s1 <- 0.5
   s2 <- 1.5
   r <- llikBeta(x, s1, s2)
-  ds1_num <- (llikBeta(x, s1 + h, s2)$fx - llikBeta(x, s1 - h, s2)$fx) / (2 * h)
-  ds2_num <- (llikBeta(x, s1, s2 + h)$fx - llikBeta(x, s1, s2 - h)$fx) / (2 * h)
-  expect_equal(r$dShape1, ds1_num, tolerance = 1e-4)
-  expect_equal(r$dShape2, ds2_num, tolerance = 1e-4)
+  ds1Num <- (llikBeta(x, s1 + h, s2)$fx - llikBeta(x, s1 - h, s2)$fx) / (2 * h)
+  ds2Num <- (llikBeta(x, s1, s2 + h)$fx - llikBeta(x, s1, s2 - h)$fx) / (2 * h)
+  expect_equal(r$dShape1, ds1Num, tolerance = 1e-4)
+  expect_equal(r$dShape2, ds2Num, tolerance = 1e-4)
 })
 
 test_that("llikT derivatives match numerical finite differences", {
@@ -219,12 +219,12 @@ test_that("llikT derivatives match numerical finite differences", {
   mean <- 0.0
   sd <- 1.0
   r <- llikT(x, df, mean, sd)
-  dDf_num <- (llikT(x, df + h, mean, sd)$fx - llikT(x, df - h, mean, sd)$fx) / (2 * h)
-  dMean_num <- (llikT(x, df, mean + h, sd)$fx - llikT(x, df, mean - h, sd)$fx) / (2 * h)
-  dSd_num <- (llikT(x, df, mean, sd + h)$fx - llikT(x, df, mean, sd - h)$fx) / (2 * h)
-  expect_equal(r$dDf, dDf_num, tolerance = 1e-4)
-  expect_equal(r$dMean, dMean_num, tolerance = 1e-4)
-  expect_equal(r$dSd, dSd_num, tolerance = 1e-4)
+  dDfNum <- (llikT(x, df + h, mean, sd)$fx - llikT(x, df - h, mean, sd)$fx) / (2 * h)
+  dMeanNum <- (llikT(x, df, mean + h, sd)$fx - llikT(x, df, mean - h, sd)$fx) / (2 * h)
+  dSdNum <- (llikT(x, df, mean, sd + h)$fx - llikT(x, df, mean, sd - h)$fx) / (2 * h)
+  expect_equal(r$dDf, dDfNum, tolerance = 1e-4)
+  expect_equal(r$dMean, dMeanNum, tolerance = 1e-4)
+  expect_equal(r$dSd, dSdNum, tolerance = 1e-4)
 })
 
 test_that("llikChisq derivatives match numerical finite differences", {
@@ -232,8 +232,8 @@ test_that("llikChisq derivatives match numerical finite differences", {
   x <- 2.0
   df <- 3.0
   r <- llikChisq(x, df)
-  dDf_num <- (llikChisq(x, df + h)$fx - llikChisq(x, df - h)$fx) / (2 * h)
-  expect_equal(r$dDf, dDf_num, tolerance = 1e-4)
+  dDfNum <- (llikChisq(x, df + h)$fx - llikChisq(x, df - h)$fx) / (2 * h)
+  expect_equal(r$dDf, dDfNum, tolerance = 1e-4)
 })
 
 test_that("llikExp derivatives match numerical finite differences", {
@@ -241,8 +241,8 @@ test_that("llikExp derivatives match numerical finite differences", {
   x <- 1.0
   rate <- 2.0
   r <- llikExp(x, rate)
-  dRate_num <- (llikExp(x, rate + h)$fx - llikExp(x, rate - h)$fx) / (2 * h)
-  expect_equal(r$dRate, dRate_num, tolerance = 1e-4)
+  dRateNum <- (llikExp(x, rate + h)$fx - llikExp(x, rate - h)$fx) / (2 * h)
+  expect_equal(r$dRate, dRateNum, tolerance = 1e-4)
 })
 
 test_that("llikF derivatives match numerical finite differences", {
@@ -251,10 +251,10 @@ test_that("llikF derivatives match numerical finite differences", {
   df1 <- 3.0
   df2 <- 5.0
   r <- llikF(x, df1, df2)
-  dDf1_num <- (llikF(x, df1 + h, df2)$fx - llikF(x, df1 - h, df2)$fx) / (2 * h)
-  dDf2_num <- (llikF(x, df1, df2 + h)$fx - llikF(x, df1, df2 - h)$fx) / (2 * h)
-  expect_equal(r$dDf1, dDf1_num, tolerance = 1e-4)
-  expect_equal(r$dDf2, dDf2_num, tolerance = 1e-4)
+  dDf1Num <- (llikF(x, df1 + h, df2)$fx - llikF(x, df1 - h, df2)$fx) / (2 * h)
+  dDf2Num <- (llikF(x, df1, df2 + h)$fx - llikF(x, df1, df2 - h)$fx) / (2 * h)
+  expect_equal(r$dDf1, dDf1Num, tolerance = 1e-4)
+  expect_equal(r$dDf2, dDf2Num, tolerance = 1e-4)
 })
 
 test_that("llikGeom derivatives match numerical finite differences", {
@@ -262,8 +262,8 @@ test_that("llikGeom derivatives match numerical finite differences", {
   x <- 3
   prob <- 0.3
   r <- llikGeom(x, prob)
-  dP_num <- (llikGeom(x, prob + h)$fx - llikGeom(x, prob - h)$fx) / (2 * h)
-  expect_equal(r$dProb, dP_num, tolerance = 1e-4)
+  dPNum <- (llikGeom(x, prob + h)$fx - llikGeom(x, prob - h)$fx) / (2 * h)
+  expect_equal(r$dProb, dPNum, tolerance = 1e-4)
 })
 
 test_that("llikWeibull derivatives match numerical finite differences", {
@@ -272,10 +272,10 @@ test_that("llikWeibull derivatives match numerical finite differences", {
   shape <- 2.0
   scale <- 3.0
   r <- llikWeibull(x, shape, scale)
-  dShape_num <- (llikWeibull(x, shape + h, scale)$fx - llikWeibull(x, shape - h, scale)$fx) / (2 * h)
-  dScale_num <- (llikWeibull(x, shape, scale + h)$fx - llikWeibull(x, shape, scale - h)$fx) / (2 * h)
-  expect_equal(r$dShape, dShape_num, tolerance = 1e-4)
-  expect_equal(r$dScale, dScale_num, tolerance = 1e-4)
+  dShapeNum <- (llikWeibull(x, shape + h, scale)$fx - llikWeibull(x, shape - h, scale)$fx) / (2 * h)
+  dScaleNum <- (llikWeibull(x, shape, scale + h)$fx - llikWeibull(x, shape, scale - h)$fx) / (2 * h)
+  expect_equal(r$dShape, dShapeNum, tolerance = 1e-4)
+  expect_equal(r$dScale, dScaleNum, tolerance = 1e-4)
 })
 
 test_that("llikGamma derivatives match numerical finite differences", {
@@ -284,10 +284,10 @@ test_that("llikGamma derivatives match numerical finite differences", {
   shape <- 2.0
   rate <- 1.5
   r <- llikGamma(x, shape, rate)
-  dShape_num <- (llikGamma(x, shape + h, rate)$fx - llikGamma(x, shape - h, rate)$fx) / (2 * h)
-  dRate_num <- (llikGamma(x, shape, rate + h)$fx - llikGamma(x, shape, rate - h)$fx) / (2 * h)
-  expect_equal(r$dShape, dShape_num, tolerance = 1e-4)
-  expect_equal(r$dRate, dRate_num, tolerance = 1e-4)
+  dShapeNum <- (llikGamma(x, shape + h, rate)$fx - llikGamma(x, shape - h, rate)$fx) / (2 * h)
+  dRateNum <- (llikGamma(x, shape, rate + h)$fx - llikGamma(x, shape, rate - h)$fx) / (2 * h)
+  expect_equal(r$dShape, dShapeNum, tolerance = 1e-4)
+  expect_equal(r$dRate, dRateNum, tolerance = 1e-4)
 })
 
 test_that("llikCauchy derivatives match numerical finite differences", {
@@ -296,10 +296,10 @@ test_that("llikCauchy derivatives match numerical finite differences", {
   location <- 1.0
   scale <- 2.0
   r <- llikCauchy(x, location, scale)
-  dLoc_num <- (llikCauchy(x, location + h, scale)$fx - llikCauchy(x, location - h, scale)$fx) / (2 * h)
-  dScale_num <- (llikCauchy(x, location, scale + h)$fx - llikCauchy(x, location, scale - h)$fx) / (2 * h)
-  expect_equal(r$dLocation, dLoc_num, tolerance = 1e-4)
-  expect_equal(r$dScale, dScale_num, tolerance = 1e-4)
+  dLocNum <- (llikCauchy(x, location + h, scale)$fx - llikCauchy(x, location - h, scale)$fx) / (2 * h)
+  dScaleNum <- (llikCauchy(x, location, scale + h)$fx - llikCauchy(x, location, scale - h)$fx) / (2 * h)
+  expect_equal(r$dLocation, dLocNum, tolerance = 1e-4)
+  expect_equal(r$dScale, dScaleNum, tolerance = 1e-4)
 })
 
 ## Integer overflow / bounds tests for discrete distributions
@@ -307,7 +307,7 @@ test_that("llikCauchy derivatives match numerical finite differences", {
 ## checkmate validation and exercise the C++ bounds guard.
 
 test_that("llikPoisInternal returns NA for x > INT_MAX", {
-  big <- 2^31 # 2147483648 > INT_MAX = 2147483647
+  big <- 2^31 # one past INT_MAX
   res <- llikPoisInternal(big, 1.0)
   expect_true(is.na(res$fx))
   expect_true(is.na(res$dLambda))
@@ -473,20 +473,20 @@ test_that("R_xlen_t overflow demonstration: int j wraps to negative for n > INT_
   # The fix: for (R_xlen_t j = x.size(); j--;)
   #   R_xlen_t j = 2147483648  ->  j = 2147483648 (correct, no overflow)
 
-  INT_MAX <- .Machine$integer.max # 2147483647
-  n_large <- as.numeric(INT_MAX) + 1 # 2147483648 = 2^31, exceeds INT_MAX
+  intMax <- .Machine$integer.max # 2147483647
+  nLarge <- as.numeric(intMax) + 1 # 2147483648 = 2^31, exceeds INT_MAX
 
-  # Confirm n_large truly exceeds INT_MAX (would overflow int in C++)
-  expect_true(n_large > INT_MAX)
-  expect_equal(n_large, 2^31)
+  # Confirm nLarge truly exceeds INT_MAX (would overflow int in C++)
+  expect_true(nLarge > intMax)
+  expect_equal(nLarge, 2^31)
 
   # R's double can represent this exactly (2^31 is within double precision)
-  expect_equal(n_large, 2147483648)
+  expect_equal(nLarge, 2147483648)
 
   # The fix means R_xlen_t (ptrdiff_t / int64_t on 64-bit) holds the full value.
   # We verify by confirming the value round-trips through a 64-bit integer type.
   # In R, bit64 or just checking double suffices: 2^31 < 2^53 so no precision loss.
-  expect_true(n_large == n_large + 0) # exact double representation
+  expect_true(nLarge == nLarge + 0) # exact double representation
 })
 
 ## Caching consistency test

@@ -23,7 +23,7 @@
     },
     numeric(1)
   )
-  expect_equal(.an, .nu, tolerance = tol)
+  testthat::expect_equal(.an, .nu, tolerance = tol)
 }
 
 test_that("lognormal matches dlnorm and its derivatives", {
