@@ -7,3 +7,8 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^\.lintr$
+^air\.toml$
+^\.git-blame-ignore-revs$
+^CLAUDE\.md$
+^\.claude$
