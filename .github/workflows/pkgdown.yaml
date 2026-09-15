@@ -12,6 +12,12 @@ name: pkgdown.yaml
 
 permissions: read-all
 
+# A new push to a pull request cancels its in-progress runs; pushes to main
+# are never cancelled.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   pkgdown:
     runs-on: ubuntu-latest
