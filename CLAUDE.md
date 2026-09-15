@@ -72,14 +72,15 @@ Each distribution lives in `src/llik<Family>.cpp` and has the same shape
 (copy `src/llikNorm.cpp` as a template):
 
 1. A Stan functor (`normal_llik`) returning the per-observation `*_lpdf`, and a
-   `llik_<family>()` that calls `rx_stan_math_thread_init_rev_autodiff()` and
+   `llik_<stan name>()` (e.g. `llik_normal`) that calls `rx_stan_math_thread_init_rev_autodiff()` and
    then `stan::math::jacobian()`.
 2. A static `llik<Family>Full(double* ret, x, params...)` that fills a
    caller-owned cache: `ret[0]` is the family tag (`is<Family>` in
    `src/llik2.h`), then `x` and the parameters, then `fx` and one derivative per
    parameter. A call with the same tag and inputs returns the cache (skipped
-   inside OpenMP parallel regions). Non-finite or out-of-domain input returns
-   `NA`, never throws.
+   inside OpenMP parallel regions). Non-finite input returns `NA`; out-of-range
+   parameters are clamped (`_smallIsOne`, `_smallIsNotZero`, `_parIsProb` in
+   `src/llik2.h`) or return `NA` where Stan would throw. Never let Stan throw.
 3. `//[[Rcpp::export]] llik<Family>Internal()` for the R wrapper.
 4. `extern "C" double rxLlik<Family>(...)` and `rxLlik<Family>D<Param>(...)`
    entry points that return the `fx`/derivative slot.
@@ -105,23 +106,29 @@ optionally `cbind()` the inputs (`full = TRUE`).
 
 ### Exposing entry points to downstream packages
 
-`rxode2`/`nlmixr2est` reach the `rxLlik*` functions through the
-**external-pointer table** returned by `.rxode2llPtr()` (`_rxode2ll_ptr()` in
-`src/ptr.c`), read by the consumer header `inst/include/rxode2llPtrs.h` in the
-consumer's own `.onLoad()`. This avoids the ABI coupling of
-`R_GetCCallable()`. The `R_RegisterCCallable()` calls in `src/init.c` are kept
-for already-released consumers.
+There are two interfaces to the `rxLlik*` functions, and both are frozen:
 
-To add an entry point, append in all of these, in the same order:
+- `R_GetCCallable("rxode2ll", "rxLlik...")`, backed by the
+  `R_RegisterCCallable()` calls in `src/init.c` (looked up by name). This is
+  what `rxode2`'s generated model code uses today
+  (`inst/include/rxode2_model_shared.c` in rxode2).
+- The **external-pointer table** returned by `.rxode2llPtr()`
+  (`_rxode2ll_ptr()` in `src/ptr.c`), read by the consumer header
+  `inst/include/rxode2llPtrs.h` in the consumer's own `.onLoad()`. This is the
+  intended interface: it avoids the ABI coupling of `R_GetCCallable()`.
 
-1. `src/ptr.c`: bump the `Rf_allocVector(VECSXP, N)` length and add
-   `SET_VECTOR_ELT(ret, N, ...)` at the new last index.
+To add an entry point:
+
+1. `src/ptr.c`: bump `Rf_allocVector(VECSXP, N)` to `N + 1` and add
+   `SET_VECTOR_ELT(ret, N, ...)` at the new last index `N`.
 2. `inst/include/rxode2llPtrs.h`: the `extern rxLlik<k>_t _p_rxLlik...`
    declaration (`<k>` = number of distribution parameters; add a typedef if no
    arity fits), a `_RXLL_NEXT(...)` line at the end of `iniRxode2llPtrs0()`
-   (position in that list IS the slot index), and the `= NULL` definition at
-   the end of the `iniRxode2ll` macro.
-3. `src/init.c`: the matching `R_RegisterCCallable()`.
+   (position in that list IS the slot index, so it must match `src/ptr.c`), and
+   the `= NULL` definition after the last `= NULL` line of the `iniRxode2ll`
+   macro, before `iniRxode2llPtrs()`.
+3. `src/init.c`: the matching `R_RegisterCCallable()` (by name; order does not
+   matter).
 
 > [!IMPORTANT]
 > **The pointer table is APPEND-ONLY, and nothing on the load path validates
@@ -147,7 +154,8 @@ what CRAN's gcc-UBSAN check reports for every package that loads rxode2ll.
 `RXLL_NO_TBB` in `src/Makevars.in` keeps Stan's TBB tape observer and
 `reduce_sum`/`map_rect` headers out of the build, and
 `rx_stan_math_thread_init_rev_autodiff()` in `src/llik2.h` creates each
-thread's AD tape instead. Do not add `RcppParallel` to `Imports`, link TBB, or
+thread's AD tape instead. `RcppParallel` stays in `LinkingTo` for headers only:
+do not add it to `Imports`, link TBB, or
 include Stan headers that pull it in. `tests/testthat/test-no-tbb.R` guards
 this.
 
@@ -168,7 +176,7 @@ this.
 
 - **Exported functions**: `camelCase` (e.g., `llikNorm`, `llikBetaProportion`)
 - **Internal/non-exported functions**: `.camelCase` with a leading dot (e.g., `.rxode2llPtr`, `.gradCheck`)
-- **Local variables inside functions**: `.camelCase` with a leading dot (e.g., `.df`, `.ret`)
+- **Local variables inside package functions**: `.camelCase` with a leading dot (e.g., `.df`, `.ret`); test locals may be plain `camelCase`
 - Avoid `snake_case` for new names.
 - Use American English spelling for consistency and do not use unicode characters
 - **Never write `rxode2ll:::foo` (or any `pkg:::`)** in tests or package code;
@@ -177,7 +185,8 @@ this.
 
 ### C/C++ Conventions
 
-- C files use `#define STRICT_R_HEADERS` and `#define USE_FC_LEN_T`
+- `src/init.c` and `src/llik2.h` define `STRICT_R_HEADERS` and `USE_FC_LEN_T`;
+  new C/C++ sources should too
 - A C++ exception must never escape an `extern "C"` `rxLlik*` entry point: it
   aborts the R session inside `rxode2` solves. Return `NA` for out-of-domain
   input instead.
