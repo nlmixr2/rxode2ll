@@ -1,0 +1,107 @@
+#include "llik2.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+// Logis distribution -- gradients by Stan reverse-mode autodiff, exactly as
+// the other families in this package are done.
+struct llikLogis_ll {
+  const Eigen::VectorXd y_;
+  llikLogis_ll(const Eigen::VectorXd& y) : y_(y) { }
+  template <typename T>
+  Eigen::Matrix<T, -1, 1> operator()(const Eigen::Matrix<T, -1, 1>& theta) const {
+    T location = theta[0];
+    T scale = theta[1];
+    Eigen::Matrix<T, -1, 1> lp(y_.size());
+    for (Eigen::Index n = 0; n < y_.size(); ++n) {
+      lp[n] = logistic_lpdf(y_[n], location, scale);
+    }
+    return lp;
+  }
+};
+
+stanLl llik_llikLogis(Eigen::VectorXd& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
+  llikLogis_ll f(y);
+  Eigen::VectorXd fx;
+  Eigen::Matrix<double, -1, -1> J;
+  stan::math::jacobian(f, params, fx, J);
+  stanLl ret;
+  ret.fx = fx;
+  ret.J  = J;
+  return ret;
+}
+
+static inline void llikLogisFull(double* ret, double x, double location, double scale) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isLogis &&
+        ret[1] == x &&
+        ret[2] == location &&
+        ret[3] == scale) return;
+  }
+#else
+  if (ret[0] == isLogis &&
+        ret[1] == x &&
+        ret[2] == location &&
+        ret[3] == scale) return;
+#endif
+  if (!R_finite(x) || !R_finite(location) || !R_finite(scale)) {
+    ret[0] = isLogis;
+    ret[1] = x;
+    ret[2] = location;
+    ret[3] = scale;
+    ret[4] = NA_REAL;
+    ret[5] = NA_REAL;
+    ret[6] = NA_REAL;
+    return;
+  }
+  Eigen::VectorXd y(1);
+  Eigen::VectorXd params(2);
+  y(0) = x;
+  params(0) = location;
+  params(1) = _smallIsNotZero(scale);
+  stanLl ll = llik_llikLogis(y, params);
+  ret[0] = isLogis;
+  ret[1] = x;
+  ret[2] = location;
+  ret[3] = scale;
+  ret[4] = ll.fx(0);
+  ret[5] = ll.J(0, 0);
+  ret[6] = ll.J(0, 1);
+  return;
+}
+
+//[[Rcpp::export]]
+Rcpp::DataFrame llikLogisInternal(Rcpp::NumericVector x, Rcpp::NumericVector location, Rcpp::NumericVector scale) {
+  NumericVector fx(x.size());
+  NumericVector dLocation(x.size());
+  NumericVector dScale(x.size());
+  double cur[7];
+  std::fill_n(cur, 7, 0.0);
+  for (R_xlen_t j = x.size(); j--;) {
+    llikLogisFull(cur, x[j], location[j], scale[j]);
+    fx[j] = cur[4];
+    dLocation[j] = cur[5];
+    dScale[j] = cur[6];
+  }
+  return Rcpp::DataFrame::create(_["fx"]=fx,
+                                 _["dLocation"]=dLocation,
+                                 _["dScale"]=dScale);
+}
+
+extern "C" double rxLlikLogis(double* ret, double x, double location, double scale) {
+  llikLogisFull(ret, x, location, scale);
+  return ret[4];
+}
+
+extern "C" double rxLlikLogisDLocation(double* ret, double x, double location, double scale) {
+  llikLogisFull(ret, x, location, scale);
+  return ret[5];
+}
+
+extern "C" double rxLlikLogisDScale(double* ret, double x, double location, double scale) {
+  llikLogisFull(ret, x, location, scale);
+  return ret[6];
+}

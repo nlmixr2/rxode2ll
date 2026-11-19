@@ -17,3 +17,4 @@ src/*.so
 .RData
 .Rhistory
 /src/*.d
+.vexp/

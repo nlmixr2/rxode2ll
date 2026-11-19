@@ -1,0 +1,107 @@
+#include "llik2.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+// InvGamma distribution -- gradients by Stan reverse-mode autodiff, exactly as
+// the other families in this package are done.
+struct llikInvGamma_ll {
+  const Eigen::VectorXd y_;
+  llikInvGamma_ll(const Eigen::VectorXd& y) : y_(y) { }
+  template <typename T>
+  Eigen::Matrix<T, -1, 1> operator()(const Eigen::Matrix<T, -1, 1>& theta) const {
+    T alpha = theta[0];
+    T beta = theta[1];
+    Eigen::Matrix<T, -1, 1> lp(y_.size());
+    for (Eigen::Index n = 0; n < y_.size(); ++n) {
+      lp[n] = inv_gamma_lpdf(y_[n], alpha, beta);
+    }
+    return lp;
+  }
+};
+
+stanLl llik_llikInvGamma(Eigen::VectorXd& y, Eigen::VectorXd& params) {
+  rx_stan_math_thread_init_rev_autodiff();
+  llikInvGamma_ll f(y);
+  Eigen::VectorXd fx;
+  Eigen::Matrix<double, -1, -1> J;
+  stan::math::jacobian(f, params, fx, J);
+  stanLl ret;
+  ret.fx = fx;
+  ret.J  = J;
+  return ret;
+}
+
+static inline void llikInvGammaFull(double* ret, double x, double alpha, double beta) {
+#ifdef _OPENMP
+  if (!omp_in_parallel()) {
+    if (ret[0] == isInvGamma &&
+        ret[1] == x &&
+        ret[2] == alpha &&
+        ret[3] == beta) return;
+  }
+#else
+  if (ret[0] == isInvGamma &&
+        ret[1] == x &&
+        ret[2] == alpha &&
+        ret[3] == beta) return;
+#endif
+  if (!R_finite(x) || !R_finite(alpha) || !R_finite(beta)) {
+    ret[0] = isInvGamma;
+    ret[1] = x;
+    ret[2] = alpha;
+    ret[3] = beta;
+    ret[4] = NA_REAL;
+    ret[5] = NA_REAL;
+    ret[6] = NA_REAL;
+    return;
+  }
+  Eigen::VectorXd y(1);
+  Eigen::VectorXd params(2);
+  y(0) = x;
+  params(0) = _smallIsNotZero(alpha);
+  params(1) = _smallIsNotZero(beta);
+  stanLl ll = llik_llikInvGamma(y, params);
+  ret[0] = isInvGamma;
+  ret[1] = x;
+  ret[2] = alpha;
+  ret[3] = beta;
+  ret[4] = ll.fx(0);
+  ret[5] = ll.J(0, 0);
+  ret[6] = ll.J(0, 1);
+  return;
+}
+
+//[[Rcpp::export]]
+Rcpp::DataFrame llikInvGammaInternal(Rcpp::NumericVector x, Rcpp::NumericVector alpha, Rcpp::NumericVector beta) {
+  NumericVector fx(x.size());
+  NumericVector dAlpha(x.size());
+  NumericVector dBeta(x.size());
+  double cur[7];
+  std::fill_n(cur, 7, 0.0);
+  for (R_xlen_t j = x.size(); j--;) {
+    llikInvGammaFull(cur, x[j], alpha[j], beta[j]);
+    fx[j] = cur[4];
+    dAlpha[j] = cur[5];
+    dBeta[j] = cur[6];
+  }
+  return Rcpp::DataFrame::create(_["fx"]=fx,
+                                 _["dAlpha"]=dAlpha,
+                                 _["dBeta"]=dBeta);
+}
+
+extern "C" double rxLlikInvGamma(double* ret, double x, double alpha, double beta) {
+  llikInvGammaFull(ret, x, alpha, beta);
+  return ret[4];
+}
+
+extern "C" double rxLlikInvGammaDAlpha(double* ret, double x, double alpha, double beta) {
+  llikInvGammaFull(ret, x, alpha, beta);
+  return ret[5];
+}
+
+extern "C" double rxLlikInvGammaDBeta(double* ret, double x, double alpha, double beta) {
+  llikInvGammaFull(ret, x, alpha, beta);
+  return ret[6];
+}
