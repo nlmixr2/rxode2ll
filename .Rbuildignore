@@ -7,6 +7,7 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^src/.*[.]d$
 ^\.lintr$
 ^air\.toml$
 ^\.git-blame-ignore-revs$
